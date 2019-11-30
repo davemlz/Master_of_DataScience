@@ -1,0 +1,78 @@
+---
+title: "Ejercicio 2"
+output:
+  html_document:
+    df_print: paged
+---
+
+## David Montero Loaiza
+
+### Problema 1
+
+Consideremos un sistema en el que existe una característica x y una variable dependiente y que se relacionan como y = $a*x$. Supongamos también que para cada valor fijo de x la medida y viene dada por una pdf gaussiana centrada en a * x y con sigma. Escribe una funcion de R que tome como input un vector aleatorio de N elementos de x que tome valores entre [0, 10], el factor a, y sigma; y genere el correspondiente vector y
+
+```{r}
+generate_y = function(x,a,sigma){
+  
+  # GAUSSIANA
+  y = rnorm(x,x*a,sigma)
+  
+  # RETORNAR VECTOR Y
+  return(y)
+  
+}
+```
+
+### Problema 2
+
+Una vez terminada la función genera el vector x con N = 100, y un vector y con a = 2 y sigma = 0.2. Pintalos en una grafica.
+
+```{r}
+# VECTOR ALEATORIO
+N = 100
+x = runif(N,0,10)
+
+# PARAMETROS ALPHA Y SIGMA
+a = 2
+sigma = 0.2
+
+# CREAR VECTOR Y
+y = generate_y(x,a,sigma)
+
+# GRAFICA X Y
+plot(x,y)
+```
+
+### Problema 3
+
+Escribe una función en R a la que le pases un vector y dependiente, un vector x con la caracteristica, y un parametro a y te devuelva el valor de la loss function para ese valor del parámetro a.
+
+```{r}
+loss = function(x,y,a){
+  
+  # VALOR DE LA FUNCION DE COSTE
+  l = t(y - x * a) %*% (y - x * a)
+  
+  # RETORNAR VALOR DE LA FUNCION DE COSTE
+  return(l)
+  
+}
+```
+
+### Problema 4
+
+Llama a la función anterior con diferentes valores del parámetro a, y pinta la curva de la loss function en función de a. Comprueba visualmente que el mínimo está en la posición que nos esperamos. 
+
+```{r}
+# PRUEBA DE LOSS CON DIFERENTES VALORES DE A
+a = -10:10
+
+# CALCULAR VALOR DE LOSS PARA DIFERENTES A
+loss_vector = sapply(a,loss,x = x,y = y)
+
+# GRAFICAR EL VALOR DE LOSS EN FUNCION DE A
+plot(a,loss_vector)
+abline(v = 2,col = "red")
+```
+
+La línea roja representa el valor del parámetro a con el cual se genero el vector y, se comprueba visualmente que el mínimo de la función de loss está en ese parámetro.

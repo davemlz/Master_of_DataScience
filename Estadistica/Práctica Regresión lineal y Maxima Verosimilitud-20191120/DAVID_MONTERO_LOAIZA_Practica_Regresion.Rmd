@@ -1,0 +1,192 @@
+---
+title: "Practica Regresion"
+output:
+  html_document:
+    df_print: paged
+---
+
+## David Montero Loaiza
+
+Cargar datos:
+
+```{r}
+# UBICACION DE LOS DATOS
+path = "C:/Users/Dave Mont/Desktop/Estadistica/Práctica Regresión lineal y Maxima Verosimilitud-20191120/CdP_practica_estadistica.csv"
+
+# LEER DATOS
+df = read.csv(path,header = TRUE)
+
+# FORMATEAR FECHA
+df$date = as.Date(df$date,format = "%d/%m/%Y")
+
+# ELIMINAR NAN
+df = df[!is.nan(df$AVG.Temp.),]
+
+# SELECCIONAR COLUMNAS NECESARIAS
+df = df[,c(1,4,5)]
+names(df) = c("Fecha","Conductividad","Salinidad")
+
+# DATOS DEL 2014 Y 2015 POR APARTE
+df2014 = df[df$Fecha < as.Date("2015-01-01",format = "%Y-%m-%d"),]
+df2015 = df[df$Fecha > as.Date("2014-12-31",format = "%Y-%m-%d"),]
+```
+
+Grafica.
+
+```{r}
+# GRAFICA DE CONDUCTIVIDAD VS SALINIDAD
+plot(df$Conductividad,df$Salinidad,xlab = "Conductividad",ylab = "Salinidad")
+```
+
+
+### 1. Modelo de Regresión lineal con un “feature” para los datos Salinidad 2014 vs Conductividad 2014.
+
+```{r}
+# X y Y PARA LOS DATOS DE 2014
+x = df2014$Conductividad
+y = df2014$Salinidad
+```
+
+
+#### 1.1 - Utilizando como función de coste el cuadrado de la distancia euclídea. Calcular de forma analitica, los coeficientes que minimizan la función de coste.
+
+```{r}
+# VARIABLE PARA GUARDAR COEFICIENTES
+alpha_analitica = NULL
+
+# COEFICIENTES CALCULADOS DE MANERA ANALITICA
+alpha_analitica[2] = (mean(x*y) - mean(x)*mean(y)) / (mean(x^2) - mean(x)^2)
+alpha_analitica[1] = mean(y) - alpha_analitica[2] * mean(x)
+```
+
+#### 1.2 Caso general. Para los datos Salinidad 2014 vs Conductividad 2014, calcular los coeficientes usando matrices.
+
+Construye una función que reciba los vectores “x” e “y” y que calcule los valores de los coeficientes que minimizan la función de coste.
+
+```{r}
+# FUNCION PARA GENERAR LA MATRIZ X A PARTIR DEL VECTOR x Y EL GRADO DEL POLINOMIO
+generate_X = function(x,gpoly){
+  
+  X = rep(1,length(x))
+  
+  for(i in 1:gpoly){
+    
+    X = cbind(X,x^i)
+    
+  }
+  
+  return(X)
+  
+}
+
+# FUNCION PARA CALCULAR LOS VALORES DE LOS COEFICIENTES QUE MINIMIZAN LA FUNCION DE COSTE
+loss_min = function(X,y){
+  
+  a = solve(t(X) %*% X) %*% t(X) %*% y
+  return(a)
+  
+}
+
+# MATRIZ X CON GRADO 1
+X = generate_X(x,1)
+
+# COEFICIENTES CALCULADOS DE MANERA MATRICIAL
+alpha_matricial = loss_min(X,y)
+```
+
+#### 1.3 Compara ambos resultados con el obtenido mediante la función “lm” implementada en R.
+
+```{r}
+# MODELO LM EN R
+model = lm(y ~ x)
+
+# COEFICIENTES DEL MODELO
+alpha_model = model$coefficients
+
+# COMPARACION DE LOS TRES PARES DE COEFICIENTES OBTENIDOS EN UN DATA FRAME
+coef_df = data.frame("Coeficientes_Analiticamente" = alpha_analitica,
+                     "Coeficientes_Matricialmente" = alpha_matricial,
+                     "Coeficientes_Modelo_R)" = alpha_model)
+
+coef_df
+```
+
+### 2. Modelo no lineal para los datos Salinidad 2014 vs Conductividad 2014.
+
+Construye una función que reciba los vectores “x” e “y” y calcule los valores de los coeficientes que minimizan la función de coste.
+
+#### 2.1 Polinomio de grado 2.
+
+```{r}
+# MATRIZ X CON GRADO 2
+X_poly2 = generate_X(x,2)
+
+# COEFICIENTES DEL POLINOMIO CON GRADO 2
+alpha_poly2_matricial = loss_min(X_poly2,y)
+```
+
+#### 2.2 Polinomio de grado 3.
+
+```{r}
+# MATRIZ X CON GRADO 3
+X_poly3 = generate_X(x,3)
+
+# COEFICIENTES DEL POLINOMIO CON GRADO 3
+alpha_poly3_matricial = loss_min(X_poly3,y)
+```
+
+#### 2.3 Compara los coeficientes calculados, con los obtenidos con la función “glm” implementada en R. “glm(y~poly(x,grado del polinomio))”
+
+```{r}
+# MODELO GLM EN R
+glm_poly2 = glm(y ~ poly(x,2,raw = TRUE))
+glm_poly3 = glm(y ~ poly(x,3,raw = TRUE))
+
+# COEFICIENTES DE LOS MODELOS
+alpha_poly2_model = glm_poly2$coefficients
+alpha_poly3_model = glm_poly3$coefficients
+
+# COMPARACION DE LOS DOS CONJUNTOS DE COEFICIENTES PARA GRADO 2 OBTENIDOS EN UN DATA FRAME
+coef_df_poly2 = data.frame("Coeficientes_Pol_2_Matricialmente" = alpha_poly2_matricial,
+                          "Coeficientes_Pol_2_Modelo_R)" = alpha_poly2_model)
+
+# COMPARACION DE LOS DOS CONJUNTOS DE COEFICIENTES PARA GRADO 3 OBTENIDOS EN UN DATA FRAME
+coef_df_poly3 = data.frame("Coeficientes_Pol_3_Matricialmente" = alpha_poly3_matricial,
+                          "Coeficientes_Pol_3_Modelo_R" = alpha_poly3_model)
+
+coef_df_poly2
+coef_df_poly3
+```
+
+### 3. Comprueba los modelos calculando la función de coste con los datos de Salinidad vs Conductividad de 2015.
+
+#### 3.1. Usamos como función de coste el cuadrado de la distancia euclídea.
+
+```{r}
+# X y Y PARA LOS DATOS DE 2015
+x = df2015$Conductividad
+y = df2015$Salinidad
+
+# FUNCION PARA CALCULAR LOSS
+loss = function(x,y,a){
+  
+  l = t(y - x %*% a) %*% (y - x %*% a)
+  return(l)
+  
+}
+
+# GENERAR MATRICES CON LOS DIFERENTES GRADOS DE POLINOMIO
+X_1 = generate_X(x,1)
+X_2 = generate_X(x,2)
+X_3 = generate_X(x,3)
+
+# CALCULAR LOSS PARA CADA CASO
+loss1 = loss(X_1,y,alpha_model)
+loss2 = loss(X_2,y,alpha_poly2_model)
+loss3 = loss(X_3,y,alpha_poly3_model)
+
+loss1
+loss2
+loss3
+```
+

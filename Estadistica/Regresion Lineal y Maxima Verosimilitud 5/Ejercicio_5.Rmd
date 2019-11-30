@@ -1,0 +1,278 @@
+---
+title: "Ejercicio 5"
+output:
+  html_document:
+    df_print: paged
+---
+
+## David Montero Loaiza
+
+### Problema 1
+
+Crea una función a la que se le pase como input: la media en el eje x, la media en el eje y, la varianza en el eje x, la varianza en el eje y y la covarianza de x e y, junto con un número de puntos N, y devuelva una matriz con N filas y 2 columnas con los números que salen de la distribución gaussiana de dos dimensiones definidas por los valores de input (usar la función MASS::mvrnorm)
+
+```{r}
+# PAQUETE REQUERIDO
+require(MASS)
+```
+
+```{r}
+generate_matrix = function(N,meanX,meanY,varX,varY,covXY){
+  
+  # MATRIZ DE COVARIANZA
+  Sigma = matrix(c(meanX,covXY,covXY,meanY),byrow = TRUE,ncol = 2)
+  
+  # MEDIAS
+  mu = c(meanX,meanY)
+  
+  # MATRIZ DE DOS DIMENSIONES CON DISTRIBUCIONES GAUSSIANAS SEGUN PARAMETROS
+  mat = mvrnorm(N,mu,Sigma)
+  
+  return(mat)
+  
+}
+```
+
+### Problema 2
+
+Genera una matrix x1 usando la función anterior y tomando: N = 1000, mu_x = 2, mu_y = 4, var_x = var_y = 1, y Cov(x,y) = 0.3. Crea una matriz "y1" con tantas filas como la matriz x y asígnale el valor 0. 
+
+```{r}
+# PARAMETROS PARA UNA MATRIZ CUYO VALOR DE Y CORRESPONDE A 0
+N = 1000
+mu_x = 2
+mu_y = 4
+var_x = 1
+var_y = var_x
+covXY = 0.3
+
+x1 = generate_matrix(N,mu_x,mu_y,var_x,var_y,covXY)
+
+# VALOR DE Y PARA LA MATRIZ
+y1 = rep(0,nrow(x1))
+```
+
+### Problema 3
+
+Repite 2) para otra muestra con N = 1000, mu_x = 6, mu_y = 3, var_x = var_y = 1, y Cov(x,y) = 0.3. Crea una matriz "y2" con tantas filas como la matriz x2 y asígnale el valor 1.
+
+```{r}
+# PARAMETROS PARA UNA MATRIZ CUYO VALOR DE Y CORRESPONDE A 0
+N = 1000
+mu_x = 6
+mu_y = 3
+var_x = 1
+var_y = var_x
+covXY = 0.3
+
+x2 = generate_matrix(N,mu_x,mu_y,var_x,var_y,covXY)
+
+# VALOR DE Y PARA LA MATRIZ
+y2 = rep(1,nrow(x2))
+```
+
+### Problema 4
+
+Junta las matrices x1, x2, y y1, y2 en una sola matriz x y una sola matriz y.
+
+```{r}
+# MATRIZ X
+x = rbind(x1,x2)
+
+# VECTOR Y
+y = c(y1,y2)
+```
+
+### Problema 5
+
+Usando las funciones de coste y gradiente del ejercicio 5, utiliza optim para un modelo en el que z = alpha_0 + alpha_1 x1 + alpha_2 x2, tomando como vector de parámetros inicial el (0, 0, 0). Calcula y pinta la frontera entre ambas distribuciones.
+
+En el siguiente código se definen las funciones a utilizar.
+
+```{r}
+sigmoid = function(Z){
+  
+  # RETORNAR VALOR DE SIGMOIDE
+  return(1/(1 + exp(-Z)) )
+  
+}
+
+loss = function(alpha,x,y){
+  
+  # TAMANO DE X
+  N = nrow(x)
+  
+  # CREAR MATRIZ X
+  X = cbind(rep(1,N),x)
+  
+  # CALCULAR SIGMOIDE
+  s = sigmoid(alpha %*% t(X))
+  
+  # CALCULAR VALOR DE LOSS
+  loss = -sum(y * log(s) + (1 - y) * log(1 - s))/N
+  
+  # RETORNAR LOSS
+  return(loss)
+  
+}
+
+gradient = function(alpha,x,y){
+  
+  # TAMANO DE X (FILAS)
+  N = nrow(x)
+  
+  # CREAR MATRIZ X
+  X = cbind(rep(1,N),x)
+  
+  # SIGMOIDE
+  s = sigmoid(alpha %*% t(X))
+  
+  # DIMENSIONES DE LA MATRIZ X + 1
+  g = 1:length(alpha)
+  
+  # FUNCION PARA CALCULAR EL GRADIENTE SEGUN LAS DIMENSIONES DE LA MATRIZ + 1
+  f = function(i) -sum((s - y) * -(X[,i]))/N
+  
+  # CALCULAR EL GRADIENTE SEGUN LAS DIMENSIONES DE LA MATRIZ
+  grad = sapply(g,f)
+  
+  # RETORNAR VECTOR GRADIENTE
+  return(grad)
+  
+}
+```
+
+A continuación se definen los parámetros iniciales para alpha y se calculan sus valores óptimos, graficando finalmente la división de las clases.
+
+```{r}
+# PARAMETROS INICIALES
+init = c(0,0,0)
+
+# OPTIMIZACION DE LOS PARAMETROS
+op = optim(par = init, x = x, y = y, fn = loss, gr = gradient, method = "BFGS")
+
+# ALPHA OPTIMO
+alpha = op$par
+
+# GRAFICA DE LA DIVISION OPTIMA DE CLASES
+plot(x[,1],x[,2],col = c("red","blue")[as.factor(y)])
+curve((-alpha[1]/alpha[3]) - (alpha[2]*x/alpha[3]),add = TRUE, col = "green")
+```
+
+### Problema 6
+
+Repite otra vez 1, 2, 3 y 4 para obtener otras matrices x e y independientes. Utilizando la "sigma" calculada anteriormente calcula el TPR, TNR, FPR y FNR para valores del threshold = 0.3, 0.5, 0.7. 
+
+A continuación se definen nuevas matrices x e y independientes.
+
+```{r}
+# PARAMETROS PARA UNA MATRIZ CUYO VALOR DE Y CORRESPONDE A 0
+N = 1000
+mu_x = 2
+mu_y = 4
+var_x = 1
+var_y = var_x
+covXY = 0.3
+
+x1 = generate_matrix(N,mu_x,mu_y,var_x,var_y,covXY)
+y1 = rep(0,nrow(x1))
+
+# PARAMETROS PARA UNA MATRIZ CUYO VALOR DE Y CORRESPONDE A 1
+N = 1000
+mu_x = 6
+mu_y = 3
+var_x = 1
+var_y = var_x
+covXY = 0.3
+
+x2 = generate_matrix(N,mu_x,mu_y,var_x,var_y,covXY)
+y2 = rep(1,nrow(x2))
+
+# NUEVA MATRIZ X
+x = rbind(x1,x2)
+
+# NUEVO VECTOR Y
+y = c(y1,y2)
+```
+
+Aquí se definen nuevas funciones para calcular la matriz de confusión y extraer los errores asociados. También se define una función para realizar una predicción usando la sigmoide con un umbral que puede variar.
+
+```{r}
+confusion_matrix = function(y,y_pred){
+  
+  # MATRIZ DE CONFUSION
+  cM = table(as.data.frame(cbind(y_pred,y)))
+
+  # PARAMETROS DE LA MATRIZ
+  TP = cM[1,1]
+  FP = cM[1,2]
+  FN = cM[2,1]
+  TN = cM[2,2]
+  
+  # VARIABLES PARA MEDIR EL ERROR
+  TPR = TP/(TP + FN)
+  TNR = TN/(FP + TN)
+  FPR = FP/(FP + TN)
+  FNR = FN/(TP + FN)
+  
+  # ERRORES EN UN DATAFRAME
+  df = data.frame(TP,FP,FN,TN,TPR,TNR,FPR,FNR)
+  
+  # SE ENLISTAN VARIABLES A RETORNAR
+  l = list("confusion_matrix" = cM,"errors" = df)
+  
+  # SE RETORNA LA LISTA
+  return(l)
+  
+}
+
+predict_sigmoid = function(alpha,x,y,threshold){
+  
+  # TAMANO DE X (FILAS)
+  N = nrow(x)
+  
+  # CREAR MATRIZ X
+  X = cbind(rep(1,N),x)
+  
+  # SIGMOIDE
+  s = as.vector(sigmoid(alpha %*% t(X)))
+  
+  # APLICAR UMBRAL
+  s[s >= threshold] = 1
+  s[s != 1] = 0
+  
+  # RETORNAR VALORES PREDICHOS
+  return(s)
+  
+}
+```
+
+Ahora se evalúan diferentes valores para el umbral.
+
+```{r}
+# UMBRALES A EVALUAR
+thresholds = c(0.3,0.5,0.7)
+
+# VARIABLE PARA ALMACENAR EL DATA FRAME DE ERRORES
+err = NULL
+
+for(th in thresholds){
+  
+  # PREDICCION
+  y_pred = predict_sigmoid(alpha,x,y,th)
+  
+  # MATRIZ DE CONFUSION
+  cm = confusion_matrix(y,y_pred)
+  
+  # DATAFRAME CON ERRORES
+  err = rbind(err,cm$errors)
+  
+}
+
+# SE AGREGAN LOS UMBRALES AL DATAFRAME
+err = cbind(thresholds,err)
+
+err
+```
+
+A medida que el umbral aumenta, el TPR empieza a aumentar, no obstante, el TNR empieza a disminuir, ya que los valores que antes eran considerados 0 ahora serían considerados 1, por este mismo sentido el FPR empieza a aumentar y el FNR empieza a disminuir.
