@@ -108,7 +108,7 @@ for(i in 1:length(meanList)){
 }
 ```
 
-Al aumentar el tamaño de las muestras los datos se concentran en 0 y se aprecia como la varianza va disminuyendo, pues la campana empieza a adelgazarse y a aumentar en densidad alrededor de 0. Esto demuestra que la media es un estimador no sesgado y consistente.
+Al aumentar el tamaño de las muestras el sesgo se concentra en 0 y se aprecia cómo la varianza va disminuyendo, pues la campana empieza a adelgazarse y a aumentar en densidad alrededor de 0. Esto demuestra que la media es un estimador no sesgado y consistente.
 
 Calcular el valor esperado en cada caso (considerando el valor esperado como el promedio a los M = 10000 psuedo-experimentos) y dibujar el resultado en función de N. Repetir el mismo procedimiento usando la varianza (considerando de nuevo las las M = 10000 pseudo-muestras).
 
@@ -128,11 +128,83 @@ Con las anteriores gráficas se demuestra que la media es un estimador consisten
 
 ### Problema 3
 
-Considerar la distribuci?n de probabilidad anterior y la f?rmula sesgada de la varianza. Generar un número alto de M = 10000 de muestras y estudiar la distribución (sigma-SN), para N = 10, 100, 1000, 10000, 100000. Calcular el valor esperado en cada caso (usando de nuevo la media muestral) y dibujar el resultado en función de N. Se trata de un estimador consistente?
+Considerar la distribución de probabilidad anterior y la fórmula sesgada de la varianza. Generar un número alto de M = 10000 de muestras.
 
 ```{r}
+# LISTA PARA ALMACENAR MEDIAS DE PSEUDO-MUESTRAS
+varList = list()
 
+# VECTOR NULO PARA ALMACENAR MEDIAS
+meanVector_var = NULL
+
+# VECTOR NULO PARA ALMACENAR VARIANZAS
+varVector_var = NULL
+
+# FUNCION PARA LA VARIANZA SESGADA
+biasedVar = function(x){
+  
+  # VARIANZA SESGADA
+  bV = sum((mean(x) - x)^2)/length(x)
+  
+  # RETORNAR VARIANZA SESGADA
+  return(bV)
+  
+}
+
+for(i in 1:length(N)){
+    
+    # GENERAR PSEUDO-MUESTRAS
+    PseudoMuestras = matrix(rnorm(M*N[i],mu,sigma),M,N[i])
+    
+    # VARIANZAS SESGADAS DE CADA MUESTRA
+    vars = apply(PseudoMuestras,1,biasedVar)
+    
+    # ALMACENAR VARIANZAS POR CADA MUESTRA
+    varList[[i]] = vars
+    
+    # VECTOR DE MEDIAS
+    meanVector_var = c(meanVector_var,mean(vars))
+    
+    # VECTOR DE VARIANZAS
+    varVector_var = c(varVector_var,var(vars))
+    
+}
 ```
+
+Estudiar la distribución (sigma-SN), para N = 10, 100, 1000, 10000, 100000.
+
+```{r}
+# GRAFICAS DE LA DISTRIBUCION sigma^2 - SN
+par(mfrow = c(2,2))
+
+for(i in 1:length(meanList)){
+  
+  # CALCULAR sigma^2 - SN PARA CADA TAMANO DE MUESTRA
+  sigmaSn = sigma^2 - varList[[i]]
+  
+  # GRAFICAR LA DISTRIBUCION
+  hist(sigmaSn,freq = FALSE,main = paste("Histograma N =",N[i]),xlab = "sigma^2 - SN")
+  
+}
+```
+
+Se aprecia que la varianza se encuentra sesgada, ya que se encuentra centrada en $sesgo = -Var[X]/N$, pero al N tender hacia el infinito el sesgo tiende a ser cero. De igual manera, la varianza empieza a disminuir, por lo tanto es un estimador consistente.
+
+Calcular el valor esperado en cada caso (usando de nuevo la media muestral) y dibujar el resultado en función de N. Se trata de un estimador consistente?
+
+```{r}
+# GRAFICA DE LA MEDIA EN FUNCION DE N
+plot(N,meanVector_var,type = "l",main = "Media",xlab = "Tamano de la muestra")
+points(N,meanVector_var,pch = 16)
+abline(h = sigma^2,lty = 2,col = "blue")
+
+# GRAFICA DE LA VARIANZA EN FUNCION DE N
+plot(N,varVector_var,type = "l",main = "Varianza",xlab = "Tamano de la muestra")
+points(N,varVector_var,pch = 16)
+abline(h = 0,lty = 2,col = "blue")
+```
+
+La varianza calculada con la fórmula sesgada es un estimador consistente, ya que su valor esperado tiende a ser sigma^2 y su varianza tiende a ser 0.
 
 ### Problema 4
 
