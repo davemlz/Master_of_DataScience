@@ -1,0 +1,247 @@
+---
+title: "Ejercicio 1"
+output:
+  html_document:
+    df_print: paged
+---
+
+## David Montero Loaiza
+
+### Problema 1
+
+Generar una muestra de tamaño N = 10000 correspondiente a la altura de personas adultas, asumiendo que su densidad de probabilidad es una función normal/gaussiana con mu = 1.78m y sigma = 0.1 m.
+
+```{r}
+# PARAMETROS PARA GENERAR UN VECTOR ALEATORIO GAUSSIANO
+N = 10000
+mu = 1.78
+sigma = 0.1
+
+# MUESTRA DE TAMANO N
+mN = rnorm(N,mu,sigma)
+```
+
+Dibuja la densidad de frecuencia y la densidad de probabilidad por separado.
+
+```{r}
+# DENSIDAD DE FRECUENCIA
+hist(mN,freq = FALSE,main = "Densidad de probabilidad",xlab = "Alturas (m)")
+
+# DENSIDAD DE PROBABILIDAD
+curve(dnorm(x,mu,sigma),mu - 3*sigma,mu + 3*sigma,col = "red",main = "PDF",xlab = "Alturas (m)",add = TRUE)
+```
+
+Compara mu y sigma con la media muestral y la varianza muestral. 
+
+```{r}
+# MEDIA MUESTRAL
+X = mean(mN)
+
+# VARIANZA MUESTRAL
+V = var(mN)
+
+# COMPARACION
+df = data.frame("Descripcion_M" = c("mu","Media Muestral"),
+                "Media" = c(mu,X),
+                "Descripcion_V" = c("sigma^2","Varianza Muestral"),
+                "Varianza" = c(sigma^2,V))
+
+df
+```
+
+Se puede apreciar que mu y la media muestral, al igual que sigma^2 y la varianza muestral, son muy aproximadas.
+
+### Problema 2
+
+Considerar la distribución de probabilidad anterior y la media muestral para una muestra de tamaño N (TN). Generar un número alto M = 10000 de muestras.
+
+```{r}
+# TAMANOS DE MUESTRA
+N = c(10,100,1000,10000)
+
+# MUESTRAS
+M = 10000
+
+# LISTA PARA ALMACENAR MEDIAS DE PSEUDO-MUESTRAS
+meanList = list()
+
+# VECTOR NULO PARA ALMACENAR MEDIAS
+meanVector_mean = NULL
+
+# VECTOR NULO PARA ALMACENAR VARIANZAS
+varVector_mean = NULL
+
+for(i in 1:length(N)){
+    
+    # GENERAR PSEUDO-MUESTRAS
+    PseudoMuestras = matrix(rnorm(M*N[i],mu,sigma),M,N[i])
+    
+    # MEDIAS DE CADA MUESTRA
+    means = apply(PseudoMuestras,1,mean)
+    
+    # ALMACENAR MEDIAS POR CADA MUESTRA
+    meanList[[i]] = means
+    
+    # VECTOR DE MEDIAS
+    meanVector_mean = c(meanVector_mean,mean(means))
+    
+    # VECTOR DE VARIANZAS
+    varVector_mean = c(varVector_mean,var(means))
+    
+}
+```
+
+Estudiar la distribución (mu-TN), para N = 10, 100, 1000, 10000, 100000.
+
+```{r}
+# GRAFICAS DE LA DISTRIBUCION mu - TN
+par(mfrow = c(2,2))
+
+for(i in 1:length(meanList)){
+  
+  # CALCULAR mu - TN PARA CADA TAMANO DE MUESTRA
+  muTn = mu - meanList[[i]]
+  
+  # GRAFICAR LA DISTRIBUCION
+  hist(muTn,freq = FALSE,main = paste("Histograma N =",N[i]),xlab = "mu - TN")
+  
+}
+```
+
+Al aumentar el tamaño de las muestras los datos se concentran en 0 y se aprecia como la varianza va disminuyendo, pues la campana empieza a adelgazarse y a aumentar en densidad alrededor de 0. Esto demuestra que la media es un estimador no sesgado y consistente.
+
+Calcular el valor esperado en cada caso (considerando el valor esperado como el promedio a los M = 10000 psuedo-experimentos) y dibujar el resultado en función de N. Repetir el mismo procedimiento usando la varianza (considerando de nuevo las las M = 10000 pseudo-muestras).
+
+```{r}
+# GRAFICA DE LA MEDIA EN FUNCION DE N
+plot(N,meanVector_mean,type = "l",main = "Media",xlab = "Tamano de la muestra")
+points(N,meanVector_mean,pch = 16)
+abline(h = mu,lty = 2,col = "blue")
+
+# GRAFICA DE LA VARIANZA EN FUNCION DE N
+plot(N,varVector_mean,type = "l",main = "Varianza",xlab = "Tamano de la muestra")
+points(N,varVector_mean,pch = 16)
+abline(h = 0,lty = 2,col = "blue")
+```
+
+Con las anteriores gráficas se demuestra que la media es un estimador consistente, puesto que su valor esperado se mueve alrededor de mu y su varianza tiende a ser cero cuando N tiende al infinito.
+
+### Problema 3
+
+Considerar la distribuci?n de probabilidad anterior y la f?rmula sesgada de la varianza. Generar un número alto de M = 10000 de muestras y estudiar la distribución (sigma-SN), para N = 10, 100, 1000, 10000, 100000. Calcular el valor esperado en cada caso (usando de nuevo la media muestral) y dibujar el resultado en función de N. Se trata de un estimador consistente?
+
+```{r}
+
+```
+
+### Problema 4
+
+Repetir 2) utilizando la mediana en lugar de la media. Cuál de los dos estimadores es más eficiente?
+
+```{r}
+# LISTA PARA ALMACENAR MEDIAS DE PSEUDO-MUESTRAS
+medianList = list()
+
+# VECTOR NULO PARA ALMACENAR MEDIAS (MEDIANA)
+meanVector_median = NULL
+
+# VECTOR NULO PARA ALMACENAR VARIANZAS (MEDIANA)
+varVector_median = NULL
+
+# VECTOR NULO PARA ALMACENAR MEDIAS (MEDIA)
+meanVector_mean = NULL
+
+# VECTOR NULO PARA ALMACENAR VARIANZAS (MEDIA)
+varVector_mean = NULL
+
+for(i in 1:length(N)){
+    
+    # GENERAR PSEUDO-MUESTRAS
+    PseudoMuestras = matrix(rnorm(M*N[i],mu,sigma),M,N[i])
+    
+    # MEDIANAS DE CADA MUESTRA
+    medians = apply(PseudoMuestras,1,median)
+    
+    # MEDIAS DE CADA MUESTRA
+    means = apply(PseudoMuestras,1,mean)
+    
+    # ALMACENAR MEDIAS POR CADA MUESTRA
+    medianList[[i]] = medians
+    
+    # VECTOR DE MEDIAS (MEDIANA)
+    meanVector_median = c(meanVector_median,mean(medians))
+    
+    # VECTOR DE VARIANZAS (MEDIANA)
+    varVector_median = c(varVector_median,var(medians))
+    
+    # VECTOR DE MEDIAS (MEDIA)
+    meanVector_mean = c(meanVector_mean,mean(means))
+    
+    # VECTOR DE VARIANZAS (MEDIA)
+    varVector_mean = c(varVector_mean,var(means))
+    
+}
+```
+
+Estudiar la distribución (mu-TN), para N = 10, 100, 1000, 10000, 100000.
+
+```{r}
+# GRAFICAS DE LA DISTRIBUCION mu - TN
+par(mfrow = c(2,2))
+
+for(i in 1:length(medianList)){
+  
+  # CALCULAR mu - TN PARA CADA TAMANO DE MUESTRA
+  muTn = mu - medianList[[i]]
+  
+  # GRAFICAR LA DISTRIBUCION
+  hist(muTn,freq = FALSE,main = paste("Histograma N =",N[i]),xlab = "mu - TN")
+  
+}
+```
+
+Al igual que la media, la mediana es un estimador no sesgado y consistente.
+
+Calcular el valor esperado en cada caso (considerando el valor esperado como el promedio a los M = 10000 psuedo-experimentos) y dibujar el resultado en función de N. Repetir el mismo procedimiento usando la varianza (considerando de nuevo las las M = 10000 pseudo-muestras).
+
+```{r}
+# PARAMETROS PARA GRAFICAS
+meanMin = min(c(meanVector_mean,meanVector_median))
+meanMax = max(c(meanVector_mean,meanVector_median))
+varMax = max(c(varVector_mean,varVector_median))
+par(mfrow = c(1,2))
+
+# GRAFICA DE LA MEDIA EN FUNCION DE N
+plot(N,meanVector_mean,
+     type = "l",
+     main = "Media",
+     xlab = "Tamano de la muestra",
+     ylab = "Media",
+     ylim = c(meanMin,meanMax))
+
+lines(N,meanVector_median,type = "l",col = "red")
+points(N,meanVector_mean,pch = 16)
+points(N,meanVector_median,pch = 16,col = "red")
+abline(h = mu,lty = 2,col = "blue")
+
+# GRAFICA DE LA VARIANZA EN FUNCION DE N
+plot(N,varVector_mean,
+     type = "l",
+     main = "Varianza",
+     xlab = "Tamano de la muestra",
+     ylab = "Varianza",
+     ylim = c(0,varMax))
+
+lines(N,varVector_median,type = "l",col = "red")
+points(N,varVector_mean,pch = 16)
+points(N,varVector_median,pch = 16,col = "red")
+abline(h = 0,lty = 2,col = "blue")
+
+legend("topright",
+       legend = c("Media","Mediana"),
+       col = c("black","red"),
+       lwd = 1,
+       title = "Estimador")
+```
+
+Según las gráficas anteriores, la varianza de la mediana tiende a ser más alta que la varianza de la media, por tal motivo la media es un estimador más eficiente que la mediana.
