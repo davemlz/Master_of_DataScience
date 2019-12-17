@@ -186,8 +186,7 @@ En este caso las variables de `odor` y `ring.type` hacen parte de las más impor
 modBest = train(class ~ odor + ring.type,
             data = train,
             method = "rpart2",
-            trControl = ctrl,
-            tuneLength = 3)
+            trControl = ctrl)
 ```
 
 ```{r}
@@ -214,8 +213,7 @@ fancyRpartPlot(modBest$finalModel)
 modWorst = train(class ~ gill.size + cap.shape,
             data = train,
             method = "rpart2",
-            trControl = ctrl,
-            tuneLength = 2)
+            trControl = ctrl)
 ```
 
 ```{r}
@@ -228,7 +226,7 @@ plot(modWorst)
 modWorst$bestTune
 ```
 
-Utilizando otras dos variables, el árbol óptimo, con una profundidad de tamaño 2, apenas alcanza una precisión en su proceso de validación cercana al 76%. El árbol óptimo con las variables `odor` y `ring.type` es, en los 3 casos sigue siendo el mejor modelo.
+Utilizando otras dos variables, el árbol óptimo, con una profundidad de tamaño 2, apenas alcanza una precisión en su proceso de validación cercana al 76%. El árbol óptimo con las variables `odor` y `ring.type`, en los 3 casos, sigue siendo el mejor modelo.
 
 ```{r}
 # ARBOL FINAL
