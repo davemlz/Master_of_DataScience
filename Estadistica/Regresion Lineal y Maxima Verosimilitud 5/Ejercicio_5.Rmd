@@ -9,7 +9,7 @@ output:
 
 ### Problema 1
 
-Crea una función a la que se le pase como input: la media en el eje x, la media en el eje y, la varianza en el eje x, la varianza en el eje y y la covarianza de x e y, junto con un número de puntos N, y devuelva una matriz con N filas y 2 columnas con los números que salen de la distribución gaussiana de dos dimensiones definidas por los valores de input (usar la función MASS::mvrnorm)
+Crea una funciÃ³n a la que se le pase como input: la media en el eje x, la media en el eje y, la varianza en el eje x, la varianza en el eje y y la covarianza de x e y, junto con un n?mero de puntos N, y devuelva una matriz con N filas y 2 columnas con los n?meros que salen de la distribuciÃ³n gaussiana de dos dimensiones definidas por los valores de input (usar la funci?n MASS::mvrnorm)
 
 ```{r}
 # PAQUETE REQUERIDO
@@ -35,7 +35,7 @@ generate_matrix = function(N,meanX,meanY,varX,varY,covXY){
 
 ### Problema 2
 
-Genera una matrix x1 usando la función anterior y tomando: N = 1000, mu_x = 2, mu_y = 4, var_x = var_y = 1, y Cov(x,y) = 0.3. Crea una matriz "y1" con tantas filas como la matriz x y asígnale el valor 0. 
+Genera una matrix x1 usando la funci?n anterior y tomando: N = 1000, mu_x = 2, mu_y = 4, var_x = var_y = 1, y Cov(x,y) = 0.3. Crea una matriz "y1" con tantas filas como la matriz x y asignale el valor 0. 
 
 ```{r}
 # PARAMETROS PARA UNA MATRIZ CUYO VALOR DE Y CORRESPONDE A 0
@@ -54,7 +54,7 @@ y1 = rep(0,nrow(x1))
 
 ### Problema 3
 
-Repite 2) para otra muestra con N = 1000, mu_x = 6, mu_y = 3, var_x = var_y = 1, y Cov(x,y) = 0.3. Crea una matriz "y2" con tantas filas como la matriz x2 y asígnale el valor 1.
+Repite 2) para otra muestra con N = 1000, mu_x = 6, mu_y = 3, var_x = var_y = 1, y Cov(x,y) = 0.3. Crea una matriz "y2" con tantas filas como la matriz x2 y asignale el valor 1.
 
 ```{r}
 # PARAMETROS PARA UNA MATRIZ CUYO VALOR DE Y CORRESPONDE A 0
@@ -85,9 +85,9 @@ y = c(y1,y2)
 
 ### Problema 5
 
-Usando las funciones de coste y gradiente del ejercicio 5, utiliza optim para un modelo en el que z = alpha_0 + alpha_1 x1 + alpha_2 x2, tomando como vector de parámetros inicial el (0, 0, 0). Calcula y pinta la frontera entre ambas distribuciones.
+Usando las funciones de coste y gradiente del ejercicio 5, utiliza optimo para un modelo en el que z = alpha_0 + alpha_1 x1 + alpha_2 x2, tomando como vector de par?metros inicial el (0, 0, 0). Calcula y pinta la frontera entre ambas distribuciones.
 
-En el siguiente código se definen las funciones a utilizar.
+En el siguiente cÃ³digo se definen las funciones a utilizar.
 
 ```{r}
 sigmoid = function(Z){
@@ -142,7 +142,7 @@ gradient = function(alpha,x,y){
 }
 ```
 
-A continuación se definen los parámetros iniciales para alpha y se calculan sus valores óptimos, graficando finalmente la división de las clases.
+A continuaciÃ³n se definen los parÃ¡metros iniciales para alpha y se calculan sus valores Ã³ptimos, graficando finalmente la divisiÃ³n de las clases.
 
 ```{r}
 # PARAMETROS INICIALES
@@ -163,7 +163,7 @@ curve((-alpha[1]/alpha[3]) - (alpha[2]*x/alpha[3]),add = TRUE, col = "green")
 
 Repite otra vez 1, 2, 3 y 4 para obtener otras matrices x e y independientes. Utilizando la "sigma" calculada anteriormente calcula el TPR, TNR, FPR y FNR para valores del threshold = 0.3, 0.5, 0.7. 
 
-A continuación se definen nuevas matrices x e y independientes.
+A continuaciÃ³n se definen nuevas matrices x e y independientes.
 
 ```{r}
 # PARAMETROS PARA UNA MATRIZ CUYO VALOR DE Y CORRESPONDE A 0
@@ -195,7 +195,7 @@ x = rbind(x1,x2)
 y = c(y1,y2)
 ```
 
-Aquí se definen nuevas funciones para calcular la matriz de confusión y extraer los errores asociados. También se define una función para realizar una predicción usando la sigmoide con un umbral que puede variar.
+AquÃ­ se definen nuevas funciones para calcular la matriz de confusiÃ³n y extraer los errores asociados. TambiÃ©n se define una funciÃ³n para realizar una predicci?n usando la sigmoide con un umbral que puede variar.
 
 ```{r}
 confusion_matrix = function(y,y_pred){
@@ -247,7 +247,7 @@ predict_sigmoid = function(alpha,x,y,threshold){
 }
 ```
 
-Ahora se evalúan diferentes valores para el umbral.
+Ahora se evalÃºan diferentes valores para el umbral.
 
 ```{r}
 # UMBRALES A EVALUAR
@@ -275,4 +275,4 @@ err = cbind(thresholds,err)
 err
 ```
 
-A medida que el umbral aumenta, el TPR empieza a aumentar, no obstante, el TNR empieza a disminuir, ya que los valores que antes eran considerados 0 ahora serían considerados 1, por este mismo sentido el FPR empieza a aumentar y el FNR empieza a disminuir.
+A medida que el umbral aumenta, el TPR empieza a aumentar, no obstante, el TNR empieza a disminuir, ya que los valores que antes eran considerados 0 ahora serÃ¡n considerados 1, por este mismo sentido el FPR empieza a aumentar y el FNR empieza a disminuir.
