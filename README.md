@@ -15,3 +15,4 @@ Master of Data Science repository
 - `arules` - Reglas de asociación.
 - `arulesViz` - Opciones de visualización para reglas de asociación.
 - `caret` - Most important library in your DataScience life.
+- `adabag` - Boosting.
