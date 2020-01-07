@@ -1,0 +1,224 @@
+---
+title: "Gradient Boosting"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+## Loading R-Packages:
+library(tree)
+library(randomForest)
+library(adabag)
+library(gbm)
+library(caret)
+library(MASS)
+```
+
+## Single Tree
+
+```{r}
+## Train/Test partition:
+set.seed(23)
+n <- nrow(iris)
+indtrain <- sample(1:n, round(0.75*n)) # indices for train
+indtest <- setdiff(1:n, indtrain) # indices for test
+```
+
+```{r}
+## Single Tree:
+t <- tree(Species ~., iris, subset = indtrain, control = tree.control(length(indtrain),
+ mincut = 1, minsize = 2, mindev = 0))
+## Prediction for test
+pred.t.test <- predict(t, iris[indtest, ], type = "class")
+## Prediction for train
+pred.t.train <- predict(t, iris[indtrain, ], type = "class")
+```
+
+```{r}
+## Accuracy (Trees):
+print(sum(diag(table(pred.t.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.t.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+## Random Forest
+
+```{r}
+## Train/Test partition:
+set.seed(23)
+n <- nrow(iris)
+indtrain <- sample(1:n, round(0.75*n)) # indices for train
+indtest <- setdiff(1:n, indtrain) # indices for test
+```
+
+```{r}
+## Bagging: Random Forests
+rf <- randomForest(Species ~., iris , subset = indtrain, ntree = 500)
+## Prediction for test
+pred.rf.test <- predict(rf, iris[indtest, ])
+## Prediction for train
+pred.rf.train <- predict(rf, iris[indtrain, ])
+```
+
+```{r}
+## Accuracy (Trees):
+print(sum(diag(table(pred.t.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.t.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (Random Forests):
+print(sum(diag(table(pred.rf.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.rf.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+## Adaboosting
+
+```{r}
+## Train/Test partition:
+set.seed(23)
+n <- nrow(iris)
+indtrain <- sample(1:n, round(0.75*n)) # indices for train
+indtest <- setdiff(1:n, indtrain) # indices for test
+```
+
+```{r}
+## Boosting: Adaptive Boosting (AdaBoost)
+ab <- boosting(Species ~., iris[indtrain, ], mfinal = 20,
+ control=rpart.control(minsplit = 2, minbucket = 1, cp = 0.01))
+## Prediction for test
+pred.ab.test <- predict(ab, iris[indtest, ])
+## Prediction for train
+pred.ab.train <- predict(ab, iris[indtrain, ])
+```
+
+```{r}
+## Accuracy (Trees):
+print(sum(diag(table(pred.t.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.t.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (Random Forests):
+print(sum(diag(table(pred.rf.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.rf.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (AdaBoost):
+print(sum(diag(table(pred.ab.test$class, iris$Species[indtest])))/length(indtest))
+print(sum(diag(table(pred.ab.train$class, iris$Species[indtrain])))/length(indtrain))
+```
+
+## Gradient Bosting
+
+```{r}
+## Boosting: Gradient Boosting
+gb <- gbm(Species~., data=iris[indtrain, ], n.trees=1000,
+ interaction.depth=20, shrinkage = 0.01)
+## Prediction for test
+pred.gb.test <- predict(object = gb, newdata = iris[indtest, ], n.trees = 1000, type = "response")
+## Prediction for train
+pred.gb.train <- predict(object = gb, newdata = iris[indtrain, ], n.trees = 1000, type = "response")
+```
+
+```{r}
+## Accuracy (Trees):
+print(sum(diag(table(pred.t.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.t.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (Random Forests):
+print(sum(diag(table(pred.rf.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.rf.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (AdaBoost):
+print(sum(diag(table(pred.ab.test$class, iris$Species[indtest])))/length(indtest))
+print(sum(diag(table(pred.ab.train$class, iris$Species[indtrain])))/length(indtrain))
+```
+
+```{r}
+## Accuracy (Gradient Boosting):
+print(sum(diag(table(attributes(pred.gb.test)$dimnames[[2]][apply(pred.gb.test,
+FUN = which.max, MARGIN = 1)], iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(attributes(pred.gb.test)$dimnames[[2]][apply(pred.gb.train,
+FUN = which.max, MARGIN = 1)], iris$Species[indtrain]))) / length(indtrain))
+```
+
+## Gradient Boosting - Tuning
+```{r}
+## Boosting: Gradient Boosting – Tuning the parameters
+gb.cv <- gbm(Species~., data=iris[indtrain, ], n.trees=1000, interaction.depth=20,
+ shrinkage = 0.01, cv.folds = 4)
+ntree_opt_cv <- gbm.perf(gb.cv, method = "cv")
+ntree_opt_oob <- gbm.perf(gb.cv, method = "OOB")
+print(c(ntree_opt_cv,ntree_opt_oob))
+```
+
+```{r}
+## Accuracy (Trees):
+print(sum(diag(table(pred.t.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.t.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (Random Forests):
+print(sum(diag(table(pred.rf.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.rf.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (AdaBoost):
+print(sum(diag(table(pred.ab.test$class, iris$Species[indtest])))/length(indtest))
+print(sum(diag(table(pred.ab.train$class, iris$Species[indtrain])))/length(indtrain))
+```
+
+```{r}
+## Accuracy (Gradient Boosting):
+print(sum(diag(table(attributes(pred.gb.test)$dimnames[[2]][apply(pred.gb.test,
+FUN = which.max, MARGIN = 1)], iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(attributes(pred.gb.test)$dimnames[[2]][apply(pred.gb.train,
+FUN = which.max, MARGIN = 1)], iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Boosting: Gradient Boosting
+gb <- gbm(Species~., data=iris[indtrain, ], n.trees=ntree_opt_cv,
+ interaction.depth=20, shrinkage = 0.01)
+print(gb)
+summary(gb)
+## Prediction for test
+pred.gb.test <- predict(object = gb, newdata = iris[indtest, ], n.trees = ntree_opt_cv, type = "response")
+## Prediction for train
+pred.gb.train <- predict(object = gb, newdata = iris[indtrain, ], n.trees = ntree_opt_cv, type = "response")
+```
+
+```{r}
+## Accuracy (Trees):
+print(sum(diag(table(pred.t.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.t.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (Random Forests):
+print(sum(diag(table(pred.rf.test, iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(pred.rf.train, iris$Species[indtrain]))) / length(indtrain))
+```
+
+```{r}
+## Accuracy (AdaBoost):
+print(sum(diag(table(pred.ab.test$class, iris$Species[indtest])))/length(indtest))
+print(sum(diag(table(pred.ab.train$class, iris$Species[indtrain])))/length(indtrain))
+```
+
+```{r}
+## Accuracy (Gradient Boosting):
+print(sum(diag(table(attributes(pred.gb.test)$dimnames[[2]][apply(pred.gb.test,
+FUN = which.max, MARGIN = 1)], iris$Species[indtest]))) / length(indtest))
+print(sum(diag(table(attributes(pred.gb.test)$dimnames[[2]][apply(pred.gb.train,
+FUN = which.max, MARGIN = 1)], iris$Species[indtrain]))) / length(indtrain))
+```
+
