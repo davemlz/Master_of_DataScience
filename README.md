@@ -16,3 +16,9 @@ Master of Data Science repository
 - `arulesViz` - Opciones de visualización para reglas de asociación.
 - `caret` - Most important library in your DataScience life.
 - `adabag` - Boosting.
+
+#### Tabula
+Get tables from PDF documents.
+
+#### OpenRefine
+Data curation.
