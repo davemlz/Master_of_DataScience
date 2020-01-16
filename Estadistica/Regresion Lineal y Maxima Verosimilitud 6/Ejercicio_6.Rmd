@@ -125,7 +125,6 @@ Utiliza la función mle para hallar los valores de “N” y “lambda” que ma
 require(stats4)
 ```
 
-
 ```{r}
 # ESTIMACION DE PARAMETROS POR MAXIMA VEROSIMILITUD
 mlModel = mle(l,start = list(N = 4000,lambda = 4),nobs = NROW(h))
@@ -145,4 +144,4 @@ hist(vec,breaks = 0:ceiling(max(vec)),xlim = c(1,30))
 curve(N * exp(-x/lambda),add = TRUE,col = "red")
 ```
 
-En la gráfica anterior se observa cómo el ajuste de la función exponencial utilizando los parámetros N y lamnda que maximizan el likelihood se ajustan adecuadamente al histograma.
+En la gráfica anterior se observa cómo el ajuste de la función exponencial utilizando los parámetros N y lambda que maximizan el likelihood se ajustan adecuadamente al histograma.
