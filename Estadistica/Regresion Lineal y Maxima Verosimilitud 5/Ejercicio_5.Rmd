@@ -9,7 +9,7 @@ output:
 
 ### Problema 1
 
-Crea una función a la que se le pase como input: la media en el eje x, la media en el eje y, la varianza en el eje x, la varianza en el eje y y la covarianza de x e y, junto con un n?mero de puntos N, y devuelva una matriz con N filas y 2 columnas con los n?meros que salen de la distribución gaussiana de dos dimensiones definidas por los valores de input (usar la funci?n MASS::mvrnorm)
+Crea una función a la que se le pase como input: la media en el eje x, la media en el eje y, la varianza en el eje x, la varianza en el eje y y la covarianza de x e y, junto con un n?mero de puntos N, y devuelva una matriz con N filas y 2 columnas con los números que salen de la distribución gaussiana de dos dimensiones definidas por los valores de input (usar la función MASS::mvrnorm)
 
 ```{r}
 # PAQUETE REQUERIDO
@@ -35,7 +35,7 @@ generate_matrix = function(N,meanX,meanY,varX,varY,covXY){
 
 ### Problema 2
 
-Genera una matrix x1 usando la funci?n anterior y tomando: N = 1000, mu_x = 2, mu_y = 4, var_x = var_y = 1, y Cov(x,y) = 0.3. Crea una matriz "y1" con tantas filas como la matriz x y asignale el valor 0. 
+Genera una matrix x1 usando la función anterior y tomando: N = 1000, mu_x = 2, mu_y = 4, var_x = var_y = 1, y Cov(x,y) = 0.3. Crea una matriz "y1" con tantas filas como la matriz x y asignale el valor 0. 
 
 ```{r}
 # PARAMETROS PARA UNA MATRIZ CUYO VALOR DE Y CORRESPONDE A 0
