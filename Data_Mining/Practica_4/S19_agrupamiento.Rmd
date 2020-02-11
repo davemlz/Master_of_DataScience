@@ -1,0 +1,652 @@
+---
+title: "Técnicas de Segmentación"
+subtitle: "Clustering"
+author: "Santander Meteorology Group"
+output:
+  html_document:
+    fig_caption: yes
+    highlight: pygments
+    number_sections: yes
+    theme: readable
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: pygments
+    latex_engine: pdflatex
+    pandoc_args:
+    - --number-sections
+    - --number-offset=0
+    toc: yes
+encoding: UTF8
+documentclass: article
+abstract: Se presentan una serie de breves scripts de ejemplo que acompañan a la parte teórica en el aula sobre técnicas de agrupamiento.
+urlcolor: blue
+---
+
+/fontfamily{cmr}
+/fontsize{11}{22}
+/selectfont
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      highlight = TRUE,
+                      message = FALSE,
+                      fig.align = "center",
+                      tidy = FALSE,
+                      fig.width = 7,
+                      cache = TRUE)
+```
+
+# Paquetes de R necesarios:
+
+En la presente práctica consideraremos diferentes técnicas de agrupamiento, implementadas en diferentes librerías y paquetes de R, que necesitaremos instalar:
+
+```{r, eval = FALSE, results='hide', echo = TRUE, warning=FALSE}
+## Required packages:
+install.packages("MASS")
+install.packages("stats")
+install.packages("readr")
+install.packages("mclust")
+install.packages("caret")
+install.packages("e1071")
+install.packages("sparcl")
+install.packages("kohonen")
+install.packages("cluster")
+install.packages("FNN")
+```
+
+Tanto la función `kmeans()` como `hclust()`, utilizadas para el agrupamiento k-medias y jerárquico respectivamente, se encuentran por defecto listas para ser utilizadas, ya que pertenecen al paquete básico `stats`. A pesar de que principalmente utilizaremos estas técnicas, también utilizaremos otras librerías que nos permitan experimentar con otras metodologías o utilizar otras funcionalidades de interés. Adicionalmente, podría ser interesante (aunque no imprescindible) la utilización del paquete `sparcl`, que permite colorear las observaciones contenidas en un dendrograma de forma fácil en función de su grupo de pertenencia, para niveles diferentes de corte.
+
+Como siempre:
+
+```{r, eval = FALSE, results='hide', echo = TRUE, warning=FALSE}
+## Statistical tools:
+library(MASS)
+library(stats)
+## Reading data:
+library(readr)
+## Clustering methods:
+library(mclust)
+library(caret)
+library(e1071)
+library(sparcl)
+library(kohonen)
+library(cluster)
+library(FNN)
+```
+
+```{r, eval = TRUE, results='hide', echo = FALSE, warning=FALSE}
+## Statistical tools:
+library(MASS)
+library(stats)
+## Reading data:
+library(readr)
+## Clustering methods:
+library(mclust)
+library(caret)
+library(e1071)
+library(sparcl)
+library(kohonen)
+library(cluster)
+library(FNN)
+```
+
+El paquete `magrittr` se utilizará por conveniencia, al incorporar (entre otros) el operador `%>%` que permite concatenar acciones de manera sencilla. 
+
+```{r}
+require(magrittr)
+```
+
+# Introducción teórica a los algoritmos de agrupamiento
+
+## Las técnicas de agrupamiento
+
+Las técnicas de agrupamiento, o `clustering`, consisten en encontrar subgrupos dentro de un conjunto de observaciones dado. El objetivo es encontrar subconjuntos de observaciones que tienen un parecido mayor entre sí respecto a las observaciones pertenecientes a otros subgrupos. Para ello, es preciuso definir alguna medida de `similitud`, lo que a menudo viene dado por el problema específico que se quiere resolver.
+
+Este tipo de problemas de agrupamiento pertenecen al dominio del `aprendizaje no supervisado`, en el que intentamos descubrir una estructura subyacente en los datos (recuerda que en el `aprendizaje supervisado` intentábamos predecir alguna variable entrenando con un conjunto de datos cuyo resultado conocíamos previamente).
+
+Tanto el `Análisis de Componentes Principales` (PCA) como las técnicas de agrupamiento tienen como objeto la simplificación de los datos a través de alguna forma de síntesis, pero operan de maneras diferentes:
+
+ * El PCA tiene como objetivo la reducción de la dimensionalidad del espacio de las observaciones recogiendo una buiena parte de la varianza.
+ * Las técnicas de agrupamiento buscan subgrupos de observaciones homogéneos dentro del conjunto de las observaciones.
+
+Las técnicas de `clustering` se aplican en multitud de dominios de análisis, y por lo tanto existe una gran variedad de ellas aplicadas a campos específicos. En este caso, vamos a ver dos de las técnicas más populares representaticas de las dos familias principales, basadas en centroides o jerárquica: 
+
+ * El algoritmo `k-medias` pertenece a la familia de las técnicas de agrupamiento no-divisivas y basadas en centroides. En el algoritmo `k-medias` conocemos de antemano el número de grupos que queremos obtener.
+ * El algoritmo de agrupamiento `jerárquico` pertenece a la familia de las técnicas divisivas. En este caso desconocemos de antemano el número de grupos deseado. Lo que obtenemos es un diagrama con estructura de árbol, o `dendrograma` que permite visualizar en un solo diagrama el agrupamiento obtenido para cada número posible de grupos, desde 1 hasta $n$. 
+
+Cada método tiene ventajas e inconvenientes que mostraremos a continuación.
+
+### Agrupamiento k-medias:
+
+El algoritmo `k-medias` es un método sencillo para dividir un set de datos en $K$ grupos sin intersecciones, dado previamente el número de grupos ($K$) que queremos generar.
+
+Para explicar el mecanismo, sencillo e intuitivo, mediante el que opera `K-medias`, sean $C_{1}$,... ,$C_{K}$ conjuntos que contienen los índices de las observaciones pertenecientes a cada cluster. Estos satisfacen dos propiedades:
+
+ * todas las observaciones pertenecen al menos a un cluster.
+ * los clusters nunca se solapan: ninguna observación puede pertencer a más de un cluster.
+
+La idea detrás de `K-medias` es que un agrupamiento es bueno cuando la variabilidad intra-grupos es lo más pequeña posible. Por otra parte, la variabilidad entre-grupos $C_{k}$ es una medida $W(C_{k})$ de cuánto difieren las observaciones pertenecientes a un grupo de las de otro. Por tanto, se petende resolver el problema:
+
+/begin{equation}/label{eq1}
+/stackrel{/hbox{minimize}}{/hbox{$C_{1}, /dots ,C_{k}$}} /left/lbrace /sum_{k=1}^{K}W(C_{k}) /right/rbrace
+/end{equation}
+
+Dicho de otro modo, la ecuación /ref{eq1} dice que queremos dividir las observaciones en $K$ grupos (`clusters`) de modo que se minimice la suma total de la variabilidad en cada cluster. Para resolver (/ref{eq1}), debemos definir una medida de dicha variabilidad. Hay muchas métricas para esto, pero con ucha diferencia la más comúnmente utilizada es el cuadrado de la `distancia Euclídea`. Es decir, definimos lo siguiente:
+
+/begin{equation}/label{eq2}
+W(C_{k}) = /frac{1}{|C_{k}|} /sum_{i,i' /in C_{k}} /sum_{j=1}^{p}(x_{ij} - x_{i'j})^{2},
+/end{equation}
+
+donde $|C_{k}|$ denota el número de observaciones en el cluster `k-ésimo`. Por tanto, la variabilidad intra-cluster es la suma de todas las distancias Euclídeas entre todos los pares de observaciones dentro de ese cluster, dividido por el número total de observaciones dentro de ese cluster. La combinación de las ecuaciones (/ref{eq1}) y (/ref{eq2}) enuncia el problema de optimización que debe resolver el algoritmo `K-medias`:
+
+/begin{equation}/label{eq3}
+/stackrel{/hbox{minimize}}{/hbox{$C_{1}, /dots ,C_{k}$}} /left/lbrace /sum_{k=1}^{K} /frac{1}{|C_{k}|} /sum_{i,i' /in C_{k}} /sum_{j=1}^{p}(x_{ij} - x_{i'j})^{2} /right/rbrace.
+/end{equation}
+
+/subsection{El algoritmo}
+
+Ahora se trata de encontrar un algoritmo capaz de resolver (/ref{eq3}) --es decir, que divida las observaciones en $K$ grupos que minimicen la variabilidad intra-grupo--. Se trata de un problema difícil de resolver ya que potencialmente da lugar a un número demasiado alto de posibles agrupamientos de $n$ observaciones en $K$ clusters ($K^n$). Existe no obstante un algoritmo sencillo capaz de encontrar un óptimo local (digamos una solución ``bastante buena'') al problema de optimización expuesto en (/ref{eq3}). A continuación presentamos dicho algoritmo:
+
+ * Primero se asigna un número aleatorio, de 1 a $K$, a cada una de las observaciones. Este es el cluster de pertenencia inicial de cada observación.
+ * Se procede iterando hasta que la pertenencia de cada observación al cluster deja de cambiar:
+ * Para cada uno de los $K$ clusters, se calcula su `centroide}.
+ * Asigna a cada observación al cluster cuyo centroide está más próximo (esta proximidad se determina en este caso mediante la distancia Euclídea)
+
+Este algoritmo garantiza la reducción de la distancia intra-grupos en cada iteración, hasta alcanzar un `óptimo local`. Su nombre (`K-medias`) viene dado por el hecho de que en el paso 2(a) expuesto anteriormente, los centroides se calculan como la media de las observaciones en ese cluster.
+
+Dado que la solución del algoritmo `K-medias` es un óptimo local (no global), los resultados obtenidos dependen de la condición inicial (la primera asignación aleatoria de cluster a las observaciones, paso 1), es importante ejecutarlo varias veces con diferentes inicializaciones para asegurar un buen agrupamiento. Esto queda reflejado en la figura /ref{fig:plot1}.
+
+```{r, eval = TRUE, results='hide', echo = TRUE}
+# GENERA FIGURA 1
+set.seed(4)
+x <- matrix(rnorm(100 * 2), ncol = 2)
+x[1:25, 1] <- x[1:25, 1] + 1
+x[1:25, 2] <- x[1:25, 2] - 2
+k <- 3
+par(mfrow = c(2,3))
+j = 6
+while(j > 0) {
+      j <- j - 1
+      set.seed(j+1)
+      km <- kmeans(x, centers = k)
+      plot(x, ty = "n", xlab = "", ylab = "")
+      for (i in 1:k) {
+            points(x[km$cluster == i, ], pch = 19, col = i)
+      }
+      mtext(format(km$tot.withinss, digits = 2)) 
+}
+```
+
+### Agrupamiento jerárquico:
+
+A diferencia de `K-medias`, las técnicas de agrupamiento jerárquico no requieren un número predefinido de grupos, lo cual es una ventaja en muchas ocasiones. Además, produce una estructura de tipo árbol para representar el agrupamiento de los datos llamado `dendrograma`.
+
+A continuación describimos  el tipo más común de clustering jerárquico, conocido como `de abajo hacia arriba` o `aglomerativo`, en referencia al hecho de que normalmente se representa como un árbol boca-abajo, que comienza a elaborarse por las hojas y va combinando clusters para formar ramas de forma progresiva hasta llegar a un tronco común.
+
+#### El dendrograma:
+
+En esta sección utilizaremos el ejemplo mostrado en la figura /ref{fig:plot2}, donde hay 45 observaciones que pertencen a grupos bien diferenciados. El clustering jerárquico (usando el método `complete linkage`, que veremos a continuación) prodice el resultado mostrado en la figura /ref{fig:plot3}. ¿Cómo interpretamos el dendrograma?
+
+```{r, eval = TRUE, results='hide', echo = TRUE}
+# GENERA FIGURA 2
+set.seed(2)
+x <- matrix(rnorm(45 * 2), ncol = 2)
+x[1:15, 1] <- x[1:15, 1] + 2
+x[1:15, 2] <- x[1:15, 2] + 2
+x[16:30, 2] <- x[16:30, 2] - 4
+x[16:30, 1] <- x[16:30, 1] - 2
+x[31:45, 1] <- x[31:45, 1] - 4
+x[31:45, 2] <- x[31:45, 2] + 1 
+plot(x, ty = "n", xlab = "")
+points(x[1:15, ], col = 2, pch = 19)
+points(x[16:30, ], col = 3, pch = 19)
+points(x[31:45, ], col = 4, pch = 19)
+```
+
+En el dendrograma de la figura /ref{fig:plot3} están representados los datos de la figura /ref{fig:plot2}, pero coloreados para diferentes niveles de agrupamiento. Los extremos inferiores (las hojas) corresponden a cada una de las observaciones. A medida que ascendemos por el árbol, algunas hojas comienzan a unirse para dar lugar a ramas. Estas observaciones son las más similares entre sí. A medida que nos movemos hacia arriba en el árbol, las ramas se van uniendo entre sí o con otras hojas. Cuanto antes se unen, más similitud hay entre los grupos de observaciones. Por el contrario, cuanto más lejana es la unión entre ramas, más alejados se encuentran entre sí los grupos de observaciones. La altura de estas uniones, medida en el eje vertical del dendrograma, mide la diferencia entre dos observaciones.
+
+```{r, eval = TRUE, results='hide', echo = TRUE}
+# GENERA FIGURA 3
+require(sparcl) # colorea las hojas del dendrograma de forma facil
+hc <- hclust(dist(x), method = "complete")
+par(mfrow=c(1,3))
+y1 <- cutree(hc, k = 1)
+ColorDendrogram(hc, y = y1, ylab = "", xlab = "", branchlength = 10)
+y2 <- cutree(hc, h = 11)
+ColorDendrogram(hc, y = y2, ylab = "", xlab = "", branchlength = 10)
+abline(h = 11, lty = 2)
+y3 <- cutree(hc, h = 6)
+ColorDendrogram(hc, y = y3, ylab = "", xlab = "", branchlength = 10)
+abline(h = 6, lty = 2)
+```
+
+NOTA: No pueden extraerse conclusiones sobre la similitud entre dos observaciones por su posición en el eje horizontal. Por el contrario, debemos observar la primera unión de ambas observaciones y su punto de corte con el eje vertical. A modo de ejemplo, se presenta la figura /ref{fig:plot4}: Los pares de observaciones (9,8) y (2,7) son muy similares entre sí (la distancia euclídea que los separa es pequeña, como puede verse en el plot de la izquierda). Sin embargo, la distancia entre (4,3) es considerable, y sin embargo aparecen seguidos en el eje horizontal. Puede comprobarse que su punto de unión en el eje vertical es el más alejado ($>4$). Por el contrario, las observaciones 1 y 7, alejadas entre sí en el eje horizontal, son mucho más próximas, cortando el eje vertical en un valor próximo a 2.
+
+```{r, eval = TRUE, results='hide', echo = TRUE}
+# GENERA FIGURA 4
+set.seed(1)
+x <- matrix(rnorm(20), ncol = 2)
+hc <- hclust(dist(x))
+par(mfrow = c(1,2))
+plot(x, ty = "n", xlab = "", ylab = "", asp = 1)
+text(x[hc$order,1], x[hc$order,2], hc$order)
+plot(hc, xlab = "", ylab = "", main = "", hang = -1)
+```
+
+#### Identificación de grupos:
+
+Ahora que podemos interpretar un dendrograma, pasamos a analizar la identificación de los grupos que se han generado. Para ello, hacemos un corte horizontal en un punto dado del eje vertical, tal y como se indica con una línea punteada en los paneles central y derecho de la figura /ref{fig:plot3}. Los grupos de observaciones definidos bajo la línea de corte son los clusters resultantes. Como se ve en la figura /ref{fig:plot3}, en el panel central, al trazar un corte a la altura de 11 generamos dos clusters diferentes. A medida que descendemos, el número de clusters aumenta. En el panel derecho, vemos que para un nivel de corte de 6 obtenemos 3 clusters. Descendiendo, se obtienen progresivamente más grupos, hasta llegar a tantos grupos como observaciones para un nivel de corte de 0. Por tanto, la altura de corte sirve para definir el número de grupos, tal y como el parámetro $K$ hacía en la técnica de las `K-medias`.
+
+En la práctica, normalmente el número de grupos se suele seleccionar por inspección visual del dendrograma, buscándose un número de grupos razonable en función de las diferentes alturas y el número de clusters que se quiera obtener. No obstante, como se ve un único dendrograma puede servir para seleccionar distinto número de grupos. En el caso de la figura /ref{fig:plot3}, el nivel de corte para obtener tres grupos parece el más razonable, sobretodo si tenemos en cuenta los datos de partida representados en la figura /ref{fig:plot2}. Sin embargo, a veces la selección del número de grupos no es tan obvia. En este sentido, si tenemos un conocienito a priori del tipo de grupos que podríamos encontrar, el agrupamiento jerárquico podría no ser la mejor opción. 
+
+#### Algoritmo:
+
+El dendrograma se obtienen mediante un algortimo muy sencillo. Se comienza por definir algún tipo de medida de distancia entre cada par de observaciones (típicamente la distancia Euclídea, aunque hay muchas otras, `help("dist")`). Se comienza desde la base del árbol, donde cada observación es tratada como un cluster independiente. A partir de ahí, de forma iterativa, se van uniendo los clusters más cercanos entre sí hasta llegar a un único cluster que engloba a todas las observaciones, momento en el que el dendrograma se completa y se para. Esto queda reflejado, para las 6 primeras iteraciones, en la figura /ref{fig:rects}, que se corresponde con los datos mostrados anteriormente en el dendrograma de la figura /ref{fig:plot4}. 
+
+```{r, eval = TRUE, results='hide', echo = TRUE}
+set.seed(1)
+x <- matrix(rnorm(20), ncol = 2)
+hc <- hclust(dist(x))
+par(mfrow = c(2,3))
+# plot(x, ty = "n", xlab = "", ylab = "", asp = 1, main = "Iter 1")
+# text(x[hc$order,1], x[hc$order,2], hc$order)
+plot(x, ty = "n", xlab = "", ylab = "", asp = 1, main = "Iter 1")
+text(x[hc$order,1], x[hc$order,2], hc$order)
+rect(0.5,0.7,0.9,1.1, border = "green", lwd = 2)
+
+plot(x, ty = "n", xlab = "", ylab = "", asp = 1, main = "Iter 2")
+text(x[hc$order,1], x[hc$order,2], hc$order)
+rect(0.5,0.7,0.9,1.1, border = "green", lwd = 2)
+rect(0.22,0.67,0.95,1.3, border = "brown", lwd = 2)
+
+plot(x, ty = "n", xlab = "", ylab = "", asp = 1, main = "Iter 3")
+text(x[hc$order,1], x[hc$order,2], hc$order)
+rect(0.5,0.7,0.9,1.1, border = "green", lwd = 2)
+rect(0.22,0.67,0.95,1.3, border = "brown", lwd = 2)
+rect(0.1,-0.15,0.6,0.45, border = "purple", lwd = 2)
+
+plot(x, ty = "n", xlab = "", ylab = "", asp = 1, main = "Iter 4")
+text(x[hc$order,1], x[hc$order,2], hc$order)
+rect(0.5,0.7,0.9,1.1, border = "green", lwd = 2)
+rect(0.22,0.67,0.95,1.3, border = "brown", lwd = 2)
+rect(0.1,-0.15,0.6,0.45, border = "purple", lwd = 2)
+rect(-0.95,-0.75,-0.6,0.15, border = "red", lwd = 2)
+
+plot(x, ty = "n", xlab = "", ylab = "", asp = 1, main = "Iter 5")
+text(x[hc$order,1], x[hc$order,2], hc$order)
+rect(0.5,0.7,0.9,1.1, border = "green", lwd = 2)
+rect(0.22,0.67,0.95,1.3, border = "brown", lwd = 2)
+rect(0.1,-0.15,0.6,0.45, border = "purple", lwd = 2)
+rect(-0.95,-0.75,-0.6,0.15, border = "red", lwd = 2)
+rect(-0.7,0.45,-0.1,1.6, border = "cyan", lwd = 2)
+
+plot(x, ty = "n", xlab = "", ylab = "", asp = 1, main = "Iter 6")
+text(x[hc$order,1], x[hc$order,2], hc$order)
+rect(0.5,0.7,0.9,1.1, border = "green", lwd = 2)
+rect(0.22,0.67,0.95,1.3, border = "brown", lwd = 2)
+rect(0.1,-0.15,0.6,0.45, border = "purple", lwd = 2)
+rect(-0.95,-0.75,-0.6,0.15, border = "red", lwd = 2)
+rect(-0.7,0.45,-0.1,1.6, border = "cyan", lwd = 2)
+rect(0,-0.3,1,1.4, border = "orange", lwd = 2)
+```
+
+Algoritmo de agrupamiento jerárquico:
+
+ * Se comienza con un set de $n$ observaciones y una medida de distancia (p.ej. la distancia euclídea) entre cada par ${n /choose 2} = /frac{n(n-1)}{2}$ de disimilitudes. Cada observación es un cluster.
+ * Para $i = n, n-1, /dots ,2$:
+ * Se examinan todas las disimilitudes entre los $i$ clusters y se identifica el par de clusters cuya disimilitud es menor (es decir, más cercanos). Se unen ambos. La disimilitud entre ambos indica la altura en el eje vertical del dendrograma, a la cual se sitúa el punto de unión entre ambos grupos.
+ * Se calcula las nuevas disimilitudes entre pares de observaciones intra-cluster para los $n-1$ clusters restantes. 
+
+Uniones entre clusters:
+
+Como se ve, el algoritmo es sencillo, aunque falta por definir con más claridad cómo definir las uniones. Entre pares de observaciones sueltas está claro que la disimilitud se mide en función de la distancia entre ellas, pero ¿cómo definir la disimilitud entre dos clusters cuando uno de ellos o ambos contienen varias observaciones? (p. ej., el paso 2 o el paso 6 reflejados en la figura /ref{fig:rects}). Hay varios métodos de unión (en inglés `linkage`), algunos de los cuales (los principales) están resumidos brevemente en la tabla /ref{t.linkages}. Los más populares en análisis estadístico son del tipo `completa` (esta es la opción por defecto en la función de R `hclust`, {`complete`}), `promedio` (`average`) y `única` (`single`). Media y completa tienden a producir dendrogramas más equilibrados. Las disimilitudes calculadas en el paso (2b) por el algoritmo (cuadro /ref{hclust.frame}) dependen directamente del tipo de unión seleccionado (figura /ref{fig:linkages}) así como de la medida de disimilitud, afectando de manera muy importante al dendrograma resultante. En general, es importante seleccionar la medida de distancia en función de los datos analizados y el tipo de respuesta que se pretende obtener. En ocasiones, puede ser preferible obtener medidas de disimilitud basadas en correlación entre observaciones en lugar de su distancia.
+
+/begin{table}/label{t.linkages}
+/begin{center}
+/begin{tabular}{ | c | p{10cm} |}
+/hline
+`Tipo de unión` & `Descripción` // 
+/hline
+Completa & Maxima disimilitud entre grupos. Calcula todas las disimilitudes entre pares de observaciones dentro del cluster A y dentro del cluster B, y guarda `la mayor` de ellas. //
+/hline
+Única & Mínima disimilitud `intra`-grupos. Calcula todas las disimilitudes entre pares de observaciones dentro del cluster A y dentro del cluster B, y guarda `la menor` de ellas. Puede dar lugar a dendrogramas muy ramificados en que las observaciones se unen de una en una en cada iteración.//
+/hline
+Promedio & Disimilitud media entre clusters. Calcula todas las disimilitudes entre pares de observaciones dentro del cluster A y dentro del cluster B, y guarda `la media` de todas ellas. //
+/hline
+Centroide & Calcula la disimilitud entre el centroide del cluster A (un vector de medias de longitud $p$) y el centroide del cluster B. La unión entre centroides puede dar lugar a agrupamientos no deseables. //
+/hline
+/end{tabular}
+/caption{Resumen de los tipos de uniones más frecuentes en el agrupamiento jerárquico. Mas detalles en /texttt{help("hclust")}.}
+/end{center}
+/end{table}
+
+```{r, eval = TRUE, results='hide', echo = TRUE}
+# GENERA FIGURA 6
+set.seed(1)
+x <- matrix(rnorm(50), ncol = 2)
+par(mfrow=c(1,3))
+plot(hclust(dist(x), method = "complete"), col = "blue", axes = FALSE,
+     main = "Complete Linkage")
+plot(hclust(dist(x), method = "average"), col = "red", axes = FALSE,
+     main = "Average linkage")
+plot(hclust(dist(x), method = "single"), col = "olivedrab", axes = FALSE,
+     main = "Single linkage")
+```
+
+# Comentarios finales sobre las técnicas de agrupamiento y su aplicación práctica:
+
+Aunque las técnicas de agrupamiento pueden resultar extremadamente útiles en el campo del aprendizaje no supervisado, deben tenerse en cuenta varios aspectos prácticos para su uso adecuado.
+
+Algunas decisiones importantes que deben realizarse:
+
+ * ¿Debemos estandarizar los datos de alguna manera antes de comenzar con el agrupamiento?
+ * En el caso del agrupamiento jerárquico:
+ * ¿Qué medida de distancia debemos escoger? 
+ * ¿Qué tipo de unión aplicar?
+ * ¿Qué punto de corte seleccionar para determinar el número de grupos resultante?
+ * En el caso del agrupamiento K-medias, ¿cuántos grupos fijar?
+
+Todas estas decisiones tienen una repercusión importante en los resultados finales. En la práctica, no suele haber una única opción válida sino varias. Normalmente se buscan referencias previas en la literatura o bien se realizan diversas pruebas hasta dar con un resultado razonable y fácilmente interpretable.
+
+Siempre que apliquemos una técnica de clustering obtendremos un agrupamiento determinado de los datos. Por ejemplo, en la figura /ref{fig:linkages} hemos utilizado números generados de forma aleatoria sobre una distribución normal, lo cual desde un punto de vista práctico no tiene mucho sentido intentar agrupar. Del mismo modo, la presencia de extremos, u observaciones fuera de rango, puede distorsionar en gran medida la configuración de los grupos generados. Además, los métodos de agrupamiento en general son bastante sensibles a perturbaciones de los datos de entrada, por lo que modificaciones pequeñas en el set de observaciones puede dar lugar a cambios importantes en la asignación de los grupos.
+
+# Aplicación práctica con R
+
+## Introducción a la práctica
+
+En esta práctica ilustraremos de forma básica la implementación en R de las técnicas de agrupamiento k-medias y jerárquica. En la primera parte del guión ya has podido ver el código utilizado para generar las figuras. Ahora se trata de practicar este código y ver algún detalle más que puede ser interesante.
+
+## Clustering con k-medias
+
+El paquete `stats`, que se encuentra contenido en la instalación básica de R y cargado por defecto en la sesión de trabajo, contiene la función `k-means` que implementa el algoritmo `k-medias`.
+
+```{r, eval = FALSE, results='hide', echo = TRUE, warning=FALSE}
+? kmeans
+```
+
+Para comenzar a ilustrar su funcionamiento, vamos a considerar el dataset Iris que ya hemos utilizado anteriormente, en el que hay una clase separable y otras dos no separables:
+
+```{r, eval = TRUE, results='hide', echo = TRUE, warning=FALSE}
+str(iris)
+library(ggplot2)
+ggplot( data = iris, 
+  aes(x = Sepal.Length,y = Sepal.Width)) +  
+  geom_point(aes(color= Species)) +
+  ggtitle("Sepal Length Vs Width")
+```
+
+A continuación realizamos el clustering usando `kmeans`, indicando que deseamos tener tres grupos diferentes (argumento `centers = 3`):
+
+```{r, eval = TRUE, results='hide', echo = TRUE, warning=FALSE}
+kmModel<-kmeans(iris[,-5],3,nstart=1)
+summary(kmModel)
+## Point center of two attributes
+plot(iris[,c(1,2)],col=kmModel$cluster,main="K-Means")
+```
+
+La pertenencia de cada observación a los clusters indicados está contenida en el elemento `cluster` del objeto de salida, así como las distancias inter- e intra-grupo: 
+
+```{r, eval = TRUE, results='hide', echo = TRUE, warning=FALSE}
+kmModel$cluster
+kmModel$withinss ## Vector of within-cluster sum of squares, one component per cluster
+kmModel$betweenss ## The between-cluster sum of squares
+```
+
+Dado que en este caso tenemos las clases, podemos evaluar los grupos obtenidos:
+
+```{r, eval = TRUE, results='hide', echo = TRUE, warning=FALSE}
+confusionMatrix(as.factor(as.numeric(iris[,5])),as.factor(kmModel$cluster))
+```
+
+Notar que la evaluación del clustering depende de la interpretación de las etiquetas obtenidas y su correspondencia con las clases originales. Por otra parte, la inicialización aleatoria de los centroides da lugar a diferentes agrupaciones y correspondencias:
+
+```{r, eval = TRUE, results='hide', echo = TRUE, warning=FALSE}
+k<-3
+par(mfrow=c(2,3))
+j<-6
+while(j>0){
+  set.seed(j)
+  j<-j-1
+  km<-kmeans(iris[,-5],centers=k)
+  plot(iris[,c(1,2)],type="n")
+  for(i in 1:k){
+	points(iris[km$cluster==i,c(1,2)],pch=19,col=i)
+  }
+  mtext(format(km$tot.withinss,digits=2))
+}
+```
+
+El elemento `km$tot.withinss` es la suma de cuadrados total de la variación `intra-cluster`, que es precisamente la que se intenta minimizar a través del algoritmo k-medias. Las sumas de cuadrados individuales para cada cluster están almacenadas en `km$withinss`. Es recomendable hacer uso del argumento `nstart` siempre, y con un valor suficientemente alto (digamos 20 - 50),  para que el algoritmo se ejecute varias veces y asegurar que no nos quedamos atrapados en un óptimo local que no proporcione una separación óptima de los grupos. Además, es importante el uso de `set.seed()`, de modo que se asegura que la asignación aleatoria de clusters en el paso 1 del algoritmo puede replicarse, y su resultado sea perfectamente reproducible.
+
+Como vemos, el algoritmo es capaz de realizar la separación de la clase linealmente separable pero tiene dificultades, como era de esperar, al separar los otros grupos.
+
+En el ejemplo anterior sabíamos de antemano que los datos estaban agrupados en tres clusters. Sin embargo, en aplicaciones reales, normalmente desconocemos el número de grupos subyacente por lo que en ocasiones debemos probar varias combinaciones y evaluar, en base a algún parámetro del modelo, que `k` es óptimo.
+
+```{r, eval = TRUE, results='hide', echo = TRUE, warning=FALSE}
+## How much clusters should we use?
+totWithinss<-c(1:15)
+for(i in 1:15){
+  kmModel<-kmeans(iris[,-5],centers=i,nstart=1)
+  totWithinss[i]<-kmModel$tot.withinss
+}
+plot(x=1:15,y=totWithinss,type="b",
+  xlab="N. Of Cluster",ylab="Within groups sum of squares")
+```
+
+### MNIST data set from kaggle
+
+En algunos casos, tenemos un conocimiento previo del número de clases que queremos identificar. En estos casos, ¿es posible utilizar un método de clustering como un método de clasificación? Esta pregunta es la que trataremos de responder en esta práctica. Para ello, aplicaremos un algoritmo de clustering al dataset [MNIST](https://www.kaggle.com/c/digit-recognizer/data), ya descrito en prácticas anteriores y analizamos si es capaz de separar correctamente los diferentes números:
+
+```{r, eval = TRUE, echo = TRUE, warning=FALSE, results = 'hide'}
+# Reading dataset
+mnist_data <- read_csv("~/Dropbox/M1966_DataMining/datasets/train.csv")
+nrows <- 10000
+indSample <- sample(dim(mnist_data)[1], nrows, replace = FALSE)
+mnist_data <- mnist_data[indSample,]
+
+kmModel<-kmeans(mnist_data[,-1], centers=10, nstart=1)
+# Evaluatin the discrimination:
+par(mfrow=c(3,4))
+for (i in 1:10){
+  hist(mnist_data$label[which(kmModel$cluster == i)])
+}
+```
+
+Los histogramas reflejan ciertas cifras que se discriminan correctamentem si bien en otros clusters existe una mayor disparidad. Veamos los centroides asociados a cada cluster a ver si se corresponden con la cifra reflejada en el histograma.
+
+```{r, eval = TRUE, echo = TRUE, warning=FALSE, results = 'hide'}
+# Building a 3*3 grid
+par(mfrow=c(3,4))
+for (i in 1:10){
+  # Changing i-th center to matrix
+  mat <- matrix(as.numeric(kmModel$centers[i,]), nrow = 28, ncol=28, byrow = FALSE)
+  # plot
+  image(mat, main=paste0("K Means ", i), col=paste("gray", 1:99,sep=""), asp = 1)
+}
+```
+
+Como se ve en la imagen, el orden de los clústeres no se corresponde, o no tiene porque hacerlo, con el de las cifras, surgiendo una primera pregunta, ¿qué cifra asignamos a cada cluster? Por otro lado, ¿quedan todas las cifras clasificadas a través del clustering?
+
+Uno de los parámetros que podríamos ajustar es el número de iteraciones del algoritmo. Observando el resultado obtenido anteriormente, ¿qué ocurre al incrementar el número de iteraciones? ¿permite conseguir una mejor discriminación de las 10 cifras?
+
+```{r, eval = TRUE, echo = FALSE, warning=FALSE, results = 'hide'}
+kmModel<-kmeans(mnist_data[,-1], centers=10, nstart=1, iter.max = 1000)
+par(mfrow=c(3,4))
+for (i in 1:10){
+  hist(mnist_data$label[which(kmModel$cluster == i)])
+}
+```
+
+¿Qué ocurre con los centroides?
+
+```{r, eval = TRUE, echo = FALSE, warning=FALSE, results = 'hide'}
+# Building a 3*3 grid
+par(mfrow=c(3,4))
+for (i in 1:10){
+  # Changing i-th center to matrix
+  mat <- matrix(as.numeric(kmModel$centers[i,]), nrow = 28, ncol=28, byrow = FALSE)
+  # plot
+  image(mat, main=paste0("K Means ", i), col=paste("gray", 1:99,sep=""), asp = 1)
+}
+```
+
+¿Tiene sentido aplicar otros métodos de clustering de los vistos? (Gaussian Mixtures sufren mucho con la dimensionalidad del problema de modo que es preferible, de usarlo, aplicar previamente PCs u otro método de reducción de la dimensión de los datos).
+
+```{r, eval = TRUE, echo = TRUE, warning=FALSE, results = 'hide'}
+cmModel <- cmeans(mnist_data[,-1], 10, iter.max = 1000)
+```
+
+Compara las matrices de confusión de ambos métodos de segmentación entendidos como método de clasificación, ¿las conclusiones obtenidas son coherentes con las derivadas de los histogramas?
+
+```{r, eval = FALSE, echo = FALSE, warning=FALSE, results = 'hide'}
+## gmModel <- Mclust(mnist_data[,which(apply(mnist_data[,-1], FUN = "sd", MARGIN = c(2)) != 0)[1:200]], 1:10)
+## tc.cmModel <- confusionMatrix(as.factor(cmModel$cluster-1),as.factor(mnist_data$label)) %>% print()
+## tc.kmModel <- confusionMatrix(as.factor(kmModel$cluster-1),as.factor(mnist_data$label)) %>% print()
+# Building a 3*3 grid
+par(mfrow=c(3,4))
+for (i in 1:10){
+  # Changing i-th center to matrix
+  mat <- matrix(as.numeric(cmModel$centers[i,]), nrow = 28, ncol=28, byrow = FALSE)
+  # plot
+  image(mat, main=paste0("C Means ", i, mean(cmModel$membership[which(cmModel$cluster == i),i])), col=paste("gray", 1:99,sep=""), asp = 1)
+}
+```
+
+### Práctica: Weather typping - Técnicas de segmentación
+
+En primer lugar consideraremos los tipos de tiempo para identificar patrones atmosféricos asociados a diferentes momentos del año y a regímenes de precipitación característicos.
+
+Las variables del modelo atmosférico (predictores) serán el Geopotencial, la temperatura del aire, la humedad específica y la presión a nivel del mar en un dominio sobre la Península Ibérica para el periodo 1979-2008. La variable `x` contiene las variables del modelo.
+
+```{r, echo=TRUE, eval=TRUE, results='hide', message=FALSE, warning=FALSE}
+## load data
+# Predictors: Z500,T850,T700,T500,2T,Q850,Q500,SLP
+rdata = "C:/Users/Dave Mont/Desktop/Master_of_DataScience/Data_Mining/S12. Ensembles Bagging y boosting/meteo.Rdata"
+load(rdata)
+longitud <- seq(-10,4,2) #con un paso de 2º
+latitud <- seq(36,44,2) #con un paso de 2º
+years <- 1979:2008
+# Predictand: precipitation in Lisboa.
+location <- c(-9.15,38.7)
+```
+
+Consideraremos en primer lugar un único punto del modelo y la variable de temperatura del aire. Las estaciones del año oficiales para el hemisferio boreal según la organización meteorológica mundial (WMO) son la siguientes:
+
+ * Invierno: diciembre, enero, febrero (DJF)
+ * Primavera: marzo, abril, mayo (MAM)
+ * Verano: junio, julio, agosto (JJA)
+ * Otoño: septiembre, octubre, noviembre (SON)
+
+```{r, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+## See, for example, ? seq.Date and ? months
+fechas <- seq.Date(from = as.Date("1979/1/1"), to = as.Date("2008/12/31/"), by = "day")
+months(fechas)
+```
+
+Sabiendo esto, realiza un agrupamiento de la serie de temperatura seleccionada considerando 4 clusters. A partir de los resultados obenidos responde a las siguientes preguntas: 
+
+```{r}
+names(x)
+```
+
+
+ * ¿Qué sentido tiene la agrupación por valores de temperatura realizada?
+ * ¿Para cada estación del año, cual es el porcentaje de datos correctamente agrupados?
+ * ¿Cuáles son las estaciones del año con mayor tasa de error? Razona la respuesta.
+ * ¿Cómo se comporta la precipitación en cada uno de los clústers obtenidos?
+
+Realiza el mismo agrupamiento considerando la matriz de temperaturas sobre la Península Ibérica, ¿cómo cambian los resultados respecto a la clasificación anterior?
+
+Considerando ahora 12 clústers (~ clasificación mensual), refleja el ciclo anual de precipitación obtenido y compáralo com el ciclo anual observado, ¿existe una correspondencia entre ambas series?
+
+```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+fechas <- seq.Date(from = as.Date("1979/1/1"), to = as.Date("2008/12/31/"), by = "day")
+meses <- months(fechas)
+annualCycle <- NULL
+for (m in unique(meses)){
+  annualCycle <- c(annualCycle, sum(y[which(meses == m)], na.rm = TRUE)/length(1979:2008))
+}
+par(mfrow=c(1,1))
+plot(annualCycle, type = "l")
+```
+
+Vamos a utilizar ahora las técnicas de clustering para realizar una predicción condicionada a `tipos de tiempo`, es decir a patrones atmosféricos característicos definidos como los centroides de un método de clustering.
+
+Las variables del modelo atmosférico (predictores) serán el Geopotencial, la temperatura del aire, la humedad específica y la presión a nivel del mar en un dominio sobre la Península Ibérica para el periodo 1979-2008. La variable `x` contiene las variables del modelo.
+
+```{r, echo=TRUE, eval=TRUE, results='hide', message=FALSE, warning=FALSE}
+library(fields)
+library(FNN)
+library(class)
+par(mfrow=c(2,2))
+image.plot(x = longitud, y = latitud, z = t(matrix(x[1,1:(length(longitud)*length(latitud))], nrow=length(latitud), ncol=length(longitud))), xlab = "longitud", ylab = "latitud", main = "Geopotential 500 hPa")
+image.plot(x = longitud, y = latitud, z = t(matrix(x[1,121:(120+length(longitud)*length(latitud))], nrow=length(latitud), ncol=length(longitud))), xlab = "longitud", ylab = "latitud", main = "Temperature 500 hPa")
+image.plot(x = longitud, y = latitud, z = t(matrix(x[1,241:(240+length(longitud)*length(latitud))], nrow=length(latitud), ncol=length(longitud))), xlab = "longitud", ylab = "latitud", main = "Specific Humidity 500 hPa")
+image.plot(x = longitud, y = latitud, z = t(matrix(x[1,281:(280+length(longitud)*length(latitud))], nrow=length(latitud), ncol=length(longitud))), xlab = "longitud", ylab = "latitud", main = "Sea Level Pressure")
+```
+
+Por otra parte, trataremos de predecir la precipitación en Lisboa (-9.15, 38.7) para ese mismo periodo contenida en la variable `y`.
+
+Como hemos visto, las variables predictoras estaban altamente correlacionadas y presentan rangos muy diferentes, de modo que podría ser útil aplicar PCAs sobre los datos rescalados. En esta ocasión no utilizaremos PCs, de modo que definamos las muestras de entrenamiento y test.
+
+```{r, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+# train and test separation (75% and 25%, respectively)
+indtrain = sort(sample(length(y), round(0.75*length(y))))
+
+# 75% train
+x.train = x[indtrain, ]
+y.train = y[indtrain]
+
+# 25% test
+x.test = x[-indtrain, ]
+y.test = y[-indtrain]
+
+# Para calcular las PCAs
+# PCs (train)
+## pc.train <- prcomp(x.train, center = TRUE, scale. = TRUE)
+## plot(summary(pc.train)$importance[3,]*100, type = "b", pch = "o", 
+##      xlab = "number of PCs", ylab = "EV (%)")
+## grid()
+# PCs (test)
+## pc.test <- predict(pc.train, newdata = x.test)
+```
+
+Consideraremos dos umbrales, 1 mm y 20 mm, de precipitación para diferenciar días de precipitación y días de precipitación intensa. Consideraremos el método `KNN` para realizar la clasificación, cuyo código podría ser algo así:
+
+```{r, echo=TRUE, eval=FALSE, results='hide', message=FALSE, warning=FALSE}
+kmModel <- kmeans(x.train, 100, iter.max = 1000, nstart =20)
+yCentroid <- knn.reg(train = x.train, test = kmModel$centers, y = y.train, k = 1)
+# knn.reg application
+pred <- knn.reg(train = kmModel$centers, test = x.test, y = yCentroid$pred, k = 1)
+```
+
+Realizar la predicción con y sin clustering, y analizar si las predicciones mejoran de forma global o si existe algún clustering para el cual se da una clara mejoría en la predicción. Incluir en la interpretación de los resultados, el coste computacional asociado a cada caso.
+
+```{r}
+predy <- knn.reg(train = x.train, test = x.test, y = y.train, k = 1)
+```
+
+```{r}
+plot(pred$pred)
+```
+
+```{r}
+plot(predy$pred)
+```
+
+```{r}
+RMSE(pred$pred,y.test)
+```
+
+```{r}
+RMSE(predy$pred,y.test)
+```
+
+
+En líneas generales:
+
+ * ¿cambian los resultados de validación al aplicar un clustering previamente?
+ * ¿Hay clusters cuyas predicciones sean sensiblemente peores que el resto?, ¿y que el total?
+ * ¿Se concentran las precipitaciones intensas/leves en alguno de los tipos de tiempo?, ¿se asocian los regímenes de precipitación con una mejor/peor predicción por parte del KNN?
