@@ -1,0 +1,361 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Práctica 1 - Redes neuronales con KERAS
+Grupo de Meteorología
+20 de febrero de 2018
+¿Qué es KERAS?
+KERAS es una librería diseñada por el francés François Chollet, ingeniero de Google, que permite diseñar de manera sencilla una amplia gama de arquitecturas de redes neuronales basadas en los recientes avances en el campo de deep learning. KERAS se apoya en otras librerías de diseño de redes neuronales, como TensorFlow o Theano, pero su diferencia radica en la facilidad para el usuario de utilizar KERAS en comparación con las otras. Dicho de otro modo, KERAS permite de una manera sencilla y amigable para el usuario, utilizar librerías potentes en el ámbito del deep learning. Esta facilidad viene de la mano de un diseño modular. Como veremos, KERAS define las capas como objetos con ciertas propiedades y por tanto una red se construye como una secuencia de objetos o capas. Además, KERAS permite implementar de manera sencilla los avances de deep learning: redes convolucionales, redes recurrentes,funciones de activación ReLu, stochastic gradient descent …
+
+Las ventajas de KERAS se resumen en:
+
+El código se puede correr tanto en la CPU como en GPU.
+Permite implementar de manera sencilla y rápida estructuras de deep learning gracias a su estructura secuencial de capas.
+Se apoya en librerías de deep learning: TensorFlow, CNTK y Theano.
+¿Cómo instalar KERAS?
+Recientemente, KERAS se encuentra en el repositorio de CRAN. Por ello, su instalación se realiza mediante el sistema de instalación de paquetes visto hasta ahora. Sin embargo, como KERAS se apoya en TensorFlow, para completar la instalación hay que recurrir a la función “install_keras()” de la librería keras.
+
+```{r}
+install.packages("keras")
+library(keras)
+install_keras()
+```
+
+¿Cómo construir una red neuronal en KERAS?
+Para guiarnos durante la elaboración de nuestra primera red neuronal en KERAS vamos a usar el dataset MNIST. Recordamos que el MNIST cuenta con 70.000 imágenes 28x28 pixeles, siendo 60.000 para entrenar y 10.000 utilizadas como test. La librería KERAS ya cuenta internamente con el dataset MNIST por lo que no es necesario descargarlo de cualquier otro repositorio de datos como Kaggle. Por tanto, para cargar los datos mediante KERAS:
+
+```{r}
+library(keras)
+mnist <- dataset_mnist()
+x_train <- mnist$train$x
+y_train <- mnist$train$y
+x_test <- mnist$test$x
+y_test <- mnist$test$y
+str(x_train)
+##  int [1:60000, 1:28, 1:28] 0 0 0 0 0 0 0 0 0 0 ...
+```
+
+Observamos como el x_train es una array de 3 dimensiones, donde la primera dimensión es la observación/imagen y las 2 siguientes la posición del pixel. Ahora bien, para tener la estructura de las redes neuronales vistas hasta ahora, los predictores (o pixeles en este caso) representan una única capa y por tanto es más adecuado concatenar los predictores, recreando la estructura de capa de entrada de una red neuronal tradicional.
+
+```{r}
+dim(x_train) <- c(nrow(x_train), 784)
+dim(x_test) <- c(nrow(x_test), 784)
+str(x_train)
+##  int [1:60000, 1:784] 0 0 0 0 0 0 0 0 0 0 ...
+```
+
+EL resultado de la concatenación es esta vez una matrix de dos dimensiones, donde la primera dimensión representa la observación/imagen y la siguiente los 28 * 28 = 784 pixeles. Por otra parte, también hay que reescalar los datos para que no haya problemas de escala entre predictores:
+
+```{r}
+x_train <- x_train / 255
+x_test <- x_test / 255
+```
+
+Una vez preprocesada la capa de entrada, constituida por x_train o x_test, hay que darle a y_train/y_test la estructura de capa de salida que deseemos. Es decir, la pregunta que debemos hacernos es, ¿cuántas neuronas de salida va a tener mi red? Una manera de abordar el problema (y la que se usa en la actualidad) es introducir tantas neuronas de salida como clases a identificar. En este caso pretendemos identificar 10 clases: si el número es un 0, o un 1, o un 2, …. o un 9. Por tanto, tendremos 10 neuronas en la capa de salida, siendo cada una de ellas la responsable de identificar una de las 10 clases en concreto. Por ejemplo: la neurona de salida número 1 es la encargada de identificar si el número que “ve” la red es un 0 o no lo es; la neurona de salida número 2 es la encargada de identificar si el número que “ve” la red es un 1 o no lo es, …, y así sucesivamente hasta 10 neuronas.
+
+Para que nuestros datos tengan estructura de 10 neuronas ocultas hay que redimensionar nuestros datos de manera que se convierta en una matriz de dos dimensiones: donde la primera dimensión es la observación y la segunda la neurona oculta. Afortunadamente, KERAS tiene predefinida esta función que es capaz de redimensionar los datos por categorías.
+
+```{r}
+head(y_train)
+## [1] 5 0 4 1 9 2
+```
+
+```{r}
+y_train <- to_categorical(y_train, 10)
+head(y_train)
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+## [1,]    0    0    0    0    0    1    0    0    0     0
+## [2,]    1    0    0    0    0    0    0    0    0     0
+## [3,]    0    0    0    0    1    0    0    0    0     0
+## [4,]    0    1    0    0    0    0    0    0    0     0
+## [5,]    0    0    0    0    0    0    0    0    0     1
+## [6,]    0    0    1    0    0    0    0    0    0     0
+```
+
+Podemos ver como la primera imagen que era un número 5, se ha convertido a binario: ahora es un 1 en la columna 6 (es decir, la sexta neurona oculta) y 0 en las demás (ya que no es ningún otro número que no sea un 6).
+
+Una vez que ya están preparados los datasets, podemos proceder a construir nuestro modelo. La construcción de un modelo mediante esta librería se estructura en una serie de pasos:
+
+Definimos como va a interactuar el usuario con KERAS: de manera secuencial o de manera funcional: En el primer caso la red es una secuencia lineal de capas, mientras que el segundo caso permite una elaboración de redes con topologías más complejas (como por ejemplo redes acícliclas). En este curso tan solo vamos a ver la manera secuencial de interactuar con KERAS.
+Definimos la estructura de la red: tipo de capa (dense, convolutional, …), número de capas, número de neuronas ocultas, función de activación, penalización de los pesos …
+Compilamos el modelo: en esta parte se introduce la función de coste a minimizar, el algoritmo de aprendizaje (backpropagation, backpropagation + momentum, …).
+Se ajusta el modelo, es decir se entrena. KERAS proporciona herramientas de visualización del error de ajuste.
+De acuerdo con estos pasos vamos a elaborar una red neuronal de dos capas con función de activación sigmoidal tanto en las capas ocultas como en la capa de salida.
+
+Paso 1. Definir nuestro modelo como una estructura secuencial.
+
+```{r}
+model1 <- keras_model_sequential() 
+str(model1)
+## Model
+## ___________________________________________________________________________
+## Layer (type)                     Output Shape                  Param #     
+## ===========================================================================
+## Total params: 0
+## Trainable params: 0
+## Non-trainable params: 0
+## ___________________________________________________________________________
+```
+
+Paso 2. Definimos la topología de la red neuronal.
+
+```{r}
+model1 %>% 
+  layer_dense(units = 100, input_shape = 784, activation = "sigmoid") %>% # Primera capa oculta
+  layer_dense(units = 100, activation = "sigmoid") %>% # Segunda capa oculta
+  layer_dense(units = 10 , activation = "sigmoid") 
+str(model1)
+## Model
+## ___________________________________________________________________________
+## Layer (type)                     Output Shape                  Param #     
+## ===========================================================================
+## dense_1 (Dense)                  (None, 100)                   78500       
+## ___________________________________________________________________________
+## dense_2 (Dense)                  (None, 100)                   10100       
+## ___________________________________________________________________________
+## dense_3 (Dense)                  (None, 10)                    1010        
+## ===========================================================================
+## Total params: 89,610
+## Trainable params: 89,610
+## Non-trainable params: 0
+## ___________________________________________________________________________
+```
+
+Podemos observar como hemos definido una red con 3 capas (la capa de entrada no cuenta como capa), teniendo las 2 capas ocultas 100 neuronas ocultas y la última capa es la de salida con 10 neuronas ocultas.
+
+Paso 3. Definir cómo va a aprender la red: algoritmo de aprendizaje y función a minimizar. KERAS ya tiene incluidos una gran variedad de algoritmos de aprendizaje (“rmsprop” or “adagrad”, “backpropagation”, …), así como funciones objetivo (“mean square error”, “root mean square error”, …). Más información sobre los distintos tipos de algoritmos de aprendizaje y de las funciones objetivo prediseñadas que tiene KERAS se pueden encontrar en el siguiente link: . Nosotros en este caso vamos a entrenar utilizando lo visto hasta ahora: minimizar el mean square error mediante gradient descent utilizando el algoritmo de backpropagation.
+
+```{r}
+model1 %>% compile(
+  optimizer = optimizer_sgd(lr = 0.1),
+  # optimizer = optimizer_sgd(lr = 0.001, momentum = 0.001), # si quisiésemos backpropagation con momento.
+  loss = "mse",
+  metrics = "accuracy"
+)
+```
+
+Paso 4. Entrenar el modelo.
+
+```{r}
+history <- model1 %>% fit(x_train, y_train, epochs = 100, batch_size = 100)
+plot(history)
+```
+```{r}
+k_clear_session()
+```
+
+```{r}
+model2 <- keras_model_sequential() 
+
+model2 %>% 
+  layer_dense(units = 100, input_shape = 784, activation = "sigmoid") %>% # Primera capa oculta
+  #layer_dense(units = 100, activation = "sigmoid") %>% # Segunda capa oculta
+  layer_dense(units = 10 , activation = "sigmoid") 
+str(model2)
+```
+
+```{r}
+model2 %>% compile(
+  optimizer = optimizer_adagrad(lr = 0.1),
+  # optimizer = optimizer_sgd(lr = 0.001, momentum = 0.001), # si quisiésemos backpropagation con momento.
+  loss = "mae",
+  metrics = "accuracy"
+)
+```
+
+Paso 4. Entrenar el modelo.
+
+```{r}
+history <- model2 %>% fit(x_train, y_train, epochs = 30, batch_size = 100)
+plot(history)
+```
+
+
+En la figura anterior podemos ver la evolución del error (en este caso el mean square error) y la evolución de la métrica (en este caso el accuracy), por época. Se observa como el error disminuye en cada época y el accuracy aumenta, como es de esperar.
+
+Para evaluar nuestro modelo en un conjunto nuevo de datos se utiliza la manera tradicional, es decir, utilizando la función predict.
+
+```{r}
+pred <- predict(model1,x_test)
+```
+
+Aunque KERAS también tiene dos funciones propias para predecir en un nuevo conjunto de datos
+
+```{r}
+# evaluate(x_test,y_test) # Te devuelve la métrica y el error (función objetivo) en el nuevo dataset.
+pred <- predict_classes(model1,x_test)
+rbind(y_test,pred)[2,1:10]
+##  [1] 7 2 1 0 4 1 4 9 6 9
+```
+
+¿Cómo saber si nuestra red sobreajusta y cómo evitarlo?
+El gran número de parámetros a ajustar en una red neuronal las hace propensas a sobreajustar si el número de datos no es suficiente. Además, mediante gradient descent nos movemos en la dirección que minimiza el error en los datos de train pero que no tiene por qué ser la misma dirección que en otra muestra de la misma población. Para controlar si el error difiere entre distintas muestras de la misma población, se suele dividir el dataset de train en un dataset A, que es el que se utiliza para entrenar, y un dataset B, que es el que se usa como dataset de control. Para controlar esta divergencia en los errores se dibuja el error estimado por época, de manera que se pueda observar en qué momento del aprendizaje la red empieza a ajustar. La separación del dataset de train en dos (A y B) se puede realizar directamente a la hora de ajustar el modelo.
+
+```{r}
+circle = read.csv("C:/Users/Dave Mont/Desktop/Master_of_DataScience/Machine_Learning_I/1_Backpropagation/circle.csv")
+```
+
+```{r}
+k_clear_session()
+```
+
+
+```{r}
+circlemodel <- keras_model_sequential() 
+circlemodel %>% 
+  layer_dense(units = 2, input_shape = 2, activation = "sigmoid",kernel_regularizer = regularizer_l1(0.0001)) %>% # Primera capa oculta
+  layer_dense(units = 1 , activation = "sigmoid") 
+
+circlemodel %>% compile(
+  optimizer = optimizer_sgd(lr = 0.1),
+  # optimizer = optimizer_sgd(lr = 0.001, momentum = 0.001), # si quisiésemos backpropagation con momento.
+  loss = "mse",
+  metrics = "accuracy"
+)
+history <- circlemodel %>% fit(as.matrix(circle[,-3]),as.matrix(circle[,3]), epochs = 20, validation_split = 0.3)
+# en este caso el 20% de los datos de train se van a utilizar como dataset de control y NUNCA se van a usar para entrenar.
+plot(history)
+```
+
+
+
+```{r}
+model2 <- keras_model_sequential() 
+model2 %>% 
+  layer_dense(units = 100, input_shape = 784, activation = "sigmoid") %>% # Primera capa oculta
+  layer_dense(units = 100, activation = "sigmoid") %>% # Segunda capa oculta
+  layer_dense(units = 10 , activation = "sigmoid") 
+
+model2 %>% compile(
+  optimizer = optimizer_sgd(lr = 0.1),
+  # optimizer = optimizer_sgd(lr = 0.001, momentum = 0.001), # si quisiésemos backpropagation con momento.
+  loss = "mse",
+  metrics = "accuracy"
+)
+history <- model2 %>% fit(x_train, y_train, epochs = 100, batch_size = 100, validation_split = 0.2)
+# en este caso el 20% de los datos de train se van a utilizar como dataset de control y NUNCA se van a usar para entrenar.
+plot(history)
+```
+
+¿Cómo obtener información sobre el modelo inferido?
+Aparte de calcular las predicciones, uno puede querer saber cuales han sido los valores de los coeficientes estimados así como los gradientes. Una situación en la que uno puede estar interesado en esta información es, por ejemplo, cuando regulariza el modelo mediante la norma L1. Recordamos que este tipo de regularización hace 0 algunos de los coeficientes, generalmente aquellos que conectan con neuronas irrelevantes para la predicción en cuestión, limitando la complejidad del modelo. Puede ser interesante, en el caso de las imágenes, ver que pixeles son los más relevantes a la hora de determinar qué número infiere el modelo que está viendo. Por ello, en esta sección vamos a 1) aprender a introducir este tipo de penalización en las redes neuronales mediante KERAS y 2) aprender a obtener los coeficientes del modelo.
+
+Para introducir este tipo de penalización hay que especificarlo a la hora de definir la topología de la red neuronal. Para ver la penalización sobre el campo original (capa de entrada), vamos a realizar una regresión lineal.
+
+```{r}
+# Regularizacion L1
+model3 <- keras_model_sequential() 
+model3 %>% 
+  layer_dense(units = 10, input_shape = 784, activation = "sigmoid", kernel_regularizer = regularizer_l1(0.0001))
+
+model3 %>% compile(
+  optimizer = optimizer_sgd(lr = 0.5, momentum = 0.5),
+  loss = "mse",
+  metrics = "accuracy"
+)
+history3 <- model3 %>% fit(x_train, y_train, epochs = 20, batch_size = 100, validation_split = 0.2)
+
+# Regularizacion L2
+model4 <- keras_model_sequential() 
+model4 %>% 
+  layer_dense(units = 10, input_shape = 784, activation = "sigmoid", kernel_regularizer = regularizer_l2(0.0001))
+
+model4 %>% compile(
+  optimizer = optimizer_sgd(lr = 0.5, momentum = 0.5),
+  loss = "mse",
+  metrics = "accuracy"
+)
+history4 <- model4 %>% fit(x_train, y_train, epochs = 20, batch_size = 100, validation_split = 0.2)
+par(mfrow = c(1,2))
+plot(history3); plot(history4)
+```
+
+Para ver qué coeficientes ha estimado se hace lo siguiente:
+
+```{r}
+weightsL1 <- get_layer(object = model3, index = 1L)$get_weights()[[1]] 
+biasL1 <- get_layer(object = model3, index = 1L)$get_weights()[[2]]
+str(weightsL1)
+##  num [1:784, 1:10] 2.86e-05 3.14e-05 3.35e-05 -4.43e-05 2.58e-05 ...
+```
+
+
+```{r}
+weightsL2 <- get_layer(object = model4, index = 1L)$get_weights()[[1]] 
+biasL2 <- get_layer(object = model4, index = 1L)$get_weights()[[2]]
+str(weightsL2)
+##  num [1:784, 1:10] 0.007633 0.00744 -0.012589 -0.007045 0.000866 ...
+```
+
+
+Podemos visualizar los pesos:
+
+```{r}
+dim(weightsL1) <- c(28,28,10)
+dim(weightsL2) <- c(28,28,10)
+par(mfrow = c(2,5))
+image(weightsL1[,,1], col = gray.colors(10, start = 0, end = 1))
+image(weightsL1[,,2], col = gray.colors(10, start = 0, end = 1))
+image(weightsL1[,,3], col = gray.colors(10, start = 0, end = 1))
+image(weightsL1[,,4], col = gray.colors(10, start = 0, end = 1))
+image(weightsL1[,,5], col = gray.colors(10, start = 0, end = 1))
+image(weightsL2[,,1], col = gray.colors(10, start = 0, end = 1))
+image(weightsL2[,,2], col = gray.colors(10, start = 0, end = 1))
+image(weightsL2[,,3], col = gray.colors(10, start = 0, end = 1))
+image(weightsL2[,,4], col = gray.colors(10, start = 0, end = 1))
+image(weightsL2[,,5], col = gray.colors(10, start = 0, end = 1))
+```
+
+¿Cuál es el beneficio entre usar KERAS y una librería más tradicional de redes neuronales?
+Aparte de los beneficios relacionados con las técnicas de deep learning que son accesibles mediante la librería KERAS, hay otro beneficio importante con respecto a las librerías tradicionales: la velocidad de computo. En anteriores prácticas vimos como diseñar redes neuronales mediante la librería RSNNS. En esta sección vamos a comparar la velocidad de realizar una época para una misma configuración (número de capas y de neuronas) en ambas librerías.
+```{r}
+#ejercicio con iris
+
+k_clear_session()
+```
+```{r}
+library(ISLR)
+data(iris)
+data ->iris
+set.seed(2)
+
+```
+
+```{r}
+library(RSNNS)
+timeRSNNS_begin <- Sys.time() 
+model_RSNNS <- mlp(x_train,y_train, linOut = FALSE,
+                   learnFunc = "Std_Backpropagation", learnFuncParams = c(0.2),
+                   size = c(10),
+                   maxit = 1)
+timeRSNNS_end <- Sys.time()
+timeRSNNS <- timeRSNNS_end - timeRSNNS_begin
+
+
+
+model_KERAS <- keras_model_sequential() 
+model_KERAS %>% 
+  layer_dense(units = 10, input_shape = 784, activation = "sigmoid") %>% # Capa oculta 
+  layer_dense(units = 10, activation = "sigmoid") # Capa de salida
+model_KERAS %>% compile(
+  optimizer = optimizer_sgd(lr = 0.2),
+  loss = "mse"
+)
+timeKERAS_begin <- Sys.time() 
+model_KERAS %>% fit(x_train, y_train, epochs = 1, batch_size = 60000)
+timeKERAS_end <- Sys.time()
+timeKERAS <- timeKERAS_end - timeKERAS_begin
+timeRSNNS
+## Time difference of 10.87322 secs
+timeKERAS
+## Time difference of 0.6284597 secs
+```
+
+Pero aun hay más …
+En esta práctica hemos visto como diseñar redes neuronales tradicionales pero con una librería más potente, como es KERAS. Hemos visto que esta librería, aparte de versatil en el diseño de las redes es bastante rápida. En un simple ejemplo hemos visto como para una misma configuración de red, la estimación de los parámetros era 60 veces más rápido que con una librería tradicional!!!
+
+En cuanto al diseño de las redes hemos visto las capas densas (las que están totalmente conectadas con la siguiente capa y hacia delante). Sin embargo, también hay objetos para capas convolucionales y recurrentes, por lo que la implementación de este tipo de capas (complejas a nivel de programación a simple vista) también resulta sencilla. Veremos más en siguientes prácticas pero si alguien está interesado el link a la página de KERAS es este: https://keras.io/ y la página de wikipedia: https://en.wikipedia.org/wiki/Keras.
+
+Un aspecto importante de KERAS es que es una librería diseñada para python. Por tanto, a nivel de código interno, el lenguage de programación es python y no R. Sin embargo hay una interfaz de R que nos permite utilizar KERAS en RStudio.

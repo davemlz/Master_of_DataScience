@@ -1,0 +1,56 @@
+digraph G {
+
+    #Punto 1
+    persona -> brazo1[label = "tiene"]
+    persona -> brazo2[label = "tiene"]
+    
+    brazo1 -> brazo[label = "instancia de"]
+    brazo2 -> brazo[label = "instancia de"]
+    
+    persona -> pierna1[label = "tiene"]
+    persona -> pierna2[label = "tiene"]
+    
+    pierna1 -> pierna[label = "instancia de"]
+    pierna2 -> pierna[label = "instancia de"]
+    
+    # Punto 2
+    hombre -> persona[label = "subclase de"]
+    mujer -> persona[label = "subclase de"]
+    
+    # Punto3
+    jugador_baloncesto -> hombre[label = "subclase de"]
+    
+    # Punto 4
+    escolta -> jugador_baloncesto[label = "subclase de"]
+    Michael_Jordan -> escolta[label = "instancia de"]
+    
+    # Punto 5
+    pivot -> jugador_baloncesto[label = "subclase de"]
+    Shaquille_ONeil -> pivot[label = "instancia de"]
+    
+    # Punto 6
+    escolta -> media_de_puntos_escolta[label = "tiene"]
+    media_de_puntos_escolta -> 20[label = "valor"]
+    
+    # Punto 7
+    Michael_Jordan -> media_de_puntos_MJ[label = "tiene"]
+    media_de_puntos_MJ -> 20[label = "valor"]
+
+    # Punto 8
+    pivot -> media_de_puntos_pivot[label = "tiene"]
+    media_de_puntos_pivot -> 20[label = "valor"]
+    
+    # Punto 9
+    jugador_baloncesto -> peso [label = "tiene"]
+    peso -> 120 [label = "valor"]
+    peso -> kg [label = "unidad"]
+    
+    # Punto 10
+    Bulls -> equipo_baloncesto[label = "instancia de"]
+    Michael_Jordan -> Bulls[label = "pertenece a"]
+    
+    # Punto 11
+    Lakers -> equipo_baloncesto[label = "instancia de"]
+    Shaquille_ONeil -> Lakers[label = "pertenece a"]
+
+}

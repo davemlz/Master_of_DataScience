@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Redes semánticas</title>
+
+		<meta name="description" content="Redes semánticas">
+		<meta name="author" content="Alejandro Villar Fernández">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <section data-id="1" data-markdown>
+                        <script type="text/template">
+                            # semántica
+                        </script>
+                    </section>
+
+                    <section data-id="1" data-markdown>
+                        <script type="text/template">
+                           - **Redes semánticas**
+                           - Minería de textos y minería web
+                           - Ontologías
+                           - Linked Data
+                           - Análisis de redes complejas
+                        </script>
+                    </section>
+
+                </section>
+				<section data-id="1" data-markdown>
+					<script type="text/template">
+					# Redes semánticas
+
+					</script>
+				</section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                        ### Redes semánticas
+                        - Introducción a la IA y a las redes semánticas<!-- .element: class="fragment" data-fragment-index="1" -->
+                        - Definición<!-- .element: class="fragment" data-fragment-index="2" -->
+                        - Representación de conocimiento<!-- .element: class="fragment" data-fragment-index="3" -->
+                        - Predicados n-arios<!-- .element: class="fragment" data-fragment-index="4" -->
+                        - Acciones<!-- .element: class="fragment" data-fragment-index="5" -->
+                        - Conocimiento disjunto<!-- .element: class="fragment" data-fragment-index="6" -->
+                        - Inferencia<!-- .element: class="fragment" data-fragment-index="7" -->
+                        - Graphviz<!-- .element: class="fragment" data-fragment-index="8" -->
+                        - Ejercicios<!-- .element: class="fragment" data-fragment-index="9" -->
+
+                    </script>
+                </section>
+                <section>
+
+					<section data-id="1" data-markdown>
+						<script type="text/template">
+							## introducción a la IA
+						</script>
+                    </section>
+              
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                        ## objetivos de la IA
+
+                        - modelar
+                        - formalizar
+                        - programar
+                        - implementar
+
+                        máquinas soporte capaces de interactuar de forma no trivial con el medio.
+                    </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ¿diferencia con la computación convencional?
+
+                    ><!-- .element: class="fragment" data-fragment-index="2" -->todo lo que sepamos definir de forma clara, completa, precisa e inequívoca es computable. (Leibniz)<!-- .element: class="fragment" data-fragment-index="2" -->
+                    </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    >Los problemas propios de la IA son aquellos para los que, en la actualidad, sólo se dispone de descripciones poco claras, incompletas, imprecisas y con alto grado de dudas y errores potenciales, debidos a su complejidad.
+                    
+                    ej: percepción, razonamiento creativo, lenguaje natural, aprendizaje...<!-- .element: class="fragment" data-fragment-index="2" -->
+                </script> 
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ## La Gran Hipótesis
+
+                    en un número corto de años (ahora ya más de 60), iba a ser posible sintetizar los procesos cognitivos y conseguir "inteligencia general en máquinas"
+
+                    </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ![R2D2](./img/ia/r2d2_c3po.jpg)
+                    </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                                ![HAL](./img/ia/hal.jpg)
+                            </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                ![Roy](./img/ia/roy.jpg)
+            </script>
+                </section>
+                    <section data-id="1" data-markdown>
+                        <script type="text/template">
+                        ## ¿La Gran Hipótesis?
+    
+                        Quizá fue excesivo, ya que se ignoraron:
+
+                        - el carácter general y precientífico del término (¿qué es inteligencia?)
+                        - las diferencias entre el "conocer humano" y el conocimiento que hemos sido capaces de hacer residir en máquinas
+                        </script>
+                    </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ## visiones de la IA
+
+                    - IA como ciencia: busca una teoría computable del conocimiento humano.<!-- .element: class="fragment" data-fragment-index="1" -->
+                    - IA como ingeniería: presenta objetivos más claros y alcanzables (ej: la ingeniería del conocimiento)<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                    </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ## paradigmas de la IA
+                    </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ## paradigma simbólico
+                    considera que el conocimiento puede representarse usando descripciones declarativas en lenguaje natural, formadas por hechos y reglas de inferencia.
+                    </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ## paradigma situado
+                    enfatiza el hecho de que toda percepción y toda acción están estructuralmente acopladas a través de sensores y efectores concretos a un medio externo e interno también concretos.
+
+                    no hay proceso inferencial sino respuestas inmediatas desde esquemas precalculados.
+                </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ## paradigma conexionista
+                    el problema de representación del conocimiento se realiza mediante el uso de líneas numéricas etiquetadas para la entrada y salida de una red neuronal, y el problema de la inferencia se resuelve mediante un clasificador numérico de naturaleza paramétrica en el que el valor de dichos parámetros se ajusta mediante un algoritmo de aprendizaje supervisado o no supervisado.
+                </script>
+                </section>
+                <section data-id="1" data-markdown>
+                    <script type="text/template">
+                    ## paradigma híbrido
+                    la mayor parte de los problemas que resuelve la IA son de naturaleza híbrida. 
+                </script>
+                </section>
+            </section>
+
+				<section>
+
+					<section data-id="1" data-markdown>
+						<script type="text/template">
+							## introducción a las redes semánticas
+
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							### modelos de representación del conocimiento
+							- conceptual<!-- .element: class="fragment" data-fragment-index="1" -->
+							- formal<!-- .element: class="fragment" data-fragment-index="2" -->
+							- computable<!-- .element: class="fragment" data-fragment-index="3" -->
+
+
+							</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### ¿qué es formalizar?
+							- representar simbólicamente<!-- .element: class="fragment" data-fragment-index="1" -->
+							- organizar<!-- .element: class="fragment" data-fragment-index="2" -->
+							- determinar métodos de inferencia adecuados<!-- .element: class="fragment" data-fragment-index="3" -->
+
+							los conocimientos de un dominio<!-- .element: class="fragment" data-fragment-index="4" -->
+
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							### tipos de formalismos
+							- basados en conceptos: tripletas, marcos<!-- .element: class="fragment" data-fragment-index="1" -->
+							- basados en relaciones: lógica,<!-- .element: class="fragment" data-fragment-index="2" --> **redes semánticas**<!-- .element: class="fragment" data-fragment-index="2" -->
+							- basados en acciones: sistemas de producción, guiones<!-- .element: class="fragment" data-fragment-index="3" -->
+
+						</script>
+					</section>
+
+	</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## definición
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							>formalismo de representación del conocimiento basado en **relaciones**
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							>un grafo orientado formado por nodos y arcos unidireccionales, ambos etiquetados
+                            ([Quillian, Semantic Memory](http://www.jimdavies.org/summaries/quillian1968.html))
+
+							![Red semántica básica](./img/grafo.svg)<!-- .element: class="fragment" data-fragment-index="2" -->
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+                        ### componentes:
+                        - nodos: conceptos, entidades, clases, instancias, valores<!-- .element: class="fragment" data-fragment-index="1" -->
+                        - arcos: relaciones entre conceptos e instancias, propiedades<!-- .element: class="fragment" data-fragment-index="2" -->
+
+
+						</script>
+					</section>
+                    <section data-markdown>
+                    <script type="text/template">
+                    ### características:
+                    - falta de terminología adecuada y universalmente aceptada<!-- .element: class="fragment" data-fragment-index="1" -->
+                    - atractivo gráfico e intuitiva interpretación<!-- .element: class="fragment" data-fragment-index="2" -->
+                    - representan un conjunto restringido de la lógica de predicados<!-- .element: class="fragment" data-fragment-index="3" -->
+
+                    </script>
+                    </section>
+
+				</section>
+                <section>
+				<section data-markdown>
+					<script type="text/template">
+						## representación de conocimiento
+
+
+					</script>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						>La base de la representación del conocimiento en redes semánticas consiste en modelar los conocimientos relativos a un objeto o concepto mediante pares **atributo-valor**
+
+						- nodo origen = objeto o concepto<!-- .element: class="fragment" data-fragment-index="2" -->
+						- arco = atributo<!-- .element: class="fragment" data-fragment-index="3" -->
+						- nodo destino = valor del atributo<!-- .element: class="fragment" data-fragment-index="4" -->
+
+					</script>
+
+				</section>
+
+                <section data-markdown>
+                <script type="text/template">
+                #### arcos descriptivos
+
+                ><!-- .element: class="fragment" data-fragment-index="1" -->describen entidades y conceptos, bien relacionando entidades independientes ya existentes, bien definiendo una nueva entidad.<!-- .element: class="fragment" data-fragment-index="1" -->
+
+                ![Arcos descriptivos](./img/grafo2.svg)<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                </script>
+
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                #### arcos estructurales
+
+                ><!-- .element: class="fragment" data-fragment-index="1" --> enlazan las entidades o conceptos formando la arquitectura o estructura de la red.<!-- .element: class="fragment" data-fragment-index="1" -->
+
+                ejemplos: subclase-de, instancia, parte-de<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                </script>
+
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                #### arcos estructurales
+
+                - <!-- .element: class="fragment" data-fragment-index="1" -->**generalización** (*is_a, subclase_de*)<!-- .element: class="fragment" data-fragment-index="1" -->: relación de una clase con otra más general, formando una red de nodos por especialización de conceptos.<!-- .element: class="fragment" data-fragment-index="1" -->
+
+                ![Generalización](./img/grafo3.svg)<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                </script>
+
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                #### arcos estructurales
+
+                - <!-- .element: class="fragment" data-fragment-index="1" -->**instancia** (*instance_of*)<!-- .element: class="fragment" data-fragment-index="1" -->: liga un objeto concreto con su tipo genérico.<!-- .element: class="fragment" data-fragment-index="1" -->
+
+                ![Instancia](./img/grafo4.svg)<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                </script>
+
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                #### arcos estructurales
+                - <!-- .element: class="fragment" data-fragment-index="1" -->**agregación** (*has_a*)<!-- .element: class="fragment" data-fragment-index="1" -->: liga un objeto a sus componentes.<!-- .element: class="fragment" data-fragment-index="1" -->
+
+                ![Agregación](./img/grafo5.svg)<!-- .element: class="fragment" data-fragment-index="2" -->
+                </script>
+
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                    ### ejercicio 1
+                    - las personas son mamíferos
+                    - una persona tiene nariz
+                    - Pedro es una persona
+                    - Pedro estudia ciencia de datos
+                    
+                    ¿cómo se incluiría que Pedro es un varón?
+                    </script>
+                    </section>
+                </section>
+
+            <section>
+            <section data-markdown>
+            <script type="text/template">
+            ### ¿Cómo representar predicados n-arios?
+
+            por ejemplo, una relación de compraventa de un reloj entre Pepe y Luis<!-- .element: class="fragment" data-fragment-index="1" -->
+
+            *Pepe compra a Luis un reloj por 45 €.*<!-- .element: class="fragment" data-fragment-index="2" -->
+            </script>
+
+            </section>
+            <section data-markdown>
+            <script type="text/template">
+            ### Representación de predicados no binarios
+            - Un nuevo objeto representa al predicado de aridad mayor que dos<!-- .element: class="fragment" data-fragment-index="1" -->
+            - Nuevos predicados binarios describen las relaciones entre este nuevo objeto y sus argumentos<!-- .element: class="fragment" data-fragment-index="2" -->
+
+            ![Predicados no binarios](./img/grafo6.svg)<!-- .element: class="fragment" data-fragment-index="3" -->
+            </script>
+
+            </section>
+
+            </section>
+
+            <section>
+            <section data-markdown>
+            <script type="text/template">
+            ### ¿Cómo representar acciones?
+
+            Ej: "pepe vio un museo"
+
+            </script>
+
+            </section>
+            <section data-markdown>
+            <script type="text/template">
+            ### ¿Cómo representar acciones?
+
+            ![Arcos con acciones](./img/grafo12.svg)
+
+            **Problemas desde el punto de vista de la inferencia**
+
+            </script>
+
+            </section>
+
+
+            <section data-markdown>
+            <script type="text/template">
+            ### Representación de acciones
+
+            Adaptación de conceptos de la [gramática de casos de Fillmore](http://linguistics.berkeley.edu/~syntax-circle/syntax-group/spr08/fillmore.pdf):
+
+            verbo + frases nominales relacionadas con casos
+
+            </script>
+
+            </section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### casos
+
+            - Agente: persona que realiza el evento.<!-- .element: class="fragment" data-fragment-index="1" -->
+            - Contra-agente: fuerza o resistencia contra la que se ejecuta la acción.<!-- .element: class="fragment" data-fragment-index="2" -->
+            - Objeto: entidad movida, cambiada, cuya posición o existencia se considera.<!-- .element: class="fragment" data-fragment-index="3" -->
+            - Resultado: entidad consecuencia de la acción.<!-- .element: class="fragment" data-fragment-index="4" -->
+            - Instrumento: estímulo o causa física de un evento.<!-- .element: class="fragment" data-fragment-index="5" -->
+
+            </script>
+
+            </section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### casos (II)
+
+            - Origen: lugar del que procede el evento.<!-- .element: class="fragment" data-fragment-index="1" -->
+            - Propósito: motivo por el que se ejecuta la acción.<!-- .element: class="fragment" data-fragment-index="2" -->
+            - Lugar: sitio en el que se desarrolla la acción.<!-- .element: class="fragment" data-fragment-index="3" -->
+            - Tiempo: fecha o momento en el que tiene lugar la acción.<!-- .element: class="fragment" data-fragment-index="4" -->
+            - Sujeto: entidad que recibe, acepta o experimenta el efecto de la acción.<!-- .element: class="fragment" data-fragment-index="5" -->
+            </script>
+
+            </section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### modalidad
+            características que presenta el verbo:<!-- .element: class="fragment" data-fragment-index="1" -->
+
+            - tiempo en el que se ha desarrollado la acción (pasado, presente, futuro).<!-- .element: class="fragment" data-fragment-index="2" -->
+            - voz: activa, pasiva.<!-- .element: class="fragment" data-fragment-index="3" -->
+            </script>
+            </section>
+            <section data-markdown>
+            <script type="text/template">
+            ### representación
+            a través de <!-- .element: class="fragment" data-fragment-index="1" -->**nodos situación o suceso**<!-- .element: class="fragment" data-fragment-index="1" --> que tienen como atributos:<!-- .element: class="fragment" data-fragment-index="1" -->
+
+            - conjunto de casos<!-- .element: class="fragment" data-fragment-index="2" -->
+            - conjunto de modalidades<!-- .element: class="fragment" data-fragment-index="3" -->
+            </script>
+
+            </section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### ejemplo
+
+            ><!-- .element: class="fragment" data-fragment-index="1" -->Luis sabe que Pepe vio El Prado en Madrid<!-- .element: class="fragment" data-fragment-index="1" -->
+
+            ![Ejemplo acciones](./img/grafo7.svg)<!-- .element: class="fragment" data-fragment-index="2" height="75%" width="75%"-->
+
+            </script>
+
+            </section>
+            <section data-markdown>
+                <script type="text/template">
+                ### ejercicio 2
+
+                - Juan le dio un libro a María
+
+                </script>
+             </section>
+             <section data-markdown>
+                <script type="text/template">
+                ### ejercicio 3
+                >Miguel fue a clase cuando Cristina le avisó por email.
+
+                </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                    ### ejercicio 4
+                    >Fernando impartió clases de linked open data a sus alumnos en la Facultad de Físicas el viernes.
+                    </script>
+                    </section>
+
+            </section>
+            <section>
+            <section data-markdown>
+            <script type="text/template">
+            ### representación del conocimiento disjunto
+
+            - arcos tipo "disjunto"<!-- .element: class="fragment" data-fragment-index="1" -->
+            - <!-- .element: class="fragment" data-fragment-index="2" -->[Hendrix](https://www.ijcai.org/Proceedings/75/Papers/016.pdf)<!-- .element: class="fragment" data-fragment-index="2" -->: Subconjunto, Subconjunto disjunto, Elemento, Elemento disjunto<!-- .element: class="fragment" data-fragment-index="2" -->
+
+            </script>
+            </section>
+            </section>
+                <section>
+                <section data-markdown>
+                <script type="text/template">
+                ### inferencia de conocimiento
+
+                ><!-- .element: class="fragment" data-fragment-index="1" -->extracción de conocimiento nuevo a partir de hechos considerados como ciertos<!-- .element: class="fragment" data-fragment-index="1" -->
+
+                ejemplo:<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                si Pipo es un perro y los perros son mamíferos, entonces Pipo es un mamífero<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                </script>
+                </section>
+                </section>
+                <section>
+                <section data-markdown>
+                <script type="text/template">
+                ### inferencia por equiparación
+
+                ><!-- .element: class="fragment" data-fragment-index="1" -->Un fragmento de red, apunte o consulta se equipara con una red semántica si dicho apunte se puede asociar con un fragmento de dicha red.<!-- .element: class="fragment" data-fragment-index="1" -->
+
+                ejemplo de consulta:<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                *¿Existe algún varón que viera un museo en Madrid?*<!-- .element: class="fragment" data-fragment-index="2" -->
+
+                </script>
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                ### Pasos
+
+                1. Construcción
+                2. Cotejo
+                3. Equiparación
+                4. Respuesta
+
+
+                </script>
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                ### Construcción y cotejo
+
+                - Se construye un apunte que responda a la pregunta.
+                - Estará formado por nodos constantes, nodos variables y arcos etiquetados.
+                - Se superpone el apunte sobre la red semántica.
+
+                ![Apunte](./img/grafo8.svg)<!-- .element: class="fragment" data-fragment-index="1" --><!-- .element height="40%" width="40%" -->
+
+
+                </script>
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                ### Equiparación
+
+                - Los nodos variables se ligan a los constantes hasta encontrar una equiparación perfecta
+
+                </script>
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                ### Respuesta
+
+                - La respuesta es el fragmento de red semántica con los valores con los que se rellenan los nodos variables.
+
+                </script>
+                </section>
+
+                </section>
+
+            <section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### inferencia por herencia de propiedades
+
+            ><!-- .element: class="fragment" data-fragment-index="1" -->Permite que nodos específicos de una red accedan a propiedades definidas en otros nodos utilizando los arcos <!-- .element: class="fragment" data-fragment-index="1" -->*instancia*<!-- .element: class="fragment" data-fragment-index="1" --> y <!-- .element: class="fragment" data-fragment-index="1" -->*subclase-de*<!-- .element: class="fragment" data-fragment-index="1" -->
+
+            - Favorece la compartición de propiedades, evitando la repetición de propiedades en la base de conocimiento.<!-- .element: class="fragment" data-fragment-index="2" -->
+            - Se utiliza en sistemas que razonan dirigidos por la meta o por los datos.<!-- .element: class="fragment" data-fragment-index="3" -->
+
+            </script>
+            </section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### inferencia por herencia de propiedades (II)
+
+            ![Herencia](./img/grafo9.svg)
+
+            ¿Es Dumbo de color gris?
+
+            </script>
+            </section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### inferencia por herencia de propiedades (III)
+
+            Funciona muy bien con propiedades que presentan excepciones en sus valores: se hereda el valor de la propiedad del nodo más cercano al de partida.<!-- .element: class="fragment" data-fragment-index="1" -->
+
+            ![Excepciones en herencia](./img/grafo10.svg)<!-- .element: class="fragment" data-fragment-index="2" -->
+
+
+            </script>
+            </section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### inferencia por herencia de propiedades (IV)
+
+            Origina problemas si se han formalizado mal los conocimientos:<!-- .element: class="fragment" data-fragment-index="1" -->
+
+            - Si no se han distinguido nodos instancias de nodos concepto.<!-- .element: class="fragment" data-fragment-index="2" -->
+            - Si la etiqueta que da nombre al nodo o al arco tiene una semántica diferente al conocimiento que se quiere representar.<!-- .element: class="fragment" data-fragment-index="3" -->
+            - Si el arco está en sentido contrario.<!-- .element: class="fragment" data-fragment-index="4" -->
+            - Si no se han representado situaciones o acciones utilizando nodos situación.<!-- .element: class="fragment" data-fragment-index="5" -->
+
+
+            </script>
+            </section>
+
+            <section data-markdown>
+            <script type="text/template">
+            ### inferencia por herencia de propiedades (V)
+
+            ![Problemas en herencia](./img/grafo11.svg)<!-- .element: height="75%" width="75%"-->
+
+
+            </script>
+            </section>
+            </section>
+
+                <section>
+                <section data-markdown>
+                <script type="text/template">
+                ### referencias
+                - [Inteligencia Artificial. Técnicas, métodos y operaciones (José T. Palma Méndez y Roque Marín Morales)](https://www.amazon.es/INTELIGENCIA-ARTIFICIAL-TECNICAS-METODOS-APLICACIONES/dp/8448156188)
+
+                </script>
+                </section>
+
+                <section data-markdown>
+                <script type="text/template">
+                <!-- .slide: style="font-size:30px" -->
+                ### ¿Cómo generar un PDF con las diapositivas?
+
+                - Abrir un navegador Chrome
+                - Introducir la URL de la presentación y añadirle el parámetro `print-pdf`. Ejemplo:
+             
+                https://masterdatascience-UIMP-UC.github.io/semantic-networks/index.html?print-pdf
+
+                - Seleccionar la opción `imprimir` de Chrome
+                - Seleccionar el Destino `Guardar como PDF`
+                - Cambiar al layout `Apaisado`
+                - Cambiar los márgenes a `Ninguno`
+                - Activar la opción `gráficos de fondo`
+                - Pinchar en Guardar
+
+                </script>
+                </section>
+
+
+                </section>
+
+                <section>
+                <section data-markdown>
+                <script type="text/template">
+                ### graphviz
+                software de visualización de datos open source
+
+                - formato `dot`: para grafos dirigidos
+                - [descarga](https://www.graphviz.org/download/)
+                - [descarga Windows](https://graphviz.gitlab.io/_pages/Download/Download_windows.html)
+                - ruta Windows: `C:\Program Files (x86)\Graphviz2.38\bin\dot.exe`<!-- .element: style="font-size: 20px;"  -->
+
+                        dot -Tsvg graph.dot -o graph.svg
+
+                </script>
+                </section>
+                <section data-markdown>
+                <script type="text/template">
+                ### graphviz
+                        digraph ejemplo {
+                            node  [style="rounded,filled,bold", shape=box, fontname="Nimbus", color="lightgray"];
+                            edge  [fontname="Nimbus" weight=2, fontsize=12]
+                            A -> B [ label = "profesión" ];
+                            A [label="pepe"];
+                            B [label="informático"];
+                        }
+
+                </script>
+                </section>
+
+                </section>
+
+
+
+                <section>
+               
+
+          
+
+              
+
+                <section data-markdown>
+                <script type="text/template">
+                ### ejercicio 5
+                >El perro es un animal mamífero y como tal su sangre es caliente y su piel está recubierta de pelo. Tres características importantes de cualquier perro son que una de sus partes es el rabo, su sonido es el ladrido y sus hijos son los cachorros. Pipo es un perro. Un perro famoso es Lassie, que es un pastor alemán y además actor de televisión.
+
+                </script>
+                </section>
+                <section data-markdown>
+                    <script type="text/template">
+                    ### ejercicio 6
+                    >El gato se está rascando la oreja derecha con su pata delantera.
+    
+    
+                    </script>
+                    </section>
+                <section data-markdown>
+                <script type="text/template">
+                ### ejercicio 7
+                >El Banco Santander tiene su establecimiento sede en la Comunidad Autónoma de Cantabria. Una de sus empleadas se llama Ana, y es una mujer con mucho carácter. Su padre, Emilio, falleció en Madrid en 2014.
+
+
+                </script>
+                </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                    ### ejercicio evaluable
+                    <!-- .slide: style="font-size:30px" -->
+                    - Una persona tiene dos brazos y dos piernas.
+                    - Las personas pueden ser hombres y mujeres.
+                    - Un jugador de baloncesto es un hombre.
+                    - Michael Jordan es un jugador de baloncesto y juega de escolta.
+                    - Shaquille O'Neil es un jugador de baloncesto y juega de pivot.
+                    - La media de puntos de un escolta es 20.
+                    - La media de puntos de Michael Jordan es 20.
+                    - La media de puntos de un pivot es 20.
+                    - El peso de un jugador de baloncesto es 120 kg.
+                    - Michael Jordan pertenece al equipo de los Bulls.
+                    - Shaquille O'Neil pertenece al equipo de los Lakers.
+                    </script>
+                    </section>
+
+                </section>
+                <section>
+
+                <div>
+                <a href="https://masterdatascience.ifca.es/"><img alt=""  src="./img/logo_3.png" style="max-width: none; max-height: none; color: rgb(255, 153, 0);  vertical-align:middle;" /></a>
+
+                <p style="font-size:20px; text-align:center; margin-top: 1em"><span style="font-weight: bold;"><a href="https://github.com/masterdatascience-UIMP-UC/semantic-networks">Acceso al repositorio con la presentación</a></span></p>
+                <p style="font-size:20px; text-align:center; margin-top: 1em"><span style="font-weight: bold;">URL de la presentación: <a href="https://masterdatascience-UIMP-UC.github.io/semantic-networks/">https://masterdatascience-UIMP-UC.github.io/semantic-networks/</a></span></p>
+
+                <p style="font-size:20px; text-align:center; margin-top: 1em"><span style="font-weight: bold;">Alejandro Villar Fernández</span></p>
+                <p style="font-size:20px; text-align:center; margin-top: 1em"><span style="font-weight: bold;"><a href="mailto:avillar@ticnor.es">avillar@ticnor.es</a></span></p>
+
+                </div>
+
+                </section>
+
+				</div>
+
+			</div>
+
+			<script src="lib/js/head.min.js"></script>
+			<script src="js/reveal.js"></script>
+
+			<script>
+
+				// Full list of configuration options available at:
+				// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+			progress: true,
+			history: true,
+			center: true,
+
+			transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+			// Optional reveal.js plugins
+			dependencies: [
+			{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+			{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+			{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+			{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+			{ src: 'plugin/zoom-js/zoom.js', async: true },
+			{ src: 'plugin/tagcloud/tagcloud.js', async: true },
+			{ src: 'plugin/chalkboard/chalkboard.js' },
+			{ src: 'plugin/notes/notes.js', async: true }
+			],
+			keyboard: {
+				67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+				66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+				46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+				 8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+				68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+			}
+			});
+
+			</script>
+
+		</body>
+	</html>

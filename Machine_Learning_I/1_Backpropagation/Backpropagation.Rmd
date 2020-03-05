@@ -84,6 +84,8 @@ backprop = function(y,x,epochs = 10, eta = 0.1){
     
     mse = c(mse,sum(error^2)/nrow(error))
     
+    print(Wdelta)
+    
     W = W + eta * Wdelta
     
   }

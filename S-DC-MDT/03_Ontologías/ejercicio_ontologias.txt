@@ -1,0 +1,24 @@
+@prefix ex: <htttp://example.org>
+
+ex:curryTailandes ex:platoTailandesBasadoEn ex:lecheDeCoco .
+
+ex:lecheDeCoco a ex:Ingrediente .
+
+ex:pedro a ex:AlergicosALasNueces ;
+	ex:come ex:curryTailandes .
+
+ex:nuez a ex:Ingrediente .
+
+ex:alergicoA a rdf:Property;
+	rdfs:domain ex:Ingrediente .
+
+ex:AlergicosALasNueces ex:alergicoA ex:nuez ;
+	rdfs:subClassOf ex:Compadecible .
+
+ex:platoTailandesBasadoEn rdfs:range ex:Tailandes ;
+	rdfs:domain ex:PlatoConNueces ;
+	rdfs:subPropertyOf ex:tieneIngrediente .
+
+ex:PlatoConNueces ex:tieneIngrediente ex:nuez ;
+
+ex:Tailandes a rdfs:Class .
