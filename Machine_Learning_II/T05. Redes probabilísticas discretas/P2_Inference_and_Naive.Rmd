@@ -32,22 +32,22 @@ Transporte (T): El medio de transporte más utilizado por el encuestado para acu
 Se utilizará el paquete de R bnlearn (bayesian network learning), disponible a través del CRAN. Por tanto, su instalación es directa si no lo tenemos previamente instalado:
 
 ```{r}
-if (!require(bnlearn)) install.packages("bnlearn")
-Además, se necesitan dependencias adicionales para la parte relacionada con la inferencia:
-
-# Paquete RBGL (disponible en bioconductor)
-if (!require(RBGL)) {
-      source("http://bioconductor.org/biocLite.R")
-      biocLite("RBGL")
-}
-# Paquete gRain
-if (!require(gRain)) install.packages("gRain")
-, y para la parte de visualización de grafos:
-
-if (!require(Rgraphviz)) {
-    source("http://bioconductor.org/biocLite.R")
-    biocLite("Rgraphviz")
-}
+# if (!require(bnlearn)) install.packages("bnlearn")
+# Además, se necesitan dependencias adicionales para la parte relacionada con la inferencia:
+# 
+# # Paquete RBGL (disponible en bioconductor)
+# if (!require(RBGL)) {
+#       source("http://bioconductor.org/biocLite.R")
+#       biocLite("RBGL")
+# }
+# # Paquete gRain
+# if (!require(gRain)) install.packages("gRain")
+# , y para la parte de visualización de grafos:
+# 
+# if (!require(Rgraphviz)) {
+#     source("http://bioconductor.org/biocLite.R")
+#     biocLite("Rgraphviz")
+# }
 ```
 
 #### 2 Construcción de la red Bayesiana
@@ -640,6 +640,8 @@ class(pp)
 El aspecto de los arcos se puede modificar utilizando edgeRenderInfo, y una lista cuyos elementos son los elementos gráficos que se desea modificar:
 
 ```{r}
+require(RBGL)
+
 edgeRenderInfo(pp) <- list(col = c("A~E" = "black", "S~E" = "black"), # color
                            lwd = c("A~E" = 2.5, "S~E" = 2.5)) # grosor
 ```
@@ -655,6 +657,8 @@ nodeRenderInfo(pp) <- list(col = c("S" = "black", "E" = "black", "A" = "black"),
 Una vez introducidas todas las modificaciones, se pinta el grafo con renderGraph:
 
 ```{r}
+require(Rgraphviz)
+
 renderGraph(pp)
 ```
 
@@ -774,7 +778,7 @@ Considerando la inferencia aproximada:
 ```{r}
 set.seed(1)
 cpquery(bn, event = (G == "Yes"),
-        evidence = ((O == "Overcast") & (T == "Cool") & (H == "Normal") & (W == "True")))
+        evidensce = ((O == "Overcast") & (T == "Cool") & (H == "Normal") & (W == "True")))
 ## [1] 1
 ```
 
