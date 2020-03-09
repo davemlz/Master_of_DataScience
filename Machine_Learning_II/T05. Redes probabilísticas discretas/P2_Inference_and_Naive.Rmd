@@ -1,0 +1,824 @@
+---
+title: "P2 Inference and Naive"
+output: html_notebook
+---
+
+# Práctica: Redes Bayesianas Multinomiales
+## Master in Data Science - Machine Learning II
+###Santander Meteorology Group
+#### 1 Introducción a la práctica
+La presente práctica esta concebida como una primera aproximación a los fundamentos de la Redes Bayesianas. Utilizaremos los datos de una encuesta sobre utilización de medios de transporte. La práctica se centra en la modelización de variables discretas mediante una Red Bayesiana Multinomial.
+
+Este tipo de red se construye con variables aleatorias discretas, es decir, que cada variable tiene un número finito de posibles estados. Asimismo, se considera que la probabilidad condicional de cada variable dados sus padres es multinomial, y por lo tanto, ésta viene dada por la tabla de probabilidades correspondientes a las diferentes combinaciones de estados entre las variables implicadas.
+
+La práctica ilustra los pasos a seguir en entorno R para:
+
+Construir un grafo acíclico dirigido (DAG, de las siglas en inglés de directed acyclic graph)
+Definición de la función de probabilidad conjunta (FPC)
+Definición de los parámetros del modelo (aprendizaje paramétrico)
+Obtener nueva información a partir de una evidencia dada (inferencia)
+Aprendizaje automático del grafo de una red bayesiana a partir de los datos (aprendizaje estructural)
+Representación gráfica del modelo
+##### 1.1 Dataset de ejemplo: ‘survey’
+A partir de los datos de campo recogidos por la encuesta, se investigará la selección de medios de transporte por distintos perfiles de usuarios, y particularmente a la preferencia de tren o coche. Este tipo de análisis se utilizan con frecuencia en la planificación de infraestructuras. Para cada individuo encuestado, se han recopilado datos referenctes a 6 variables discretas. Las abreviaturas de dichas variables se muestran entre paréntesis, y se utilizarán a lo largo de la práctica para referirse a los nodos de la red creada. Tanto las abreviaturas como los nombres de las variables preservan la nomenclatura original del dataset en inglés.
+
+Edad (A): Edad del encuestado, agrupado en los siguientes estados: joven (young, < 30 años), adulto (adult, 30 < edad <= 60) y anciano (old, edad > 60).
+Sexo (S): Sexo del encuestado, con sus dos posibles estado: masculino (M) y femenino (F).
+Educación (E): Nivel más alto de educación alcanzado. Hasta educación secundaria (high) o título universitario (uni).
+Ocupación (O): Considera dos estados: trabajador por cuenta ajena (emp) o autónomo (self).
+Residencia (R): El tamaño de la población de residencia del individuo. Estados posibles: big y small.
+Transporte (T): El medio de transporte más utilizado por el encuestado para acudir al trabajo, diferenciando 3 posibles estados: car, train y other.
+1.2 Paquetes de R necesarios
+Se utilizará el paquete de R bnlearn (bayesian network learning), disponible a través del CRAN. Por tanto, su instalación es directa si no lo tenemos previamente instalado:
+
+```{r}
+if (!require(bnlearn)) install.packages("bnlearn")
+Además, se necesitan dependencias adicionales para la parte relacionada con la inferencia:
+
+# Paquete RBGL (disponible en bioconductor)
+if (!require(RBGL)) {
+      source("http://bioconductor.org/biocLite.R")
+      biocLite("RBGL")
+}
+# Paquete gRain
+if (!require(gRain)) install.packages("gRain")
+, y para la parte de visualización de grafos:
+
+if (!require(Rgraphviz)) {
+    source("http://bioconductor.org/biocLite.R")
+    biocLite("Rgraphviz")
+}
+```
+
+#### 2 Construcción de la red Bayesiana
+##### 2.1 Dibujar la estructura de la red
+Para crear un grafo que contenga un nodo por cada variable considerada en la encuesta utilizamos la función empty.graph:
+
+```{r}
+library(bnlearn)
+dag <- empty.graph(nodes = c("A", "S", "E", "O", "R", "T"))
+```
+
+Nombramos a nuestro grafo vacío dag, que es un acrónimo de directed acyclic graph, o gráfico acíclico dirigido, en referencia a las principales propiedades de este tipo de grafos, y que ya sen visto durante las sesiones teórico-prácticas.
+
+Esta es la información contenida en el grafo, que es un objeto de la clase bn:
+
+```{r}
+class(dag)
+## [1] "bn"
+print(dag)
+## 
+##   Random/Generated Bayesian network
+## 
+##   model:
+##    [A][S][E][O][R][T] 
+##   nodes:                                 6 
+##   arcs:                                  0 
+##     undirected arcs:                     0 
+##     directed arcs:                       0 
+##   average markov blanket size:           0.00 
+##   average neighbourhood size:            0.00 
+##   average branching factor:              0.00 
+## 
+##   generation algorithm:                  Empty
+plot(dag)
+```
+
+En secciones posteriores veremos como hacer representaciones gráficas más detalladas, pero de momento basta con aplicar el método plot para ir viendo la estructura básica de la red. Una vez creados los nodos, comenzamos a añadir los arcos que definen las dependencias directas entre las diferentes variables.
+
+La edad y el sexo son indicadores demográficos y no reciben influencia de ninguna otra variable, ya que son características intrínsecas del individuo. Por lo tanto, ninguno de los arcos del grafo apuntan hacia ellas. Por otra parte, ambas variables (sexo y edad) si tienen una influencia directa sobre el nivel de educación, ya que el número de estudiantes universitarios ha aumentado en las últimas décadas, y por lo tanto personas más jóvenes tienen más probabilidad de tener un título universitario que otras más mayores.
+
+```{r}
+dag <- set.arc(dag, from = "A", to = "E")
+```
+
+Del mismo modo, el sexo tiene influencia sobre la educación, ya que las estadísticas demuestran que en la actualidad hay un mayor número de mujeres que de hombres completando estudios universitarios.
+
+```{r}
+dag <- set.arc(dag, from = "S", to = "E")
+```
+
+Tras añadir dos arcos, este es el aspecto que va tomando el grafo:
+
+```{r}
+plot(dag)
+```
+
+El nivel de educación tiene una fuerte influencia en la ocupación del individuo, así como en su lugar de residencia:
+
+```{r}
+dag <- set.arc(dag, from = "E", to = "O")
+dag <- set.arc(dag, from = "E", to = "R")
+```
+
+Finalmente, los medios de transporte preferidos por el individuo están directamente influidos por su lugar de residencia y su ocupación. En cuanto al primer factor, la distancia al lugar de trabajo desde la residencia influye directamente en la opción de transporte. Por otra parte, algunos trabajos requieren viajes periódicos de larga distancia, mientras que otros requieren trayectos más frecuentes sobre cortas distancias.
+
+```{r}
+dag <- set.arc(dag, from = "R", to = "T")
+dag <- set.arc(dag, from = "O", to = "T")
+```
+
+Finalmente, asi queda definido el grafo:
+
+```{r}
+dag
+## 
+##   Random/Generated Bayesian network
+## 
+##   model:
+##    [A][S][E|A:S][O|E][R|E][T|O:R] 
+##   nodes:                                 6 
+##   arcs:                                  6 
+##     undirected arcs:                     0 
+##     directed arcs:                       6 
+##   average markov blanket size:           2.67 
+##   average neighbourhood size:            2.00 
+##   average branching factor:              1.00 
+## 
+##   generation algorithm:                  Empty
+plot(dag)
+```
+
+Esta es la definición simbólica del grafo:
+
+```{r}
+modelstring(dag)
+## [1] "[A][S][E|A:S][O|E][R|E][T|O:R]"
+```
+
+De este modo, las dependencias de cada variable quedan definidas por una barra vertical (|) y separadas por dos puntos :. Por ejemplo, [E|A:S] significa que A --> E (edad influye sobre empleo) y S --> E (sexo influye sobre empleo). Esta notación se asemeja a un producto de probabilidades condicionales, del tipo P(E|A,S). Esto equivale a la expresión de la factorización de la distribución global hecha por nuestra red (Eq. 1):
+
+P(A,S,E,O,R,T)=P(A)P(S)P(E|A,S)P(O|E)P(R|E)P(T|O,R)
+
+Otras funciones útiles para explorar objetos de la clase bn son por ejemplo nodesy arcs:
+
+```{r}
+nodes(dag)
+## [1] "A" "S" "E" "O" "R" "T"
+arcs(dag)
+##      from to 
+## [1,] "A"  "E"
+## [2,] "S"  "E"
+## [3,] "E"  "O"
+## [4,] "E"  "R"
+## [5,] "R"  "T"
+## [6,] "O"  "T"
+```
+
+###### 2.1.1 Forma alternativa para dibujar el DAG de forma más directa
+La función arcs es especialmente interesante ya que nos permite añadir arcos de manera más rápida. En este caso, se podrían definir las relaciones mediante una matriz de dos columnas similar a la devuelta por arcs:
+
+```{r}
+dag2 <- empty.graph(nodes = c("A", "S", "E", "O", "R", "T"))
+arc.set <- matrix(c("A", "E",
+                    "S", "E",
+                    "E", "R",
+                    "E", "O",
+                    "O", "T",
+                    "R", "T"),
+                  byrow = TRUE, ncol = 2,
+                  dimnames = list(NULL, c("from", "to")))
+arcs(dag2) <- arc.set
+```
+
+El grafo resultante es idéntico al que se generó anteriormente:
+
+```{r}
+all.equal(dag, dag2)
+## [1] TRUE
+```
+
+Ambas formas de definir el grafo garantizan que éste sea acíclico, ya que si se intenta introducir un ciclo en el mismo se producirá un error. Por ejemplo, si intentamos crear una relación directa entre T y E, lo que daría lugar a un ciclo, se produce un error:
+
+```{r}
+try(set.arc(dag, from = "T", to = "E"))
+## Error in arc.operations(x = x, from = from, to = to, op = "set", check.cycles = check.cycles,  : 
+##   the resulting graph contains cycles.
+```
+
+##### 2.2 Representacion probabilística de la red Bayesiana
+###### 2.2.1 Definición de los estados de las variables
+Una vez representadas las interacciones entre variables mediante el grafo, es necesario especificar una distribución de probabilidad conjunta sobre todas las variables para obtener el modelo bayesiano de los datos de la encuesta. Todas ellas, como se dijo al principio, son variable discretas y definidas para una serie de estados ordenados (categorías, o levels en R), que se definen a continuación:
+
+```{r}
+estados.A <- c("young", "adult", "old")
+estados.S <- c("M", "F")
+estados.E <- c("high", "uni")
+estados.O <- c("emp","self")
+estados.R <- c("small","big")
+estados.T <- c("car","train","other")
+```
+
+En este caso, la distribución de probabilidad conjunta viene dada por una distribución multinomial (ver help("dmultinom") para más detalles), asignando una probabilidad a cada una de las combinaciones de los posibles estados de las variables de la encuesta. Es lo que denominamos la distribución global.
+
+El problema, como se ha visto anteriormente, surge del hecho de que usar la distribución global directamente es difícil (cuando no completamente inviable), debido al gran número de parámetros a la que puede dar lugar. En este caso particular, considerar la distribución global daría lugar a 3∗2∗2∗2∗2∗3−1 parámetros, es decir 143 probabilidades correspondientes a todas las posibles combinaciones de los niveles de todas las variables. En su lugar, hemos utilizado un modelo mucho más parsimonioso a partir del grafo, descartando muchas relaciones entre variables que sabemos a priori que no tienen sentido (p. ej. la relación entre la edad A y el sexo S del encuestado). Las variables que no se encuentran unidas por ningún arco se dice que son condicionalmente independientes. Por lo tanto, la factorización representada por la ecuación 1.1. es un submodelo de la distribución global que contiene muchos menos parámetros.
+
+###### 2.2.2 Definición de probabilidades
+Dado que las probabilidades condicionales pueden ser unidimensionales o venir en forma de tablas de varias dimensiones dependiendo del número de padres de cada nodo, utilizaremos para crear dichas probabilidades la función array, que permite utilizar una interfaz común en todos los casos. Nótese no obstante que para probabilidades unidimensionales (variables sin padres) o para tablas de dos dimensiones (variables con un padre) puede utilizarse alternativamente la función matrix. A continuación veremos ejemplos.
+
+En la encuesta, la Edad y el Sexo vienen dadas por probabilidades unidimensionales, ya que son variables que no tienen padres en el grafo.
+
+```{r}
+A.prob <- array(c(.3, .5, .2), dim = 3, dimnames = list(A = estados.A))
+A.prob
+## A
+## young adult   old 
+##   0.3   0.5   0.2
+S.prob <- array(c(.6, .4), dim = 2, dimnames = list(S = estados.S))
+S.prob
+## S
+##   M   F 
+## 0.6 0.4
+```
+
+Ocupación y residencia, al depender de Educación, se representan mediante una tabla de probabilidades condicionadas de dos dimensiones. Cada columna en este caso representa cada uno de los niveles del padre, y mantiene la distribución de la variable condicionada cada nivel particular, por lo que las probabilidades de cada columna siempre suman 1:
+
+```{r}
+O.prob <- array(c(.96,.04,.92,.08), dim = c(2,2), 
+                  dimnames = list(O = estados.O, E = estados.E))
+O.prob
+##       E
+## O      high  uni
+##   emp  0.96 0.92
+##   self 0.04 0.08
+R.prob <- array(c(.25,.75,.2,.8), dim = c(2,2), 
+                  dimnames = list(R = estados.R, E = estados.E))
+R.prob
+##        E
+## R       high uni
+##   small 0.25 0.2
+##   big   0.75 0.8
+```
+
+Por último, Educación y Transporte se modelizan en forma de tablas 3-dimensionales, dado que tienen 2 padres cada una. Cada columna corresponde en este caso a una combinación de los niveles de los padres y contienen la probabilidad de la variable condicionada a esa combinación particular:
+
+```{r}
+# Tabla de probabilidades condicionales para el nodo Educacion
+E.prob <- array(c(.75, .25, .72, .28, .88, .12, .64, .36, .70, .30, .90, .10),
+                dim = c(2, 3, 2),
+                dimnames = list(E = estados.E,
+                                A = estados.A,
+                                S = estados.S))
+E.prob
+## , , S = M
+## 
+##       A
+## E      young adult  old
+##   high  0.75  0.72 0.88
+##   uni   0.25  0.28 0.12
+## 
+## , , S = F
+## 
+##       A
+## E      young adult old
+##   high  0.64   0.7 0.9
+##   uni   0.36   0.3 0.1
+# Tabla de probabilidades condicionales para el nodo Transporte
+T.prob <- array(c(.48, .42, .1, .56, .36, .08, .58, .24, .18, .7, .21, .09),
+                dim = c(3,2,2),
+                dimnames = list(T = estados.T, 
+                                O = estados.O,
+                                R = estados.R))
+T.prob
+## , , R = small
+## 
+##        O
+## T        emp self
+##   car   0.48 0.56
+##   train 0.42 0.36
+##   other 0.10 0.08
+## 
+## , , R = big
+## 
+##        O
+## T        emp self
+##   car   0.58 0.70
+##   train 0.24 0.21
+##   other 0.18 0.09
+```
+
+Una vez definidos el grafo y la distribución de las probabilidades locales de cada variable, se combinan para crear la red bayesiana propiamente dicha. Para ello, se almacenan las diferentes tablas de probabilidades condicionadas en una lista (named list en R), en la que cada elemento lleva el nombre la variable correspondiente (la llamamos cpt, de conditional probability tables):
+
+```{r}
+cpt <- list(A = A.prob, S = S.prob, E = E.prob, O = O.prob, R = R.prob, T = T.prob)
+str(cpt)
+## List of 6
+##  $ A: num [1:3(1d)] 0.3 0.5 0.2
+##   ..- attr(*, "dimnames")=List of 1
+##   .. ..$ A: chr [1:3] "young" "adult" "old"
+##  $ S: num [1:2(1d)] 0.6 0.4
+##   ..- attr(*, "dimnames")=List of 1
+##   .. ..$ S: chr [1:2] "M" "F"
+##  $ E: num [1:2, 1:3, 1:2] 0.75 0.25 0.72 0.28 0.88 0.12 0.64 0.36 0.7 0.3 ...
+##   ..- attr(*, "dimnames")=List of 3
+##   .. ..$ E: chr [1:2] "high" "uni"
+##   .. ..$ A: chr [1:3] "young" "adult" "old"
+##   .. ..$ S: chr [1:2] "M" "F"
+##  $ O: num [1:2, 1:2] 0.96 0.04 0.92 0.08
+##   ..- attr(*, "dimnames")=List of 2
+##   .. ..$ O: chr [1:2] "emp" "self"
+##   .. ..$ E: chr [1:2] "high" "uni"
+##  $ R: num [1:2, 1:2] 0.25 0.75 0.2 0.8
+##   ..- attr(*, "dimnames")=List of 2
+##   .. ..$ R: chr [1:2] "small" "big"
+##   .. ..$ E: chr [1:2] "high" "uni"
+##  $ T: num [1:3, 1:2, 1:2] 0.48 0.42 0.1 0.56 0.36 0.08 0.58 0.24 0.18 0.7 ...
+##   ..- attr(*, "dimnames")=List of 3
+##   .. ..$ T: chr [1:3] "car" "train" "other"
+##   .. ..$ O: chr [1:2] "emp" "self"
+##   .. ..$ R: chr [1:2] "small" "big"
+```
+
+Y se crea la red bayesiana con la función custom.fit:
+
+```{r}
+bn <- custom.fit(dag, cpt)
+```
+
+El objeto bn es la red bayesiana completa (grafo + tablas de probabilidad asociadas a cada nodo).
+
+#### 3 Inferencia
+La utilidad de la red probabilística radica en último término hallar de forma eficiente la probabilidad de cualquier nodo (o conjunto de nodos), dada una cierta información (evidencia). Este proceso se denomina inferencia o razonamiento probabilístico. Una red bayesiana puede utilizarse para hacer inferencia bien a través de su DAG, o través del conjunto de distribuciones locales definido. Básicamente, el tipo de cuestiones que podemos plantearle a nuestra red bayesiana, como si de un sistema experto se tratara, son tres tipos:
+
+Las probabilidades de que ocurra un evento bajo unas circunstancias específicas, es decir, consultas de probabilidad condicionada
+Validar la asociación entre dos variables una vez que la influencia de una tercera es descartada, es decir, consultas de independencia condicional
+Identificar el estado más probable de una o más variables, lo cual lleva a la explicación más probable.
+##### 3.1 Inferencia a partir de la estructura del DAG: d-separación
+Podemos estudiar la asociación entre variables con la información contenida en nuestro grafo, almacenado en el objeto dag, mediante una consulta de probabilidad condicionada. Esto es posible mediante un análisis entre las conexiones del DAG, para comprobar si existe alguna conexión entre ellas, bien sea directa o indirecta, dependiendo de si la relación entre las dos variables está mediada por uno o más arcos respectivamente. Si no existe dicha conexión entre las variables en el grafo, hablamos de separación dirigida, o d-separación. Los detalles de la d-separación ya se han visto anteriormente. En esta práctica, basta con recordar que la separación gráfica de dos variables (⊥G) implica independencia probabilística (⊥P) en la red bayesiana. Si todas las trayectorias entre X e Y se encuentran bloqueadas, se dice que X e Y son (condicionalmente) independientes dada una tercera variable Z, lo que representamos como X⊥GY|Z. Lo contrario no es necesariamente cierto: no todas las relaciones de independencia condicional se encuentran reflejadas en el grafo.
+
+Podemos investigar la d-separación entre variables de un grafo con la función dsep:
+
+```{r}
+dsep(dag, x = "S", y = "R")
+## [1] FALSE
+dsep(dag, x = "O", y = "R")
+## [1] FALSE
+```
+
+En los anteriores ejemplos las variables introducidas no son independientes. Esto podemos verlo en el grafo, donde el sexo (S) y el lugar de residencia (R) están conectados a través de educación (E). Del mismo modo, la ocupación (O) y el lugar de residencia están relacionadas a través de la educación (E).
+
+De hecho, podemos comprobar que hay una conexión entre S y R el el DAG:
+
+```{r}
+bnlearn::path(dag, from = "S", to = "R")
+## [1] TRUE
+```
+
+, pero si condicionamos a la educación, la conexión queda bloqueada y S y R son ahora independientes:
+
+
+```{r}
+dsep(dag, x = "S", y = "R", z = "E")
+## [1] TRUE
+```
+
+Lo mismo aplica a la relación entre O y R. Ambas dependen de E, y por lo tanto ambas se vuelven independientes cuando condicionamos sobre E:
+
+```{r}
+dsep(dag, "O", "R", "E")
+## [1] TRUE
+```
+
+Por el contrario, condicionar sobre un nodo particular puede también hacer que otros nodos marginalmente independientes pasen a ser dependientes. Por ejemplo,
+
+```{r}
+dsep(dag, x = "A", y = "S")
+## [1] TRUE
+dsep(dag, x = "A", y = "S", z = "E")
+## [1] FALSE
+```
+
+Efectivamente, si queremos hacer inferencia sobre el nodo A en este caso, necesitaremos además información sobre los nodos S y E. Este subconjunto de nodos constituye el Markov blanket de A, siendo el resto de los nodos del grafo redundantes para hacer inferencia sobre A:
+
+```{r}
+bnlearn::mb(dag, "A")
+## [1] "S" "E"
+```
+
+Sabemos a partir del grafo que el estado de E esta influenciado por los estados de A y S, que son sus padres.
+
+```{r}
+bnlearn::parents(dag, "E")
+## [1] "A" "S"
+```
+
+A su vez, A y S pasan a ser dependientes dado E. De forma equivalente, E depende de la distribución conjunta de A y S, P(E|A,s); por tanto, de acuerdo con el Teorema de Bayes, tenemos:
+
+P(E|A,S)=P(A,S,E)P(A,S)=P(A,S|E)P(E)P(A)P(S)αP(A,S|E)
+
+, y por lo tanto cuando E es conocida, no podemos descomponer la probabilidad conjunta de A y S en una parte que dependa sólo de A y otra de S. No obstante, P(A,S)=P(A|S)P(S)=P(A)P(S): tal y como se ha visto en el ejemplo anterior, A y S están d-separadas cuando no se condiciona a E.
+
+Estos tres ejemplos de relaciones condicionadas entre variables recogen las tres configuraciones básicas de tres nodos y dos arcos. Se conocen como conexiones fundamentales y son los bloques sobre los que se fundamentan las propiedades gráficas y probabilísticas de las redes bayesianas. Puedes repasar las diapositivas de la parte teórica, pero simplemente para fijar conceptos, estas son las tres conexiones fundamentales:
+
+Conexiones en serie (cascada): del tipo: S -> E -> R, como en el primer ejemplo
+Conexiones divergentes (padre en común): del tipo: R <- E -> O, como en el segundo ejemplo
+Conexiones convergentes (v-estructuras): del tipo A -> E <- S, como en el tercer ejemplo. Forman las llamadas estructuras en V
+
+##### Ejercicio
+
+A continuación, basándote en el concepto de d-separación y utilizando únicamente la información representada en el grafo, intenta responder a las siguientes preguntas:
+
+Evaluar la dependencia entre edad y sexo ¿son independientes?
+
+Ahora evalúa lo mismo conocido el nivel educativo ¿como es ahora su relación?
+
+A continuación evalúa la dependencia entre ambas variables pero conociendo sólo el medio de transporte elegido.
+
+A continuación evalúa de nuevo la dependencia entre ambas variables pero conociendo sólo el lugar de residencia.
+
+#####3.2 Inferencia a partir de las tablas de probabilidades condicionales
+Consultas a nuestro “sistema experto” un poco más complejas requieren la utilización de las tablas de probabilidades condicionales contenidas en nuestra red bayesiana. En este contexto, las variables utilizadas como condiciones en nuestro sistema constituyen las nuevas evidencias que nosotros introducimos, y a partir de las cuales se re-calculan las probabilidades de los eventos sobre los que nos interesa obtener información.
+
+Hay dos tipos de inferencia: exacta y aproximada. La primera nos proporciona valores más precisos, y resulta computacionalmente mucho más barata de calcular que la estimada, que se basa en generar multitud de datos aleatorios mediante un test de permutación de Monte-Carlo.
+
+######3.2.1 Inferencia exacta
+La inferencia exacta está implementada en el paquete gRain (gRaphical inference), que transforma la red bayesiana en un árbol que acelera los cálculos de la probabilidades condicionadas (algoritmo junction tree, o árbol de cliques, que se ha visto durante anteriores sesiones).
+
+Recordemos que el árbol de cliques se construía a partir de la moralización del DAG. El grafo moral es de tipo no dirigido (conocido como red de Markov), que se construye a partir del DAG a través de dos pasos:
+
+Conectando los nodos no adyacentes de cada v-estructura con un arco no dirigido (vértice).
+Ignorando la dirección del resto del arcos del DAG, y por tanto sustituyéndolos por vértices.
+A la transformación (1) se la denomina moralización, porque “casa” a padres no-adyacentes que comparten un hijo. La función moral realiza la moralización de un DAG de forma directa:
+
+```{r}
+mdag <- moral(dag)
+par(mfrow = c(1,2))
+plot(dag, main = "DAG")
+plot(mdag, main = "Moral Graph")
+```
+
+Como se vió en la parte teórica, este paso es primordial para la generación del árbol de cliques, necesario para realizar la inferencia exacta. Sin embargo, no es necesario realizar todo el proceso de moralización y generación de cliques. La construcción de dicho árbol es inmediata a partir del objeto bn usando la función compile sobre un objeto de tipo grain implementado en la librería gRain:
+
+```{r}
+library(gRain)
+junction <- compile(as.grain(bn))
+```
+
+Una vez creado el árbol (as.grain), y las tablas de probabilidad calculadas (compile), podemos introducir la nueva evidencia. Las distribuciones locales en cada nodo se actualizan en base a la nueva información introducida, que se propaga a lo largo del árbol. La consulta es realizada a través de la función querygrain, que calcula la distribución en los nodos que nos interesan del objeto junction.
+
+Por ejemplo, podríamos estar interesados en las actitudes del público femenino respecto al uso del tren o el coche en comparación con la muestra completa de todos los encuestados:
+
+```{r}
+# Esta es la probabilidad marginal de T:
+querygrain(junction, nodes = "T")$T
+## T
+##       car     train     other 
+## 0.5618340 0.2808573 0.1573088
+# Introducimos la nueva evidencia
+jsex <- setEvidence(junction, nodes = "S", states = "F")
+# Nueva probabilidad marginal dada la evidencia
+querygrain(jsex, nodes = "T")$T
+## T
+##       car     train     other 
+## 0.5620577 0.2806144 0.1573280
+```
+
+Según esto, parece que no hay diferencias significativas en las probabilidades derivadas del objeto junction antes y después de la llamada a setEvidence. Lo primero puede representarse como P(T), mientras que tras introducir la evidencia hemos calculado P(T | S = F). Esto sugiere que las mujeres tienen una preferencia similar hacia el coche o el tren que el total de los encuestados considerados globalmente.
+
+Otro problema interesante puede ser como vivir en una ciudad pequeña puede afectar el uso del tren o del coche, esto es, P(T | R = small).
+
+```{r}
+jres <- setEvidence(object = junction, nodes = "R", states = "small")  
+querygrain(jres, nodes = "T")$T
+## T
+##        car      train      other 
+## 0.48388675 0.41708494 0.09902831
+```
+
+Ahora la probabilidad asociada con otros medios de transporte (other) cae de 0.157 a 0.099 mientras que la probabilidad asociada a train se incrementa de 0.281 a 0.417. En conjunto, las probabilidad combinada de car y train sube de 0.843 (del total de la muestra) a 0.901 (para las personas que viven en ciudades pequeñas). Por lo tanto, puede concluirse que en ciudades pequeñas el medio de transporte preferido es el coche, aunque aumenta la preferencia por el tren.
+
+También podemos utilizar las consultas de probabilidades condicionadas para evaluar la independencia condicional, tal y como hicimos en la sección anterior usando el grafo y el comando dsep. Volvamos a considerar la relación entre S y T, esta vez condicionada a la evidencia de que E = "high". La probabilidad conjunta de S y T dado que el nivel de educación sea high, representado por la expresión P(S,T | E = high), se calcula nuevamente usando setEvidence y querygrain del siguiente modo:
+
+```{r}
+jedu <- setEvidence(junction, nodes = "E", states = "high")
+SxT.cpt <- querygrain(jedu, nodes = c("S", "T"), type = "joint")
+SxT.cpt
+##    T
+## S         car     train      other
+##   M 0.3426644 0.1736599 0.09623271
+##   F 0.2167356 0.1098401 0.06086729
+## attr(,"class")
+## [1] "parray" "array"
+dsep(dag, "S", "T", "E")
+## [1] TRUE
+```
+
+Por tanto, el argumento type define cual de las posibles distribuciones asociadas a cada nodo es devuelta en la consulta. El valor por defecto es marginal, que devuelve las probabilidades marginales:
+
+```{r}
+querygrain(jedu, nodes = c("S", "T"), type = "marginal")
+## $S
+## S
+##        M        F 
+## 0.612557 0.387443 
+## 
+## $T
+## T
+##    car  train  other 
+## 0.5594 0.2835 0.1571
+```
+
+Usando type = joint obtenemos, como se ha visto, la probabilidad conjunta. Por último, podemos obtener las probabilidades condicionales. En este caso, querygrain devuelve la distribución del primer nodo en nodes condicionada al resto de nodos en nodes (y por supuesto a la evidencia previamente presentada mediante setEvidence):
+
+```{r}
+querygrain(jedu, c("S", "T"), type = "conditional")
+##        S
+## T              M        F
+##   car   0.612557 0.387443
+##   train 0.612557 0.387443
+##   other 0.612557 0.387443
+```
+
+En este caso la suma de columnas suma 1, porque se calculan condicionadas al valor de T en cada caso.
+
+####3.3 Inferencia aproximada
+El uso de simulaciones de Monte-Carlo constituye una aproximación alternativa al problema de la inferencia, basada en generar observaciones aleatorias a partir de la red bayesiana. Estas observaciones son a su vez utilizadas para estimar las probabilidades condicionales que nos interesen de forma aproximada.
+
+Este método es caro desde el punto de vista computacional, pero a cambio permite introducir especificaciones de la evidencia más complejas y puede ser preferible en redes complejas. En redes discretas, un método sencillo ampliamente utilizado es el de rejection sampling.
+
+De acuerdo con este método, se generan observaciones aleatorias independientes a partir de la red bayesiana. Después, se contabiliza el número de dichas observaciones que coinciden con la evidencia dada por la que estamos condicionando y cuántas observaciones también coinciden con el evento cuya probabilidad queremos estimar; la probabilidad condicional estimada es el ratio entre ésta y aquella.
+
+En bnlearn, esta aproximación está implementada a través de las funciones cpquery y cpdist. cpquery devuelve la probabilidad de un evento determinado dada cierta evidencia. Volviendo al primer ejemplo utilizado para ilustrar la inferencia exacta, podemos calcular la primera casilla de la tabla de probabilidades del siguiente modo:
+
+```{r}
+set.seed(1)
+cpquery(bn, event = (S == "M") & (T == "car"), evidence = (E == "high"))
+## [1] 0.3514745
+```
+
+Como puede comprobarse, en este caso la probabilidad estimada difiere ligeramente de la que obtuvimos mediante inferencia exacta (0.3427) calculada con querygrain, que era P(S = m, T = car | E = high)=0.3427.
+
+La probabilidad estimada es cercana a su valor verdadero. Esta precisión puede aumentarse aumentando el número de observaciones aleatorias que se genera (argumento n, valor por defecto = 5000). Sin embargo, incrementar la precisión tiene su coste: La consulta requiere más tiempo de cálculo, y su precisión podría seguir siendo baja si la evidencia dada tienen una baja probabilidad. Por ejemplo, generamos un millón de observaciones aleatorias para comprobar que ahora nos acercamos más al valor verdadero:
+
+```{r}
+set.seed(1)
+cpquery(bn, event = (S == "M") & (T == "car"), evidence = (E == "high"), n = 1e06)
+## [1] 0.3421707
+```
+
+Una aproximación mejor es el pesado de verosimilitudes (likelihood weighting). Este método se basa en en generar observaciones aleatorias de tal modo que todas ellas coinciden con la evidencia dada, y asigna pesos a cada una de ellas de forma apropiada para calcular las probabilidades condicionales al realizar la consulta. Se puede aplicar este método con el argumento method = "lw" desde la función cpquery:
+
+```{r}
+set.seed(2)
+cpquery(bn, event = (S == "M") & (T == "car"), 
+        evidence = list(E = "high"), method = "lw")
+## [1] 0.3390615
+```
+
+En este caso, la probabilidad estimada (0.3390) se aproxima bastante a la calculada anteriormente de forma exacta (0.3427) sin necesidad de realizar 106 simulaciones.
+
+Como ejemplo de una consulta algo más complicada, podemos intentar calcular la probabilidad de que un hombre viaje en coche dado que su nivel educativo sea universitario o bien que sea un adulto, independientemente de su nivel educativo:
+
+P(S = M, T = car | {A = young,E = uni}∪{A = adult})
+
+, que se especificaría mediante cpquery del siguiente modo:
+
+```{r}
+set.seed(1)
+cpquery(bn, event = (S == "M") & (T == "car"),
+        evidence = ((A == "young") & (E == "uni")) | (A == "adult"))
+## [1] 0.335729
+```
+
+La implementación del método lw no es lo suficientemente flexible como para calcular evidencias compuestas como esta; esta limitación existe también para las funciones que realizan la inferencia exacta en el paquete gRain.
+
+La función cpdist, con una sintaxis similar a cpquery, devuelve un data.frame que contienen las observaciones aleatorias para las variables en nodes generadas que coinciden con los criterios de la evidencia (evidence) dada:
+
+```{r}
+SxT <- cpdist(bn, nodes = c("S", "T"), evidence = (E == "high"))
+head(SxT)
+
+# S
+# <fctr>
+# T
+# <fctr>
+# 1	M	train
+# 2	M	train
+# 3	M	train
+# 4	F	train
+# 5	M	car
+# 6	M	other
+# 6 rows
+```
+
+Estas observaciones devueltas por cpdist pueden ser utilizadas para otros tipos de inferencia, dando lugar a un método muy versátil. Por ejemplo, podemos calcular la tabla de probabilid conjunta de S y T dado el nivel E = "high" y compararla con la que calculamos utilizando querygrain en el ejemplo anterior de inferencia exacta. Para ello, usamos table para generar la tabla de contingencia SxT y prop.table para convertir el conteo en probabilidades, como hemos visto anteriormente en la sección de aprendizaje paramétrico:
+
+```{r}
+prop.table(table(SxT))
+##    T
+## S          car      train      other
+##   M 0.33234421 0.16994875 0.10871325
+##   F 0.21364985 0.11329916 0.06204478
+```
+
+Como vimos anteriormente, en el grupo con E="high", la combinación más frecuente de sexo y medio de transporte es coche y varón.
+
+####4 Representación gráfica avanzada
+Una de las grandes ventajas de las redes Bayesianas consiste en poder estudiarlas de forma visual a partir de su representación gráfica. A continuación se muestran algunas de las herramientas disponibles en R para la representación gráfica de redes bayesianas.
+
+#####4.1 Dibujar un DAG
+bnlearn se basa en las herramientas disponibles en el paquete Rgraphviz para dibujar estructuras gráficas, a través de la función graphviz.plot. De hecho, la llamada a esta función con todos los argumentos por defecto da lugar a los gráficos que hemos visto anteriormente usando directamente plot.
+
+Una operación típica es resaltar un nodo(s) en particular. Por ejemplo, si queremos significar una conectividad de tipo convergente (recuerda aquí) en nuestro grafo, podemos hacerlo del siguiente modo: Primero, vamos a definir el color gris para todos los nodos del DAG:
+
+```{r}
+hlight <- list(nodes = nodes(dag), arcs = arcs(dag), col = "grey", textCol = "grey")
+```
+
+A continuación, le pasamos esta lista de especificaciones a la función graphviz.plot a través de su argumento highlight:
+
+```{r}
+pp <- graphviz.plot(dag, highlight = hlight)
+
+
+class(pp)
+## [1] "graphNEL"
+## attr(,"package")
+## [1] "graph"
+```
+
+El aspecto de los arcos se puede modificar utilizando edgeRenderInfo, y una lista cuyos elementos son los elementos gráficos que se desea modificar:
+
+```{r}
+edgeRenderInfo(pp) <- list(col = c("A~E" = "black", "S~E" = "black"), # color
+                           lwd = c("A~E" = 2.5, "S~E" = 2.5)) # grosor
+```
+
+Del mismo modo, manipulamos el aspecto de los nodos con nodeRenderInfo:
+
+```{r}
+nodeRenderInfo(pp) <- list(col = c("S" = "black", "E" = "black", "A" = "black"),
+                           textCol = c("S" = "black", "E" = "black", "A" = "black"),
+                           fill = c("E" = "grey"))
+```
+
+Una vez introducidas todas las modificaciones, se pinta el grafo con renderGraph:
+
+```{r}
+renderGraph(pp)
+```
+
+Otro ejemplo de personalizacion consiste en resaltar las v-estructuras del grafo:
+
+```{r}
+hl <- list(arcs = vstructs(dag, arcs = TRUE), lwd = 4, col = "red")
+graphviz.plot(dag, highlight = hl)
+```
+
+Existen además otras posibles configuraciones para representar los DAG. Estas son las alternativas que ofrece la función graphviz.plot, y que se encuentran documentadas en la viñeta del paquete Rgraphviz:
+
+```{r}
+# Valor por defecto (layout = "dot"):
+# graphviz.plot(dag, highlight = hl, layout = "dot")
+par(mfrow = c(2,2))
+for (i in c("neato", "twopi", "circo", "fdp")) {
+      graphviz.plot(dag, highlight = hl, layout = i, main = toupper(i))
+}
+```
+
+##### 4.2 Gráficos de distribución de probabilidades condicionales
+Se trata de gráficos de gran utilidad en el análisis y exploración del modelo. Las funciones implementadas en bnlearn se basan en las herramientas del potente paquete lattice para visualización de datos multivariantes.
+
+```{r}
+# Barras
+bn.fit.barchart(bn$T, main = "Travel", xlab = "Pr(T | R,O)", ylab = "estado de T")
+
+
+# Puntos
+bn.fit.dotplot(bn$T, main = "Travel", xlab = "Pr(T | R,O)", ylab = "estado de T")
+```
+
+####5 Ejemplo: Clasificador Bayesiano Ingenuo
+Definimos la tabla de datos:
+
+```{r}
+variables.Names <- c("Outlook","Temperature","Humidity","Windy","Play Golf")
+sample.Number <- c(1:14)
+data.table <- array(c("Rainy","Rainy","Overcast","Sunny","Sunny","Sunny","Overcast","Rainy","Rainy","Sunny","Rainy","Overcast","Overcast","Sunny",
+                      "Hot","Hot","Hot","Mild","Cool","Cool","Cool","Mild","Cool","Mild","Mild","Mild","Hot","Mild",
+                      "High","High","High","High","Normal","Normal","Normal","High","Normal","Normal","Normal","High","Normal","High",
+                      "False","True","False","False","False","True","True","False","False","False","True","True","False","True",
+                      "No","No","Yes","Yes","Yes","No","Yes","No","Yes","Yes","Yes","Yes","Yes","No"),
+                    dim = c(14,5),
+                    dimnames = list(event = sample.Number, variable = variables.Names))
+estados.O <- c("Rainy","Overcast","Sunny")
+estados.T <- c("Hot","Mild","Cool")
+estados.H <- c("Normal","High")
+estados.W <- c("True","False")
+estados.G <- c("Yes","No")
+```
+
+Definimos el grafo:
+
+```{r}
+dag <- empty.graph(nodes = c("O", "T", "H", "W", "G"))
+dag <- set.arc(dag, from = "G", to = "O")
+dag <- set.arc(dag, from = "G", to = "T")
+dag <- set.arc(dag, from = "G", to = "H")
+dag <- set.arc(dag, from = "G", to = "W")
+modelstring(dag)
+## [1] "[G][O|G][T|G][H|G][W|G]"
+```
+
+Representamos el grafo:
+
+```{r}
+plot(dag)
+```
+
+Definimos las tablas de probabilidad:
+
+```{r}
+G.prob <- array(c(length(which(data.table[,"Play Golf"] == "Yes")), length(which(data.table[,"Play Golf"] == "No")))/length(data.table[,"Play Golf"]), dim = 2, dimnames = list(G = estados.G))
+O.prob <- array(data = 0, dim = c(length(estados.O),length(estados.G)), dimnames = list(O = estados.O, G = estados.G))
+T.prob <- array(data = 0, dim = c(length(estados.T),length(estados.G)), dimnames = list(T = estados.T, G = estados.G))
+H.prob <- array(data = 0, dim = c(length(estados.H),length(estados.G)), dimnames = list(H = estados.H, G = estados.G))
+W.prob <- array(data = 0, dim = c(length(estados.W),length(estados.G)), dimnames = list(W = estados.W, G = estados.G))
+for (g in 1:length(estados.G)){
+  for (o in 1:length(estados.O)){
+    O.prob[o,g] <- length(which(data.table[,"Play Golf"] == estados.G[g] & data.table[,"Outlook"] == estados.O[o]))/length(which(data.table[,"Play Golf"] == estados.G[g]))
+  }
+  for (t in 1:length(estados.T)){
+    T.prob[t,g] <- length(which(data.table[,"Play Golf"] == estados.G[g] & data.table[,"Temperature"] == estados.T[t]))/length(which(data.table[,"Play Golf"] == estados.G[g]))
+  }
+  for (h in 1:length(estados.H)){
+    H.prob[h,g] <- length(which(data.table[,"Play Golf"] == estados.G[g] & data.table[,"Humidity"] == estados.H[h]))/length(which(data.table[,"Play Golf"] == estados.G[g]))
+  }
+  for (w in 1:length(estados.W)){
+    W.prob[w,g] <- length(which(data.table[,"Play Golf"] == estados.G[g] & data.table[,"Windy"] == estados.W[w]))/length(which(data.table[,"Play Golf"] == estados.G[g]))
+  }
+}
+```
+
+Con el grafo y la tabla de probabilidades podemos definir la Red Bayesiana:
+
+```{r}
+cpt <- list(G = G.prob, O = O.prob, T = T.prob, H = H.prob, W = W.prob)
+bn <- custom.fit(dag, cpt)
+```
+
+¿Se podría jugar al Golf hoy?
+
+Considerando la inferencia exacta:
+
+```{r}
+jsex <- setEvidence(junction, nodes = c("O","T","H","W"), states = c("Overcast","Cool","Normal","True"))
+querygrain(jsex, nodes = "G")$G
+## G
+## Yes  No 
+##   1   0
+```
+
+Considerando la inferencia aproximada:
+
+```{r}
+set.seed(1)
+cpquery(bn, event = (G == "Yes"),
+        evidence = ((O == "Overcast") & (T == "Cool") & (H == "Normal") & (W == "True")))
+## [1] 1
+```
+
+####6 Referencias
+Gutiérrez, J.M., Cano, R., Cofiño, A.S., Sordo, C., 2004. Redes probabilísticas y neuronales en las ciencias atmosféricas. Centro de Publicaciones, Ministerio de Medio Ambiente, Madrid, Spain.
+
+Scutari, M., Denis, J.-B., 2014. Bayesian networks: with examples in R.
+
+Scutari, M., 2014. Bayesian Network Constraint-Based Structure Learning Algorithms: Parallel and Optimised Implementations in the bnlearn R Package. http://arxiv.org/abs/1406.7648
+
+r-bayesian-networks. http://www.r-bayesian-networks.org/ (Last accessed 18 Nov 2017)
+
+Nagarajan, R., Scutari, M. and Lèbre, S. 2013. Bayesian networks in R: with applications in systems biology, Use R! Springer, New York.
+
+7 Session info
+print(sessionInfo())
+## R version 3.5.2 (2018-12-20)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 14.04.3 LTS
+## 
+## Matrix products: default
+## BLAS: /usr/lib/atlas-base/atlas/libblas.so.3.0
+## LAPACK: /usr/lib/lapack/liblapack.so.3.0
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=es_ES.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=es_ES.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=es_ES.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=es_ES.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] grid      parallel  stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
+## 
+## other attached packages:
+## [1] Rgraphviz_2.24.0    gRain_1.3-0         gRbase_1.8-3.4     
+## [4] RBGL_1.56.0         graph_1.58.2        BiocGenerics_0.26.0
+## [7] bnlearn_4.4.1      
+## 
+## loaded via a namespace (and not attached):
+##  [1] igraph_1.2.4    Rcpp_1.0.0      knitr_1.22      magrittr_1.5   
+##  [5] lattice_0.20-38 stringr_1.4.0   tools_3.5.2     functional_0.6 
+##  [9] xfun_0.5        htmltools_0.3.6 yaml_2.2.0      digest_0.6.18  
+## [13] Matrix_1.2-15   evaluate_0.13   rmarkdown_1.11  stringi_1.4.3  
+## [17] compiler_3.5.2  stats4_3.5.2    jsonlite_1.6    pkgconfig_2.0.2
