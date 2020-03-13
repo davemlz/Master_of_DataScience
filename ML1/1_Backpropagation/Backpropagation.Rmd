@@ -1,0 +1,112 @@
+---
+title: "Backpropagation"
+output: html_notebook
+---
+
+Backpropagation algorithm.
+
+```{r}
+lin = read.csv("lineal.csv",header = FALSE)
+
+ind = which(lin[,3] == 0)
+
+plot(lin[ind,1],lin[ind,2],type="p",xlim=c(0,1),ylim=c(0,1))
+lines(lin[-ind,1],lin[-ind,2],type="p",col="red")
+```
+
+```{r}
+a = as.matrix(lin[,-3])
+dim(a)
+```
+
+```{r}
+b = as.matrix(lin[,3])
+dim(b)
+```
+
+```{r}
+a = cbind(a,rep(1,nrow(a)))
+```
+
+```{r}
+activation = function(x){
+  
+  1/(1 + exp(-x))
+  
+}
+```
+
+```{r}
+neurons = c(ncol(a),ncol(b))
+
+W = matrix(data = runif(prod(neurons),min = -1, max = 1),nrow = neurons[2],ncol = neurons[1])
+W
+```
+
+```{r}
+bout = activation(a %*% t(W))
+dim(bout)
+```
+
+```{r}
+error = b - bout
+aux = error * bout * (1 - bout)
+Wdelta = t(aux) %*% a
+Wdelta
+```
+
+```{r}
+backprop = function(y,x,epochs = 10, eta = 0.1){
+  
+  x = cbind(x,rep(1,nrow(x)))
+  
+  neurons = c(ncol(x),ncol(y))
+
+  W = matrix(data = runif(prod(neurons),min = -1, max = 1),nrow = neurons[2],ncol = neurons[1])
+  
+  activation = function(x){
+  
+    1/(1 + exp(-x))
+  
+  }
+  
+  mse = NULL
+  
+  for(j in 1:epochs){
+    
+    bout = activation(x %*% t(W))
+    
+    error = y - bout
+    
+    aux = error * bout * (1 - bout)
+    
+    Wdelta = t(aux) %*% x
+    
+    mse = c(mse,sum(error^2)/nrow(error))
+    
+    print(Wdelta)
+    
+    W = W + eta * Wdelta
+    
+  }
+  
+  to_return = list(error = mse,weights = W,values = bout)
+  
+  return(to_return)
+  
+}
+```
+
+```{r}
+my_nn = backprop(b,a,500,0.7)
+```
+
+```{r}
+plot(1:500,my_nn$error,type = "l",col = "red")
+```
+
+```{r}
+salida = as.numeric(my_nn$values > 0.5)
+cbind(salida,b)
+```
+
