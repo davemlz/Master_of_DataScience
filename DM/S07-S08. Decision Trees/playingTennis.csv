@@ -1,0 +1,15 @@
+Pronostico, Temperatura, Humedad, Viento, Adecuado
+Soleado, Alta    , Alta  , Flojo , No
+Soleado, Alta    , Alta  , Fuerte, No
+Nublado, Alta    , Alta  , Flojo , Si
+Lluvia , Moderada, Alta  , Flojo , Si
+Lluvia , Baja    , Normal, Flojo , Si
+Lluvia , Baja    , Normal, Fuerte, No
+Nublado, Baja    , Normal, Fuerte, Si
+Soleado, Moderada, Alta  , Flojo , No
+Soleado, Baja    , Normal, Flojo , Si
+Lluvia , Moderada, Normal, Flojo , Si
+Soleado, Moderada, Normal, Fuerte, Si
+Nublado, Moderada, Alta  , Fuerte, Si
+Nublado, Alta    , Normal, Flojo , Si
+Lluvia , Moderada, Alta  , Fuerte, No
