@@ -1,0 +1,70 @@
+---
+title: "Práctica 6"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+## David Montero Loaiza
+
+### Problema 1
+
+El tiempo de curación medio de un resfriado común es de 6.7 días. Un determinado producto homeopático pretende reducir el tiempo de curación del resfriado común. Se administra el medicamento a 20 personas y se anotan los tiempos de curación que figuran en el archivo days.txt.
+
+```{r}
+path = "C:/Users/Dave Mont/Desktop/Estadistica/Práctica 6-20191106/days.txt"
+days = read.table(path)$V1
+ref = 6.7
+```
+
+#### i) Representa los datos y el valor de referencia.
+
+```{r}
+hist(days,breaks = 10)
+abline(v = ref,col = "red")
+```
+
+#### ii) Realiza un test de hipótesis para determinar si el producto es efectivo o no.
+
+```{r}
+# TEST DE HIPOTESIS
+t.test(days,mu = ref,alternative = "less")
+```
+
+Como el valor-p > alfa = 0.05 no se rechaza la hipótesis nula y se determina que el producto puede no ser efectivo.
+
+### Problema 2
+
+Se quiere estudiar el efecto del consumo prolongado de cannabis sobre el cerebro humano (ver Yucel et al. 2008). Para ello se reclutaron 15 fumadores de más de 10 años de antiguedad con un consumo igual o superior a 5 porros por día. Para el grupo control, se seleccionaron 16 no fumadores de edad y educación similar. Los datos del volumen de los hipocampos izquierdo y derecho medido en milímetros cúbicos para ambos grupos, figuran respectivamente en los archivos con cannabis.txt y sin cannabis.txt.
+
+```{r}
+path_con = "C:/Users/Dave Mont/Desktop/Estadistica/Práctica 6-20191106/con_cannabis.txt"
+path_sin = "C:/Users/Dave Mont/Desktop/Estadistica/Práctica 6-20191106/sin_cannabis.txt"
+
+con_can = read.table(path_con,header = TRUE)
+sin_can = read.table(path_sin,header = TRUE)
+```
+
+#### i) Representa gráficamente los datos.
+
+```{r}
+# BREAKS PARA HISTOGRAMAS
+bins = 10
+
+# HISTOGRAMAS
+par(mfrow = c(2,2))
+hist(con_can$izq,main = "Hipocampo izquierdo",ylab = "Con Cannabis",freq = FALSE,xlab = NULL,breaks = bins)
+hist(con_can$der,main = "Hipocampo derecho",ylab = NULL,freq = FALSE,xlab = NULL,breaks = bins)
+hist(sin_can$izq,main = NULL,ylab = "Sin Cannabis",freq = FALSE,xlab = "Volumen medio",breaks = bins)
+hist(sin_can$der,main = NULL,ylab = NULL,freq = FALSE,xlab = "Volumen medio",breaks = bins)
+```
+
+#### ii) Realiza un test de hipótesis para determinar si el consumo prolongado de cannabis afecta al volumen del hipocampo.
+
+```{r}
+# TEST DE HIPOTESIS
+t.test(con_can$izq + con_can$der,sin_can$izq + sin_can$der)
+```
+
+Como el valor-p < alfa = 0.05 el se rechaza la hipótesis nula y se determina que el consumo prolongado de cannabis afecta al volumen del hipocampo.
