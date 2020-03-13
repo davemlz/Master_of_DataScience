@@ -1,3 +1,0 @@
-# Scripts for OAA workshops
-
-
