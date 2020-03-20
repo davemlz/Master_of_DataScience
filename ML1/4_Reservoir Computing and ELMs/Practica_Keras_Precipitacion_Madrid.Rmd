@@ -1,0 +1,241 @@
+---
+title: "Tarea Keras Precipitación"
+output:
+  html_document:
+    df_print: paged
+---
+
+## David Montero Loaiza
+
+### Librerías
+
+```{r}
+require(caret)
+require(keras)
+require(MLmetrics)
+```
+
+### Preprocesamiento
+
+Se cargan los datos:
+
+```{r}
+# Lisboa
+load("C:/Users/Dave Mont/Desktop/Master_of_DataScience/00-datasets/meteo.RData")
+
+# Madrid
+#load("Madrid_Alumno.rda")
+```
+
+Función para dividir en Train, Validation y Test (también escala los datos):
+
+```{r}
+tvtPartition = function(x,y,p.train = 0.7,p.validation = 0.5,scale.xData = TRUE,center.xData = TRUE){
+  
+  # Escalar datos
+  x = scale(x,center = center.xData,scale = scale.xData)
+  
+  # Crear particion para Train y (Validation + Test)
+  idx = createDataPartition(y,p = p.train,list = FALSE)
+  
+  x_train = x[idx,]
+  x_vt = x[-idx,]
+  
+  y_train = y[idx]
+  y_vt = y[-idx]
+  
+  # Crear particion para Validation y Test
+  idx = createDataPartition(y_vt,p = p.validation,list = FALSE)
+  
+  x_val = x_vt[idx,]
+  x_test = x_vt[-idx,]
+  
+  y_val = y_vt[idx]
+  y_test = y_vt[-idx]
+  
+  # Retornar datasets
+  toReturn = list("x_train" = x_train,
+                  "y_train" = y_train,
+                  "x_val" = x_val,
+                  "y_val" = y_val,
+                  "x_test" = x_test,
+                  "y_test" = y_test)
+  
+  return(toReturn)
+  
+}
+```
+
+Partir en Train, Validation y Test:
+
+```{r}
+meteo = tvtPartition(x,y)
+```
+
+Ocurrencia/No ocurrencia:
+
+```{r}
+meteo$y_train_binary = as.numeric(meteo$y_train > 0)
+meteo$y_val_binary = as.numeric(meteo$y_val > 0)
+meteo$y_test_binary = as.numeric(meteo$y_test > 0)
+```
+
+Estructura del dataset:
+
+```{r}
+str(meteo)
+```
+
+### Modelos
+
+#### Ocurrencia
+
+Modelo de Ocurrencia: Secuencial.
+- Capa oculta de 100 neuronas con activación sigmoidal.
+- Capa de dropout con una tasa del 50% (para dar generalización)
+- Capa oculta de 50 neuronas con activación sigmoidal.
+- Capa de dropout con una tasa del 25% (para dar generalización)
+- Capa de salida de 1 neurona con activación sigmoidal.
+
+```{r}
+model_ocurrencia = keras_model_sequential()
+
+model_ocurrencia %>% 
+  layer_dense(units = 100, input_shape = dim(meteo$x_train)[2], activation = "sigmoid") %>%
+  layer_dropout(rate = 0.5) %>% 
+  layer_dense(units = 50, activation = "sigmoid") %>%
+  layer_dropout(rate = 0.25) %>%
+  layer_dense(units = 1, activation = "sigmoid")
+
+str(model_ocurrencia)
+```
+
+Compilación de Ocurrencia:
+- Opimizador RMSprop, de manera que se puede acercar al mínimo más rápido dividiendo por una ventana móvil.
+- Función de coste como Crossentropía Binaria, ya que tenemos dos clases.
+- Métrica adicional de evaluación AUC.
+
+```{r}
+model_ocurrencia %>% compile(optimizer = optimizer_rmsprop(lr = 0.001),
+                             loss = "binary_crossentropy",
+                             metrics = "AUC")
+```
+
+Entrenamiento de Ocurrencia:
+- 500 épocas para entrenar.
+- Tamaño de batch de 100.
+- Callback de detención temprana para evitar que el modelo continúe aprendiendo en sobreajuste.
+- Se usaron los datos de validación extraídos del dataset original.
+
+```{r}
+history_ocurrencia = model_ocurrencia %>% fit(meteo$x_train,
+                                              meteo$y_train_binary,
+                                              epochs = 500,
+                                              batch_size = 100,
+                                              callbacks = list(callback_early_stopping(patience = 30)),
+                                              validation_data = list(meteo$x_val,meteo$y_val_binary),
+                                              verbose = 0)
+
+plot(history_ocurrencia)
+```
+
+Evaluación del modelo con los datos de Test:
+
+```{r}
+evaluation_ocurrencia = model_ocurrencia %>% evaluate(meteo$x_test,meteo$y_test_binary,verbose = 0)
+evaluation_ocurrencia
+```
+
+Se observa una Crossentropía Binaria baja y un alto AUC, demostrando una buena capacidad del modelo para predecir correctamente la ocurrencia y no ocurrencia de precipitación, teniendo en cuenta la ocurrencia de precipitación como todos aquellos valores de precipitación mayores a 0.
+
+#### Cantidad
+
+Modelo de Cantidad: Secuencial.
+- Capa oculta de 200 neuronas con activación sigmoidal.
+- Capa de dropout con una tasa del 50% (para dar generalización)
+- Capa oculta de 100 neuronas con activación sigmoidal.
+- Capa de dropout con una tasa del 50% (para dar generalización)
+- Capa oculta de 50 neuronas con activación sigmoidal.
+- Capa de dropout con una tasa del 50% (para dar generalización)
+- Capa de salida de 1 neurona sin activación (para predicción).
+
+```{r}
+model_cantidad = keras_model_sequential()
+
+model_cantidad %>% 
+  layer_dense(units = 200,input_shape = dim(meteo$x_train)[2],activation = "sigmoid") %>%
+  layer_dropout(rate = 0.5) %>%
+  layer_dense(units = 100,activation = "sigmoid") %>%
+  layer_dropout(rate = 0.5) %>%
+  layer_dense(units = 50,activation = "sigmoid") %>%
+  layer_dropout(rate = 0.5) %>%
+  layer_dense(units = 1)
+
+str(model_cantidad)
+```
+
+Compilación de Cantidad:
+- Opimizador Adam, de manera que se puede acercar al mínimo de más rápido juntando momentum y división de ventana móvil.
+- Función de coste como Error Medio Cuadrático (MSE), ya que estamos prediciendo la precipitación.
+- No se usan métricas adicionales.
+
+```{r}
+model_cantidad %>% compile(optimizer = optimizer_adam(lr = 0.001),loss = "mse")
+```
+
+Entrenamiento de Cantidad:
+- 500 épocas para entrenar.
+- Tamaño de batch de 100.
+- Callback de detención temprana para evitar que el modelo continúe aprendiendo en sobreajuste.
+- Se usaron los datos de validación extraídos del dataset original.
+
+```{r}
+history_cantidad = model_cantidad %>% fit(meteo$x_train,
+                                          meteo$y_train,
+                                          epochs = 500,
+                                          batch_size = 100,
+                                          callbacks = list(callback_early_stopping(patience = 50)),
+                                          validation_data = list(meteo$x_val,meteo$y_val),
+                                          verbose = 0)
+
+plot(history_cantidad)
+```
+
+Evaluación del modelo con los datos de Test:
+
+```{r}
+evaluation_cantidad = model_cantidad %>% evaluate(meteo$x_test,meteo$y_test,verbose = 0)
+evaluation_cantidad
+```
+
+Se observa un MSE bastante alto para los datos de Test, y que se llega a un punto de sobreajuste en el modelo.
+
+#### Ocurrencia x Cantidad
+
+Se combinan los datos de ocurrencia y de cantidad para observar si se logra una mejora en los resultados de Cantidad.
+
+```{r}
+ocurrencia = predict_classes(model_ocurrencia,meteo$x_test)
+cantidad = predict(model_cantidad,meteo$x_test)
+
+cantidadOcurrencia = cantidad*ocurrencia
+```
+
+Se utiliza como métrica de comparación la Raíz del Error Cuadrático Medio (RMSE).
+
+```{r}
+RMSE(cantidadOcurrencia,meteo$y_test)
+RMSE(cantidad,meteo$y_test)
+```
+
+Se observa que no hay una gran diferencia entre ambas soluciones y que incluso, se obtiene un menor RMSE sin tener en cuenta la ocurrencia.
+
+#### Guardar Modelos
+
+Guardar modelos para su posterior uso.
+
+```{r}
+model_ocurrencia %>% save_model_hdf5("model_ocurrencia.h5")
+model_cantidad %>% save_model_hdf5("model_cantidad.h5")
+```
+
