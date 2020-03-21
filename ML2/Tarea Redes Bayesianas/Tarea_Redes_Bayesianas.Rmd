@@ -1,6 +1,8 @@
 ---
-title: "Trabajo Autónomo: Redes Bayesianas"
-output: html_notebook
+title: 'Trabajo Autónomo: Redes Bayesianas'
+output:
+  html_document:
+    df_print: paged
 ---
 
 ## David Montero Loaiza
@@ -11,7 +13,6 @@ Fecha de entrega: 7 Abril 2019
 
 ```{r}
 require(bnlearn)
-require(gRain)
 ```
 
 
@@ -20,7 +21,7 @@ require(gRain)
 Utilizaremos un conjunto de datos diarios de ocurrencia de meteoros en el aeropuerto de Parayas (Santander), considerando una serie de variables meteorológicas registradas diariamente durante un periodo aproximado de 10 años (3286 registros), en concreto: precipitación, nieve, granizo, tormenta, niebla, rocío, escarcha, nieve en el suelo, neblina y racha máxima de viento superior a 50 km/h. Los datos se encuentran guardados en el fichero de texto meteoro.txt. Las variables se encuentran discretizadas de forma binaria (ocurrencia/ausencia).
 
 ```{r}
-meteoro <- read.table('meteoro.txt',header = TRUE)
+meteoro = read.table('meteoro.txt',header = TRUE)
 ```
 
 En este caso, y a través del asesoramiento de un meteorólogo, se ha elaborado el siguiente diagrama acíclico dirigido (DAG), que recoge las relaciones de dependencia entre las variables:
@@ -63,11 +64,29 @@ childrenDAG
 
 Realiza una lista de todas las conexiones fundamentales presentes en el grafo, y realiza una clasificación de cada una de ellas determinando si es una estructura en serie, divergente o convergente.
 
-```{r}
+1. Serie:
+* Viento -> Lluvia -> Tormenta -> Nieve
+* Lluvia -> Tormenta -> Nieve
+* Tormenta -> Nieve -> NieveSuelo
+* Lluvia -> Tormenta -> Granizo
+* Viento -> Niebla -> Neblina
+* Viento -> Rocio -> Niebla
+* Viento -> Rocio -> Escarcha
+* Rocio -> Niebla -> Neblina
 
-```
+2. Divergente:
+* Lluvia <- Viento -> Niebla
+* Lluvia <- Viento -> Rocio
+* Niebla <- Viento -> Rocio
+* Niebla <- Rocio -> Escarcha
+* Lluvia <- Tormenta -> Granizo
+
+3. Convergente:
+* Viento -> Niebla <- Rocio
 
 ¿Se observa alguna v-estructura en el grafo?
+
+Aunque existe una convergencia en Viento -> Niebla <- Rocio, no es una v-estructura ya que existe un arco Viento -> Rocio.
 
 ```{r}
 vstructs(dag)
@@ -118,7 +137,7 @@ bn = bn.fit(dag, data = meteoro, method = "bayes")
 ¿Cuál sería el número potencial de parámetros (sin usar la red bayesiana) del modelo para calcular la probabilidad global si no utilizasemos el DAG?
 
 ```{r}
-2^(ncol(meteoro))
+2^(ncol(meteoro)) - 1
 ```
 
 ¿Cuántos parámetros tiene la distribución global dada por la red bayesiana?
@@ -130,7 +149,10 @@ nparams(bn)
 Determina el número de parámetros asociado a cada una de las distribuciones locales
 
 ```{r}
-
+for(i in nodes(dag)){
+  params = length(as.vector(bn[[i]]$prob))
+  print(paste("Parametros del nodo",i,"=",params))
+}
 ```
 
 Obtén las tablas de probabilidad condicional asociadas los nodos granizo y niebla. Ahora representa la información de cada tabla en sendos gráficos.
@@ -196,6 +218,7 @@ dsep(bn,"nieveSuelo","neblina","tormenta")
 NOTA: En este apartado se deberá aplicar la inferencia exacta. Conocido que en un día dado se han producido tormentas, calcula cómo afecta este hecho a la probabilidad de que se produzcan los siguientes fenómenos meteorológicos:
 
 ```{r}
+require(gRain)
 junction = compile(as.grain(bn))
 tormenta.s = setEvidence(junction,nodes = "tormenta", states = "s")
 ```
@@ -368,14 +391,69 @@ El método de Tabu obtiene el mejor BIC.
 Ahora, para comparar el DAG original con los dos nuevos DAG tabu y hill-climbing, dibuja los tres utilizando la función graphviz.plot. A la luz de los grafos obtenidos en cada caso, ¿cuál te parece que recoge mejor las relaciones causa-efecto entre variables?. Hay que tener en cuenta que los arcos de un grafo no expresan causalidad, sino simplemente dependencia entre variables en términos de probabilidad.
 
 ```{r}
-graphviz.plot(dag)
+graphviz.compare(dag,dag.hc,dag.tabu)
 ```
 
+Aunque los métodos de aprendizaje automático agregan relaciones que pueden ser adecuadas, existen también relaciones como granizo -> rocio, que aunque indiquen una dependencia, que pueda no ser muy alta, no aportan a una relación causa-efecto significativa. En este caso hace falta un aporte experto para manejar los arcos dirigidos de los grafos.
 
 Ahora vuelve a aprender de forma automática el DAG usando tabu y hill-climbing, pero imponiendo las siguientes restricciones: 1. Los arcos viento --> lluvia, tormenta --> granizo y nieve --> nieveSuelo deben quedar reflejados en el DAG. 2. Ningún arco debe unir directamente la neblina con el granizo ni la niebla con la tormenta.
 
+```{r}
+df.whiteList = data.frame(from = c("viento","tormenta","nieve"),
+                          to = c("lluvia","granizo","nieveSuelo"))
+
+df.blackList = data.frame(from = c("neblina","niebla"),
+                          to = c("granizo","tormenta"))
+
+dag.hc = model2network(modelstring(hc(meteoro,whitelist = df.whiteList,blacklist = df.blackList)))
+dag.tabu = model2network(modelstring(tabu(meteoro,whitelist = df.whiteList,blacklist = df.blackList)))
+```
+
 Vuelve a dibujar los DAG resultantes, y a partir del BIC obtenido por cada modelo, determina cuál es el mejor de todos poniéndolos en una tabla.
+
+```{r}
+graphviz.compare(dag,dag.hc,dag.tabu)
+```
+
+```{r}
+bic.dag.hc = score(dag.hc,data = meteoro)
+bic.dag.tabu = score(dag.tabu,data = meteoro)
+
+bics = c(bic.dag.inicial,bic.dag.hc,bic.dag.tabu)
+names(bics) = c("Inicial","HC","Tabu")
+bics
+```
+
+Los DAG de HC y Tabu son mejores teniendo en cuenta las restricciones dadas (tienen el mismo valor de BIC).
 
 Computa la fuerza de la relación entre nodos de los dos últimos modelos que combinan nuestra experiencia con el aprendizaje automático.
 
+```{r}
+strength = arc.strength(dag.hc, data = meteoro, criterion = "x2")
+strength
+```
+
+Para el método de Hill-climbing no hay arcos que no sean significativos a un nivel de confianza del 95%.
+
+```{r}
+head(strength[order(strength$strength),],3)
+```
+
+Los nodos con más fuerza ahora son nieve -> nieveSuelo, lluvia -> rocio y tormenta -> granizo.
+
+```{r}
+strength = arc.strength(dag.tabu, data = meteoro, criterion = "x2")
+strength
+```
+
+Para el método de Tabu no hay arcos que no sean significativos a un nivel de confianza del 95%.
+
+```{r}
+head(strength[order(strength$strength),],3)
+```
+
+Los nodos con más fuerza son los mismos que para el método de Hill-climbing.
+
 Comenta brevemente los resultados obtenidos tras combinar nuestro conocimiento con el aprendizaje automático.
+
+Al combinar el conocimiento anterior con el aprendizaje automático logra obtenerse ligeramente un mejor resultado que al realizar únicamente el aprendizaje automático y que utilizar el conocimiento anterior. Esto puede reflejarse en los valores obtenidos por los BIC de los métodos Hill-climbing y Tabu sin utilizar restricciones y los mismos utilizando restricciones, que mejoran un poco asignando relaciones dadas según un experto.
