@@ -394,7 +394,24 @@ Ahora, para comparar el DAG original con los dos nuevos DAG tabu y hill-climbing
 graphviz.compare(dag,dag.hc,dag.tabu)
 ```
 
-Aunque los métodos de aprendizaje automático agregan relaciones que pueden ser adecuadas, existen también relaciones como granizo -> rocio, que aunque indiquen una dependencia, que pueda no ser muy alta, no aportan a una relación causa-efecto significativa. En este caso hace falta un aporte experto para manejar los arcos dirigidos de los grafos.
+Aunque los métodos de aprendizaje automático agregan relaciones que pueden ser adecuadas, existen también relaciones como granizo -> rocio (dado por Hill-climbing), que aunque indiquen una dependencia, que pueda no ser muy alta, no aportan a una relación causa-efecto significativa.
+
+En este ejemplo podemos apreciar la probabilidad de que exista rocio dado que hubo granizo:
+
+```{r}
+bn.test = bn.fit(dag.hc, data = meteoro, method = "bayes")
+junction.test = compile(as.grain(bn.test))
+
+granizo.s = setEvidence(junction.test,nodes = "granizo", states = "s")
+granizo.n = setEvidence(junction.test,nodes = "granizo", states = "n")
+
+inf.exacta.rocio.s = querygrain(granizo.s,nodes = "rocio")$rocio["s"]
+inf.exacta.rocio.n = querygrain(granizo.n,nodes = "rocio")$rocio["s"]
+
+paste("P(rocio=s|granizo=s) =",inf.exacta.rocio.s,", P(rocio=s|granizo=n) =",inf.exacta.rocio.n)
+```
+
+Ambas probabilidades no son muy altas, aunque haya una diferencia de aproximadamente 10 unidades porcentuales entre ellas, por lo tanto, no es estrictamente necesario que el granizo cause el rocío todo el tiempo (como se acaba de ver), cuando es mucho más probable de que sea la lluvia el que lo cause. En este tipo de casos hace falta un aporte experto para manejar los arcos dirigidos de los grafos. Definir qué arcos deben ir y qué arcos no deben ir y hacia donde dirigirlos es algo que un experto puede definir a priori para evitar este tipo de casos.
 
 Ahora vuelve a aprender de forma automática el DAG usando tabu y hill-climbing, pero imponiendo las siguientes restricciones: 1. Los arcos viento --> lluvia, tormenta --> granizo y nieve --> nieveSuelo deben quedar reflejados en el DAG. 2. Ningún arco debe unir directamente la neblina con el granizo ni la niebla con la tormenta.
 
