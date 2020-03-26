@@ -230,134 +230,184 @@ summary {
 <h2>TAREA (los BONUS 1 y 2 son opcionales):</h2>
 <div id="david-montero-loaiza" class="section level3">
 <h3>David Montero Loaiza</h3>
-<p>Generalizar la función backprop anterior para que contemple la inclusión de una capa oculta. Aplicar la función al ejemplo de la clasificación circular. Si se fija el número máximo de épocas en 1000. ¿Qué número de neuronas ocultas y qué valor de la tasa de aprendizaje (eta) es óptimo para este problema? (basta una solución aproximada).</p>
-<p><em>BONUS 1</em> - ¿Sabrías incluir un término de inercia en el método de backpropagation (ver transparencia 4)? <em>BONUS 2</em> - Generalizar a un número arbitrario de capas (recomendación, definir los pesos como una lista de matrices, una para cada capa).</p>
+<p>Generalizar la función backprop anterior para que contemple la inclusión de una capa oculta.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmFja3Byb3BfbWxwID0gZnVuY3Rpb24oWCx5LGggPSBjKDMsMiksZXBvY2hzID0gMTAsZXRhID0gMC4xKXtcbiAgXG4gIHByaW50KFwiSW5pY2lhbmRvIGFqdXN0ZS4uLlwiKVxuICBwcmludChcIi4uLlwiKVxuICBcbiAgIyBBR1JFR0FNT1MgRUwgQklBU1xuICAjIEVTIERFQ0lSLCBBR1JFR0FNT1MgVU5BIENPTFVNTkEgREUgMSdTXG4gIFggPSBjYmluZChYLHJlcCgxLG5yb3coWCkpKVxuICBwcmludChcIlRhbWHDsW8gZGUgWCBjb24gYmlhczpcIilcbiAgcHJpbnQoZGltKFgpKVxuICBwcmludChcIioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqXCIpXG4gIFxuICAjIENBTlRJREFEIERFIE5FVVJPTkFTIFBPUiBDQVBBXG4gIG5ldXJvbnMgPSBjKG5jb2woWCksaCxuY29sKHkpKVxuICBwcmludChcIkNhbnRpZGFkIGRlIG5ldXJvbmFzIHBvciBjYXBhOlwiKVxuICBwcmludChuZXVyb25zKVxuICBwcmludChcIioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqXCIpXG4gIFxuICAjIFBFU09TIElOSUNJQUxFUyBBTEVBVE9SSU9TXG4gIG5fd2VpZ2h0cyA9IGxlbmd0aChuZXVyb25zKSAtIDFcbiAgXG4gICMgSU5JQ0lBTElaQU1PUyBVTkEgTElTVEEgREUgUEVTT1MgVkFDSUFcbiAgVyA9IGxpc3QoKVxuICBcbiAgIyBQQVJBIENBREEgTElTVEEgREUgUEVTT1MgQ1JFQU1PUyBVTkEgTUFUUklaIERFIFBFU09TIEFMRUFUT1JJQVxuICBmb3IoaSBpbiAxOm5fd2VpZ2h0cyl7XG4gICAgXG4gICAgV1tbaV1dID0gbWF0cml4KGRhdGEgPSBydW5pZihuZXVyb25zW2ldKm5ldXJvbnNbaSArIDFdLG1pbiA9IC0xLCBtYXggPSAxKSxcbiAgICAgICAgICAgICAgICAgICAgbnJvdyA9IG5ldXJvbnNbaSArIDFdLFxuICAgICAgICAgICAgICAgICAgICBuY29sID0gbmV1cm9uc1tpXSlcbiAgICBcbiAgfVxuICBcbiAgcHJpbnQoXCJQZXNvcyBpbmljaWFsaXphZG9zLi4uXCIpXG4gIHByaW50KFwiLi4uXCIpXG4gIFxuICAjIEZVTkNJT04gREUgQUNUSVZBQ0lPTiBTSUdNT0lERSBZIFNVIERFUklWQURBXG4gIGFjdGl2YXRpb24gPSBmdW5jdGlvbih4KSAxLygxICsgZXhwKC14KSlcbiAgZGVyaXZhdGl2ZSA9IGZ1bmN0aW9uKHgpIHgqKDEgLSB4KVxuICBcbiAgIyBWRUNUT1IgVkFDSU8gUEFSQSBHVUFSREFSIEVSUk9SRVNcbiAgTVNFID0gTlVMTFxuICBcbiAgcHJpbnQoXCJDb21lbnphbmRvIGl0ZXJhY2lvbmVzLCBlc3RlIHByb2Nlc28gcHVlZGUgdGFyZGFyLi4uXCIpXG4gIHByaW50KFwiLi4uXCIpXG4gIFxuICAjIENPTUVOWkFORE8gSVRFUkFDSU9ORVNcbiAgZm9yKGVwb2NoIGluIDE6ZXBvY2hzKXtcbiAgICBcbiAgICAjIExJU1RBUyBWQUNJQVMgUEFSQSBHVUFSREFSXG4gICAgIyAxLiBQUk9EVUNUT1MgV1hcbiAgICAjIDIuIEFDVElWQUNJT04gZihXWClcbiAgICBwcm9kdWN0cyA9IGxpc3QoKVxuICAgIGFjdGl2YXRlZCA9IGxpc3QoKVxuICAgIFxuICAgICMgR0VORVJBUiBMT1MgUFJPRFVDVE9TXG4gICAgZm9yKGkgaW4gMTpuX3dlaWdodHMpe1xuICAgICAgXG4gICAgICAjIENBTENVTE8gREUgUFJPRFVDVE9TXG4gICAgICAjIFNJIEVTIEVMIFBSSU1FUiBDQUxDVUxPIERFIFBST0RVQ1RPUyBFTCBSRVNVTFRBRE8gRVMgWFdcbiAgICAgICMgU0kgTk8gTE8gRVMgRUwgUkVTVUxUQURPIEVTIExBIEFDVElWQUNJT04gQU5URVJJT1IgUE9SIFdcbiAgICAgIGlmKGkgPT0gMSl7cHJvZHVjdHNbW2ldXSA9IFggJSolIHQoV1tbaV1dKX1lbHNle3Byb2R1Y3RzW1tpXV0gPSBhY3RpdmF0ZWRbW2kgLSAxXV0gJSolIHQoV1tbaV1dKX1cbiAgICAgIFxuICAgICAgIyBDQUxDVUxPIERFIEFDVElWQUNJT05FU1xuICAgICAgYWN0aXZhdGVkW1tpXV0gPSBhY3RpdmF0aW9uKHByb2R1Y3RzW1tpXV0pXG4gICAgICBcbiAgICB9XG4gICAgXG4gICAgIyBDQUxDVUxPIERFTCBFUlJPUlxuICAgIGVycm9yID0geSAtIGFjdGl2YXRlZFtbbl93ZWlnaHRzXV1cbiAgICBcbiAgICAjIENBTENVTE8gREUgREVMVEFcbiAgICAjIEVSUk9SICogKEVSUk9SICogKDEgLSBFUlJPUikpXG4gICAgZGVsdGEgPSBlcnJvciAqIGRlcml2YXRpdmUoZXJyb3IpXG4gICAgXG4gICAgIyBMSVNUQSBWQUNJQSBQQVJBIENBTENVTEFSIExPUyBERUxUQVMgREVMIEdSQURJRU5URVxuICAgIGdkID0gbGlzdCgpXG4gICAgXG4gICAgIyBTRSBDQUxDVUxBTiBMT1MgREVMVEFTIERFTCBHUkFESUVOVEVcbiAgICBmb3IoaSBpbiBuX3dlaWdodHM6MSl7XG4gICAgICBcbiAgICAgIGdkW1tpXV0gPSB0KGRlbHRhKVxuICAgICAgXG4gICAgICBmb3IoaiBpbiBuX3dlaWdodHM6aSl7XG4gICAgICAgIFxuICAgICAgICBpZihqID09IGkpe1xuICAgICAgICAgIFxuICAgICAgICAgIGlmKChqIC0gMSkgPiAwKXtcbiAgICAgICAgICAgIFxuICAgICAgICAgICAgZ2RbW2ldXSA9IGdkW1tpXV0gJSolIGFjdGl2YXRlZFtbai0xXV1cbiAgICAgICAgICAgIFxuICAgICAgICAgIH1lbHNle1xuICAgICAgICAgICAgXG4gICAgICAgICAgICBnZFtbaV1dID0gZ2RbW2ldXSAlKiUgWFxuICAgICAgICAgICAgXG4gICAgICAgICAgfVxuICAgICAgICAgIFxuICAgICAgICB9ZWxzZXtcbiAgICAgICAgICBcbiAgICAgICAgICBnZFtbaV1dID0gdCh0KGdkW1tpXV0pICUqJSBXW1tqXV0gKiBkZXJpdmF0aXZlKHByb2R1Y3RzW1tqIC0gMV1dKSlcbiAgICAgICAgfVxuICAgICAgICBcbiAgICAgIH1cbiAgICAgIFxuICAgIH1cbiAgICBcbiAgICAjIFNFIENBTENVTEEgWSBTRSBHVUFSREEgRUwgRVJST1IgUE9SIEVQT0NBXG4gICAgTVNFID0gYyhNU0Usc3VtKGVycm9yXjIpL25yb3coZXJyb3IpKVxuICAgIFxuICAgICMgU0UgQUNVQUxJWkFOIExPUyBQRVNPU1xuICAgIGZvcihpIGluIDE6bl93ZWlnaHRzKXtcbiAgICAgIFxuICAgICAgV1tbaV1dID0gV1tbaV1dIC0gZXRhICogZ2RbW2ldXVxuICAgICAgXG4gICAgfVxuICAgIFxuICB9XG4gIFxuICAjIFNFIENSRUEgVU5BIExJU1RBIENPTiBMQVMgVkFSSUFCTEVTIEEgUkVUT1JOQVJcbiAgdG9fcmV0dXJuID0gbGlzdChlcnJvciA9IE1TRSx3ZWlnaHRzID0gVyx2YWx1ZXMgPSBhY3RpdmF0ZWRbW25fd2VpZ2h0c11dKVxuICBcbiAgcHJpbnQoXCJBanVzdGUgZmluYWxpemFkb1wiKVxuICBcbiAgcmV0dXJuKHRvX3JldHVybilcbiAgXG59XG5gYGAifQ== -->
-<pre class="r"><code>backprop_mlp = function(X,y,h = c(3,2),epochs = 10,eta = 0.1){
-  
-  print(&quot;Iniciando ajuste...&quot;)
-  print(&quot;...&quot;)
-  
-  # AGREGAMOS EL BIAS
-  # ES DECIR, AGREGAMOS UNA COLUMNA DE 1'S
-  X = cbind(X,rep(1,nrow(X)))
-  print(&quot;Tamaño de X con bias:&quot;)
-  print(dim(X))
-  print(&quot;**************************************************&quot;)
-  
-  # CANTIDAD DE NEURONAS POR CAPA
-  neurons = c(ncol(X),h,ncol(y))
-  print(&quot;Cantidad de neuronas por capa:&quot;)
-  print(neurons)
-  print(&quot;**************************************************&quot;)
-  
-  # PESOS INICIALES ALEATORIOS
-  n_weights = length(neurons) - 1
-  
-  # INICIALIZAMOS UNA LISTA DE PESOS VACIA
-  W = list()
-  
-  # PARA CADA LISTA DE PESOS CREAMOS UNA MATRIZ DE PESOS ALEATORIA
-  for(i in 1:n_weights){
-    
-    W[[i]] = matrix(data = runif(neurons[i]*neurons[i + 1],min = -1, max = 1),
-                    nrow = neurons[i + 1],
-                    ncol = neurons[i])
-    
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWRkQmlhcyA9IGZ1bmN0aW9uKHgpIGNiaW5kKHgscmVwKDEsbnJvdyh4KSkpICMgQURJQ0lPTkFSIEJJQVNcbmFjdGl2YXRpb24gPSBmdW5jdGlvbih4KSAxLygxICsgZXhwKC14KSkgIyBGVU5DSU9OIERFIEFDVElWQUNJT05cbmRlcml2YXRpdmUgPSBmdW5jdGlvbih4KSB4KigxIC0geCkgIyBGVU5DSU9OIERFIERFUklWQURBXG5NU0UgPSBmdW5jdGlvbih4KSBzdW0oeF4yKS9ucm93KHgpICMgRlVOQ0lPTiBERSBNU0VcbmluaXRpYWxpemVyID0gZnVuY3Rpb24obGF5ZXJzKXsgIyBGVU5DSU9OIFBBUkEgSU5JQ0lBTElaQVIgUEVTT1NcbiAgbiA9IGxlbmd0aChsYXllcnMpIC0gMSAjIENBTlRJREFEIERFIE1BVFJJQ0VTIERFIFBFU09TXG4gIFcgPSBsaXN0KCkgIyBJTklDSUFMSVpBTU9TIFVOQSBMSVNUQSBERSBQRVNPUyBWQUNJQVxuICBmb3IoaSBpbiAxOm4peyAjIFBBUkEgQ0FEQSBMSVNUQSBERSBQRVNPUyBDUkVBTU9TIFVOQSBNQVRSSVogREUgUEVTT1MgQUxFQVRPUklBXG4gICAgV1tbaV1dID0gbWF0cml4KGRhdGEgPSBydW5pZihsYXllcnNbaV0qbGF5ZXJzW2kgKyAxXSxtaW4gPSAtMSwgbWF4ID0gMSksbnJvdyA9IGxheWVyc1tpICsgMV0sbmNvbCA9IGxheWVyc1tpXSlcbiAgfVxuICByZXR1cm4oVykgIyBSRVRPUk5BTU9TIExPUyBQRVNPU1xufVxuZmVlZGZvcndhcmQgPSBmdW5jdGlvbih4LFcpeyAjIEZVTkNJT04gUEFSQSBIQUNFUiBGRUVERk9SV0FSRFxuICBoID0gbGlzdCgpXG4gIGhbWzFdXSA9IGFjdGl2YXRpb24oeCAlKiUgdChXW1sxXV0pKSAjIFBSSU1FUkEgQUNUSVZBQ0lPTlxuICBmb3IoaSBpbiAyOmxlbmd0aChXKSl7ICMgU0lHVUlFTlRFUyBBQ1RJVkFDSU9ORVNcbiAgICBoW1tpXV0gPSBhY3RpdmF0aW9uKGhbW2kgLSAxXV0gJSolIHQoV1tbaV1dKSlcbiAgfVxuICByZXR1cm4oaCkgIyBSRVRPUk5BTU9TIExBIFVMVElNQSBBQ1RJVkFDSU9OXG59XG5gYGAifQ== -->
+<pre class="r"><code>addBias = function(x) cbind(x,rep(1,nrow(x))) # ADICIONAR BIAS
+activation = function(x) 1/(1 + exp(-x)) # FUNCION DE ACTIVACION
+derivative = function(x) x*(1 - x) # FUNCION DE DERIVADA
+MSE = function(x) sum(x^2)/nrow(x) # FUNCION DE MSE
+initializer = function(layers){ # FUNCION PARA INICIALIZAR PESOS
+  n = length(layers) - 1 # CANTIDAD DE MATRICES DE PESOS
+  W = list() # INICIALIZAMOS UNA LISTA DE PESOS VACIA
+  for(i in 1:n){ # PARA CADA LISTA DE PESOS CREAMOS UNA MATRIZ DE PESOS ALEATORIA
+    W[[i]] = matrix(data = runif(layers[i]*layers[i + 1],min = -1, max = 1),nrow = layers[i + 1],ncol = layers[i])
   }
+  return(W) # RETORNAMOS LOS PESOS
+}
+feedforward = function(x,W){ # FUNCION PARA HACER FEEDFORWARD
+  h = list()
+  h[[1]] = activation(x %*% t(W[[1]])) # PRIMERA ACTIVACION
+  for(i in 2:length(W)){ # SIGUIENTES ACTIVACIONES
+    h[[i]] = activation(h[[i - 1]] %*% t(W[[i]]))
+  }
+  return(h) # RETORNAMOS LA ULTIMA ACTIVACION
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2luZ2xlSGlkZGVuQmFja3Byb3AgPSBmdW5jdGlvbih4LHksaGwsZXBvY2hzID0gNTAwLGV0YSA9IDAuMSl7XG4gIFxuICAjIEFHUkVHQVIgQklBU1xuICB4ID0gYWRkQmlhcyh4KVxuICBcbiAgIyBDQU5USURBRCBERSBMQVlFUlMgWSBORVVST05BUyBQT1IgTEFZRVJcbiAgbGF5ZXJzID0gYyhuY29sKHgpLGhsLG5jb2woeSkpXG4gIFxuICAjIFBFU09TIElOSUNJQUxFU1xuICBXID0gaW5pdGlhbGl6ZXIobGF5ZXJzKVxuICBcbiAgIyBWRUNUT1IgVkFDSU8gUEFSQSBHVUFSREFSIEVSUk9SRVNcbiAgbXNlID0gTlVMTFxuICBcbiAgZm9yKGVwb2NoIGluIDE6ZXBvY2hzKXtcbiAgICBcbiAgICAjIEhBQ0VSIEZFRURGT1JXQVJEXG4gICAgaCA9IGZlZWRmb3J3YXJkKHgsVylcbiAgICBcbiAgICAjIENBTENVTEFSIFkgQUxNQUNFTkFSIEVSUk9SXG4gICAgZXJyb3IgPSB5IC0gaFtbMl1dXG4gICAgbXNlID0gYyhtc2UsTVNFKGVycm9yKSlcbiAgICBcbiAgICAjIENBTENVTEFSIERFTFRBXG4gICAgZGVsdGEgPSBlcnJvcipkZXJpdmF0aXZlKGhbWzJdXSlcbiAgICBcbiAgICAjIENBTENVTEFSIERFTFRBUyBQQVJBIENBREEgTUFUUklaIERFIFBFU09TXG4gICAgZGVsdGFXMiA9IHQoZGVsdGEpICUqJSBoW1sxXV1cbiAgICBkZWx0YVcxID0gdCgoZGVsdGEgJSolIFdbWzJdXSkgKiBkZXJpdmF0aXZlKGhbWzFdXSkpICUqJSB4XG4gICAgXG4gICAgIyBBQ1RVQUxJWkFSIFBFU09TXG4gICAgV1tbMV1dID0gV1tbMV1dICsgZXRhICogZGVsdGFXMVxuICAgIFdbWzJdXSA9IFdbWzJdXSArIGV0YSAqIGRlbHRhVzJcbiAgICBcbiAgfVxuICBcbiAgIyBSRVRPUk5BUiBFUlJPUkVTLCBQRVNPUyBZIFNBTElEQSBGSU5BTFxuICB0b19yZXR1cm4gPSBsaXN0KGVycm9yID0gbXNlLHdlaWdodHMgPSBXLHZhbHVlcyA9IGhbWzJdXSlcbiAgcmV0dXJuKHRvX3JldHVybilcbiAgXG59XG5gYGAifQ== -->
+<pre class="r"><code>singleHiddenBackprop = function(x,y,hl,epochs = 500,eta = 0.1){
   
-  print(&quot;Pesos inicializados...&quot;)
-  print(&quot;...&quot;)
+  # AGREGAR BIAS
+  x = addBias(x)
   
-  # FUNCION DE ACTIVACION SIGMOIDE Y SU DERIVADA
-  activation = function(x) 1/(1 + exp(-x))
-  derivative = function(x) x*(1 - x)
+  # CANTIDAD DE LAYERS Y NEURONAS POR LAYER
+  layers = c(ncol(x),hl,ncol(y))
+  
+  # PESOS INICIALES
+  W = initializer(layers)
   
   # VECTOR VACIO PARA GUARDAR ERRORES
-  MSE = NULL
+  mse = NULL
   
-  print(&quot;Comenzando iteraciones, este proceso puede tardar...&quot;)
-  print(&quot;...&quot;)
-  
-  # COMENZANDO ITERACIONES
   for(epoch in 1:epochs){
     
-    # LISTAS VACIAS PARA GUARDAR
-    # 1. PRODUCTOS WX
-    # 2. ACTIVACION f(WX)
-    products = list()
-    activated = list()
+    # HACER FEEDFORWARD
+    h = feedforward(x,W)
     
-    # GENERAR LOS PRODUCTOS
-    for(i in 1:n_weights){
-      
-      # CALCULO DE PRODUCTOS
-      # SI ES EL PRIMER CALCULO DE PRODUCTOS EL RESULTADO ES XW
-      # SI NO LO ES EL RESULTADO ES LA ACTIVACION ANTERIOR POR W
-      if(i == 1){products[[i]] = X %*% t(W[[i]])}else{products[[i]] = activated[[i - 1]] %*% t(W[[i]])}
-      
-      # CALCULO DE ACTIVACIONES
-      activated[[i]] = activation(products[[i]])
-      
-    }
+    # CALCULAR Y ALMACENAR ERROR
+    error = y - h[[2]]
+    mse = c(mse,MSE(error))
     
-    # CALCULO DEL ERROR
-    error = y - activated[[n_weights]]
+    # CALCULAR DELTA
+    delta = error*derivative(h[[2]])
     
-    # CALCULO DE DELTA
-    # ERROR * (ERROR * (1 - ERROR))
-    delta = error * derivative(error)
+    # CALCULAR DELTAS PARA CADA MATRIZ DE PESOS
+    deltaW2 = t(delta) %*% h[[1]]
+    deltaW1 = t((delta %*% W[[2]]) * derivative(h[[1]])) %*% x
     
-    # LISTA VACIA PARA CALCULAR LOS DELTAS DEL GRADIENTE
-    gd = list()
-    
-    # SE CALCULAN LOS DELTAS DEL GRADIENTE
-    for(i in n_weights:1){
-      
-      gd[[i]] = t(delta)
-      
-      for(j in n_weights:i){
-        
-        if(j == i){
-          
-          if((j - 1) &gt; 0){
-            
-            gd[[i]] = gd[[i]] %*% activated[[j-1]]
-            
-          }else{
-            
-            gd[[i]] = gd[[i]] %*% X
-            
-          }
-          
-        }else{
-          
-          gd[[i]] = t(t(gd[[i]]) %*% W[[j]] * derivative(products[[j - 1]]))
-        }
-        
-      }
-      
-    }
-    
-    # SE CALCULA Y SE GUARDA EL ERROR POR EPOCA
-    MSE = c(MSE,sum(error^2)/nrow(error))
-    
-    # SE ACUALIZAN LOS PESOS
-    for(i in 1:n_weights){
-      
-      W[[i]] = W[[i]] - eta * gd[[i]]
-      
-    }
+    # ACTUALIZAR PESOS
+    W[[1]] = W[[1]] + eta * deltaW1
+    W[[2]] = W[[2]] + eta * deltaW2
     
   }
   
-  # SE CREA UNA LISTA CON LAS VARIABLES A RETORNAR
-  to_return = list(error = MSE,weights = W,values = activated[[n_weights]])
+  # RETORNAR ERRORES, PESOS Y SALIDA FINAL
+  to_return = list(error = mse,weights = W,values = h[[2]])
+  return(to_return)
   
-  print(&quot;Ajuste finalizado&quot;)
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Aplicar la función al ejemplo de la clasificación circular. Si se fija el número máximo de épocas en 1000. ¿Qué número de neuronas ocultas y qué valor de la tasa de aprendizaje (eta) es óptimo para este problema? (basta una solución aproximada).</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2lyY2xlID0gcmVhZC5jc3YoXCJDOi9Vc2Vycy9EYXZlIE1vbnQvRGVza3RvcC9NYXN0ZXJfb2ZfRGF0YVNjaWVuY2UvMDAtZGF0YXNldHMvY2lyY2xlLmNzdlwiKVxueCA9IGFzLm1hdHJpeChjaXJjbGVbLC0zXSlcbnkgPSBhcy5tYXRyaXgoY2lyY2xlWywzXSlcbmBgYCJ9 -->
+<pre class="r"><code>circle = read.csv(&quot;C:/Users/Dave Mont/Desktop/Master_of_DataScience/00-datasets/circle.csv&quot;)
+x = as.matrix(circle[,-3])
+y = as.matrix(circle[,3])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSEwgPSBOVUxMXG5MUiA9IE5VTExcbkVSID0gTlVMTFxuUkUgPSBsaXN0KClcbmkgPSAxXG5mb3IoaGlkZGVuTGF5ZXJzIGluIGMoMSw1LDEwKSl7XG4gIGZvcihsZWFybmluZ1JhdGUgaW4gYygwLjAxLDAuMDUsMC4xKSl7XG4gICAgSEwgPSBjKEhMLGhpZGRlbkxheWVycylcbiAgICBMUiA9IGMoTFIsbGVhcm5pbmdSYXRlKVxuICAgIFJFW1tpXV0gPSBzaW5nbGVIaWRkZW5CYWNrcHJvcCh4LHksaGwgPSBoaWRkZW5MYXllcnMsZXBvY2hzID0gMTAwMCxldGEgPSBsZWFybmluZ1JhdGUpXG4gICAgRVIgPSBjKEVSLFJFW1tpXV0kZXJyb3JbMTAwMF0pXG4gICAgaSA9IGkgKyAxXG4gIH1cbn1cbmBgYCJ9 -->
+<pre class="r"><code>HL = NULL
+LR = NULL
+ER = NULL
+RE = list()
+i = 1
+for(hiddenLayers in c(1,5,10)){
+  for(learningRate in c(0.01,0.05,0.1)){
+    HL = c(HL,hiddenLayers)
+    LR = c(LR,learningRate)
+    RE[[i]] = singleHiddenBackprop(x,y,hl = hiddenLayers,epochs = 1000,eta = learningRate)
+    ER = c(ER,RE[[i]]$error[1000])
+    i = i + 1
+  }
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYgPSBkYXRhLmZyYW1lKEhpZGRlbkxheWVycyA9IEhMLExlYXJuaW5nUmF0ZSA9IExSLE1TRSA9IEVSKVxuZGZcbmBgYCJ9 -->
+<pre class="r"><code>df = data.frame(HiddenLayers = HL,LearningRate = LR,MSE = ER)
+df</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICBIaWRkZW5MYXllcnMgTGVhcm5pbmdSYXRlICAgICAgICAgTVNFXG4xICAgICAgICAgICAgMSAgICAgICAgIDAuMDEgMC4yMDI2OTk2NTFcbjIgICAgICAgICAgICAxICAgICAgICAgMC4wNSAwLjE4Mjg4NzM4NVxuMyAgICAgICAgICAgIDEgICAgICAgICAwLjEwIDAuMTgxODIxNTIzXG40ICAgICAgICAgICAgNSAgICAgICAgIDAuMDEgMC4xODE5NjY0NjJcbjUgICAgICAgICAgICA1ICAgICAgICAgMC4wNSAwLjAyNjEyMjM4NFxuNiAgICAgICAgICAgIDUgICAgICAgICAwLjEwIDAuMDA4MzI1MjgzXG43ICAgICAgICAgICAxMCAgICAgICAgIDAuMDEgMC4xOTc5MjI0OThcbjggICAgICAgICAgIDEwICAgICAgICAgMC4wNSAwLjAxNTA0MDU0MFxuOSAgICAgICAgICAgMTAgICAgICAgICAwLjEwIDAuMDA2NjMyMTUxXG4ifQ== -->
+<pre><code>  HiddenLayers LearningRate         MSE
+1            1         0.01 0.202699651
+2            1         0.05 0.182887385
+3            1         0.10 0.181821523
+4            5         0.01 0.181966462
+5            5         0.05 0.026122384
+6            5         0.10 0.008325283
+7           10         0.01 0.197922498
+8           10         0.05 0.015040540
+9           10         0.10 0.006632151</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>El mejor modelo se obtiene con 10 neuronas y una tasa de aprendizaje de 0.1.</p>
+<p><em>BONUS 1</em> - ¿Sabrías incluir un término de inercia en el método de backpropagation (ver transparencia 4)?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2luZ2xlSGlkZGVuQmFja3Byb3Aud2l0aEluZXJ0aWEgPSBmdW5jdGlvbih4LHksaGwsZXBvY2hzID0gNTAwLGV0YSA9IDAuMSxpbmVydGlhID0gMC41KXtcbiAgXG4gICMgQUdSRUdBUiBCSUFTXG4gIHggPSBhZGRCaWFzKHgpXG4gIFxuICAjIENBTlRJREFEIERFIExBWUVSUyBZIE5FVVJPTkFTIFBPUiBMQVlFUlxuICBsYXllcnMgPSBjKG5jb2woeCksaGwsbmNvbCh5KSlcbiAgXG4gICMgUEVTT1MgSU5JQ0lBTEVTXG4gIFcgPSBpbml0aWFsaXplcihsYXllcnMpXG4gIFxuICAjIFZFQ1RPUiBWQUNJTyBQQVJBIEdVQVJEQVIgRVJST1JFU1xuICBtc2UgPSBOVUxMXG4gIFxuICBmb3IoZXBvY2ggaW4gMTplcG9jaHMpe1xuICAgIFxuICAgICMgSEFDRVIgRkVFREZPUldBUkRcbiAgICBoID0gZmVlZGZvcndhcmQoeCxXKVxuICAgIFxuICAgICMgQ0FMQ1VMQVIgWSBBTE1BQ0VOQVIgRVJST1JcbiAgICBlcnJvciA9IHkgLSBoW1syXV1cbiAgICBtc2UgPSBjKG1zZSxNU0UoZXJyb3IpKVxuICAgIFxuICAgICMgQ0FMQ1VMQVIgREVMVEFcbiAgICBkZWx0YSA9IGVycm9yKmRlcml2YXRpdmUoaFtbMl1dKVxuICAgIFxuICAgICMgSU5FUkNJQVxuICAgIGlmKGVwb2NoID09IDEpe1xuICAgICAgZGVsdGFJbmVydGlhID0gbGlzdCgpXG4gICAgICBkZWx0YUluZXJ0aWFbWzFdXSA9IDBcbiAgICAgIGRlbHRhSW5lcnRpYVtbMl1dID0gMFxuICAgIH1cbiAgICBcbiAgICAjIENBTENVTEFSIERFTFRBUyBQQVJBIENBREEgTUFUUklaIERFIFBFU09TXG4gICAgZGVsdGFXMiA9IHQoZGVsdGEpICUqJSBoW1sxXV0gKyBpbmVydGlhICogZGVsdGFJbmVydGlhW1syXV1cbiAgICBkZWx0YVcxID0gdCgoZGVsdGEgJSolIFdbWzJdXSkgKiBkZXJpdmF0aXZlKGhbWzFdXSkpICUqJSB4ICsgaW5lcnRpYSAqIGRlbHRhSW5lcnRpYVtbMV1dXG4gICAgXG4gICAgIyBBQ1RVQUxJWkFSIElORVJDSUFcbiAgICBkZWx0YUluZXJ0aWFbWzFdXSA9IGRlbHRhVzFcbiAgICBkZWx0YUluZXJ0aWFbWzJdXSA9IGRlbHRhVzJcbiAgICBcbiAgICAjIEFDVFVBTElaQVIgUEVTT1NcbiAgICBXW1sxXV0gPSBXW1sxXV0gKyBldGEgKiBkZWx0YVcxIFxuICAgIFdbWzJdXSA9IFdbWzJdXSArIGV0YSAqIGRlbHRhVzJcbiAgICBcbiAgfVxuICBcbiAgIyBSRVRPUk5BUiBFUlJPUkVTLCBQRVNPUyBZIFNBTElEQSBGSU5BTFxuICB0b19yZXR1cm4gPSBsaXN0KGVycm9yID0gbXNlLHdlaWdodHMgPSBXLHZhbHVlcyA9IGhbWzJdXSlcbiAgcmV0dXJuKHRvX3JldHVybilcbiAgXG59XG5gYGAifQ== -->
+<pre class="r"><code>singleHiddenBackprop.withInertia = function(x,y,hl,epochs = 500,eta = 0.1,inertia = 0.5){
   
+  # AGREGAR BIAS
+  x = addBias(x)
+  
+  # CANTIDAD DE LAYERS Y NEURONAS POR LAYER
+  layers = c(ncol(x),hl,ncol(y))
+  
+  # PESOS INICIALES
+  W = initializer(layers)
+  
+  # VECTOR VACIO PARA GUARDAR ERRORES
+  mse = NULL
+  
+  for(epoch in 1:epochs){
+    
+    # HACER FEEDFORWARD
+    h = feedforward(x,W)
+    
+    # CALCULAR Y ALMACENAR ERROR
+    error = y - h[[2]]
+    mse = c(mse,MSE(error))
+    
+    # CALCULAR DELTA
+    delta = error*derivative(h[[2]])
+    
+    # INERCIA
+    if(epoch == 1){
+      deltaInertia = list()
+      deltaInertia[[1]] = 0
+      deltaInertia[[2]] = 0
+    }
+    
+    # CALCULAR DELTAS PARA CADA MATRIZ DE PESOS
+    deltaW2 = t(delta) %*% h[[1]] + inertia * deltaInertia[[2]]
+    deltaW1 = t((delta %*% W[[2]]) * derivative(h[[1]])) %*% x + inertia * deltaInertia[[1]]
+    
+    # ACTUALIZAR INERCIA
+    deltaInertia[[1]] = deltaW1
+    deltaInertia[[2]] = deltaW2
+    
+    # ACTUALIZAR PESOS
+    W[[1]] = W[[1]] + eta * deltaW1 
+    W[[2]] = W[[2]] + eta * deltaW2
+    
+  }
+  
+  # RETORNAR ERRORES, PESOS Y SALIDA FINAL
+  to_return = list(error = mse,weights = W,values = h[[2]])
   return(to_return)
   
 }</code></pre>
@@ -366,76 +416,41 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGluID0gcmVhZC5jc3YoXCJjaXJjbGUuY3N2XCIsaGVhZGVyID0gRkFMU0UpXG5pbmQgPSB3aGljaChsaW5bLDNdID09IDApXG5wbG90KGxpbltpbmQsMV0sbGluW2luZCwyXSx0eXBlPVwicFwiLHhsaW09YygtMSwxKSx5bGltPWMoLTEsMSkpXG5saW5lcyhsaW5bLWluZCwxXSxsaW5bLWluZCwyXSx0eXBlPVwicFwiLGNvbD1cInJlZFwiKVxuYGBgIn0= -->
-<pre class="r"><code>lin = read.csv(&quot;circle.csv&quot;,header = FALSE)
-ind = which(lin[,3] == 0)
-plot(lin[ind,1],lin[ind,2],type=&quot;p&quot;,xlim=c(-1,1),ylim=c(-1,1))
-lines(lin[-ind,1],lin[-ind,2],type=&quot;p&quot;,col=&quot;red&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5lcnRpYXMgPSBjKDAuMSwwLjI1LDAuNSwwLjc1KVxuRVIgPSBOVUxMXG5SRSA9IGxpc3QoKVxuaSA9IDFcbmZvcihpbmVydGlhIGluIGluZXJ0aWFzKXtcbiAgUkVbW2ldXSA9IHNpbmdsZUhpZGRlbkJhY2twcm9wLndpdGhJbmVydGlhKHgseSxobCA9IDEwLGVwb2NocyA9IDEwMDAsZXRhID0gMC4xLGluZXJ0aWEgPSBpbmVydGlhKVxuICBFUiA9IGMoRVIsUkVbW2ldXSRlcnJvclsxMDAwXSlcbiAgaSA9IGkgKyAxXG59XG5gYGAifQ== -->
+<pre class="r"><code>inertias = c(0.1,0.25,0.5,0.75)
+ER = NULL
+RE = list()
+i = 1
+for(inertia in inertias){
+  RE[[i]] = singleHiddenBackprop.withInertia(x,y,hl = 10,epochs = 1000,eta = 0.1,inertia = inertia)
+  ER = c(ER,RE[[i]]$error[1000])
+  i = i + 1
+}</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-plot-begin eyJjb25kaXRpb25zIjpbXSwiaGVpZ2h0Ijo0MzIuNjMyOSwic2l6ZV9iZWhhdmlvciI6MCwid2lkdGgiOjcwMH0= -->
-<p><img src="data:image/png;base64,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" /></p>
-<!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYSA9IGFzLm1hdHJpeChsaW5bLC0zXSlcbmRpbShhKVxuYGBgIn0= -->
-<pre class="r"><code>a = as.matrix(lin[,-3])
-dim(a)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYgPSBkYXRhLmZyYW1lKEluZXJ0aWEgPSBpbmVydGlhcyxNU0UgPSBFUilcbmRmXG5gYGAifQ== -->
+<pre class="r"><code>df = data.frame(Inertia = inertias,MSE = ER)
+df</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEwMCAgIDJcbiJ9 -->
-<pre><code>[1] 100   2</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiICBJbmVydGlhICAgICAgICAgTVNFXG4xICAgIDAuMTAgMC4wMDU3OTM0MThcbjIgICAgMC4yNSAwLjAwNDY3NTUxN1xuMyAgICAwLjUwIDAuMDAzNDY0NTgxXG40ICAgIDAuNzUgMC4wMDEzMzg5MTZcbiJ9 -->
+<pre><code>  Inertia         MSE
+1    0.10 0.005793418
+2    0.25 0.004675517
+3    0.50 0.003464581
+4    0.75 0.001338916</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYiA9IGFzLm1hdHJpeChsaW5bLDNdKVxuZGltKGIpXG5gYGAifQ== -->
-<pre class="r"><code>b = as.matrix(lin[,3])
-dim(b)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEwMCAgIDFcbiJ9 -->
-<pre><code>[1] 100   1</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWp1c3RlID0gYmFja3Byb3BfbWxwKGEsYixoID0gYyg1LDMsMyksZXBvY2hzID0gMTAwMCxldGEgPSAwLjAxKVxuYGBgIn0= -->
-<pre class="r"><code>ajuste = backprop_mlp(a,b,h = c(5,3,3),epochs = 1000,eta = 0.01)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiSW5pY2lhbmRvIGFqdXN0ZS4uLlwiXG5bMV0gXCIuLi5cIlxuWzFdIFwiVGFtYcOxbyBkZSBYIGNvbiBiaWFzOlwiXG5bMV0gMTAwICAgM1xuWzFdIFwiKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKipcIlxuWzFdIFwiQ2FudGlkYWQgZGUgbmV1cm9uYXMgcG9yIGNhcGE6XCJcblsxXSAzIDUgMyAzIDFcblsxXSBcIioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqXCJcblsxXSBcIlBlc29zIGluaWNpYWxpemFkb3MuLi5cIlxuWzFdIFwiLi4uXCJcblsxXSBcIkNvbWVuemFuZG8gaXRlcmFjaW9uZXMsIGVzdGUgcHJvY2VzbyBwdWVkZSB0YXJkYXIuLi5cIlxuWzFdIFwiLi4uXCJcblsxXSBcIkFqdXN0ZSBmaW5hbGl6YWRvXCJcbiJ9 -->
-<pre><code>[1] &quot;Iniciando ajuste...&quot;
-[1] &quot;...&quot;
-[1] &quot;Tamaño de X con bias:&quot;
-[1] 100   3
-[1] &quot;**************************************************&quot;
-[1] &quot;Cantidad de neuronas por capa:&quot;
-[1] 3 5 3 3 1
-[1] &quot;**************************************************&quot;
-[1] &quot;Pesos inicializados...&quot;
-[1] &quot;...&quot;
-[1] &quot;Comenzando iteraciones, este proceso puede tardar...&quot;
-[1] &quot;...&quot;
-[1] &quot;Ajuste finalizado&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdChhanVzdGUkZXJyb3IpXG5gYGAifQ== -->
-<pre class="r"><code>plot(ajuste$error)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-plot-begin eyJjb25kaXRpb25zIjpbXSwiaGVpZ2h0Ijo0MzIuNjMyOSwic2l6ZV9iZWhhdmlvciI6MCwid2lkdGgiOjcwMH0= -->
-<p><img src="data:image/png;base64,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" /></p>
-<!-- rnb-plot-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
+<p>A un mayor valor de inercia se llega más rápido al mínimo.</p>
+<p><em>BONUS 2</em> - Generalizar a un número arbitrario de capas (recomendación, definir los pesos como una lista de matrices, una para cada capa).</p>
 <!-- rnb-text-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRhcmVhIDEuIEJhY2twcm9wYWdhdGlvbiINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMjIFRBUkVBIChsb3MgQk9OVVMgMSB5IDIgc29uIG9wY2lvbmFsZXMpOg0KIyMjIERhdmlkIE1vbnRlcm8gTG9haXphDQoNCkdlbmVyYWxpemFyIGxhIGZ1bmNpw7NuIGJhY2twcm9wIGFudGVyaW9yIHBhcmEgcXVlIGNvbnRlbXBsZSBsYSBpbmNsdXNpw7NuIGRlIHVuYSBjYXBhIG9jdWx0YS4gQXBsaWNhciBsYSBmdW5jacOzbiBhbCBlamVtcGxvIGRlIGxhIGNsYXNpZmljYWNpw7NuIGNpcmN1bGFyLiBTaSBzZSBmaWphIGVsIG7Dum1lcm8gbcOheGltbyBkZSDDqXBvY2FzIGVuIDEwMDAuIMK/UXXDqSBuw7ptZXJvIGRlIG5ldXJvbmFzDQpvY3VsdGFzIHkgcXXDqSB2YWxvciBkZSBsYSB0YXNhIGRlIGFwcmVuZGl6YWplIChldGEpIGVzIMOzcHRpbW8gcGFyYSBlc3RlIHByb2JsZW1hPyAoYmFzdGEgdW5hIHNvbHVjacOzbiBhcHJveGltYWRhKS4NCg0KKkJPTlVTIDEqIC0gwr9TYWJyw61hcyBpbmNsdWlyIHVuIHTDqXJtaW5vIGRlIGluZXJjaWEgZW4gZWwgbcOpdG9kbyBkZSBiYWNrcHJvcGFnYXRpb24gKHZlciB0cmFuc3BhcmVuY2lhIDQpPw0KKkJPTlVTIDIqIC0gR2VuZXJhbGl6YXIgYSB1biBuw7ptZXJvIGFyYml0cmFyaW8gZGUgY2FwYXMgKHJlY29tZW5kYWNpw7NuLCBkZWZpbmlyIGxvcyBwZXNvcyBjb21vIHVuYSBsaXN0YSBkZSBtYXRyaWNlcywgdW5hIHBhcmEgY2FkYSBjYXBhKS4NCg0KYGBge3J9DQpiYWNrcHJvcF9tbHAgPSBmdW5jdGlvbihYLHksaCA9IGMoMywyKSxlcG9jaHMgPSAxMCxldGEgPSAwLjEpew0KICANCiAgcHJpbnQoIkluaWNpYW5kbyBhanVzdGUuLi4iKQ0KICBwcmludCgiLi4uIikNCiAgDQogICMgQUdSRUdBTU9TIEVMIEJJQVMNCiAgIyBFUyBERUNJUiwgQUdSRUdBTU9TIFVOQSBDT0xVTU5BIERFIDEnUw0KICBYID0gY2JpbmQoWCxyZXAoMSxucm93KFgpKSkNCiAgcHJpbnQoIlRhbWHDsW8gZGUgWCBjb24gYmlhczoiKQ0KICBwcmludChkaW0oWCkpDQogIHByaW50KCIqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiIpDQogIA0KICAjIENBTlRJREFEIERFIE5FVVJPTkFTIFBPUiBDQVBBDQogIG5ldXJvbnMgPSBjKG5jb2woWCksaCxuY29sKHkpKQ0KICBwcmludCgiQ2FudGlkYWQgZGUgbmV1cm9uYXMgcG9yIGNhcGE6IikNCiAgcHJpbnQobmV1cm9ucykNCiAgcHJpbnQoIioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqIikNCiAgDQogICMgUEVTT1MgSU5JQ0lBTEVTIEFMRUFUT1JJT1MNCiAgbl93ZWlnaHRzID0gbGVuZ3RoKG5ldXJvbnMpIC0gMQ0KICANCiAgIyBJTklDSUFMSVpBTU9TIFVOQSBMSVNUQSBERSBQRVNPUyBWQUNJQQ0KICBXID0gbGlzdCgpDQogIA0KICAjIFBBUkEgQ0FEQSBMSVNUQSBERSBQRVNPUyBDUkVBTU9TIFVOQSBNQVRSSVogREUgUEVTT1MgQUxFQVRPUklBDQogIGZvcihpIGluIDE6bl93ZWlnaHRzKXsNCiAgICANCiAgICBXW1tpXV0gPSBtYXRyaXgoZGF0YSA9IHJ1bmlmKG5ldXJvbnNbaV0qbmV1cm9uc1tpICsgMV0sbWluID0gLTEsIG1heCA9IDEpLA0KICAgICAgICAgICAgICAgICAgICBucm93ID0gbmV1cm9uc1tpICsgMV0sDQogICAgICAgICAgICAgICAgICAgIG5jb2wgPSBuZXVyb25zW2ldKQ0KICAgIA0KICB9DQogIA0KICBwcmludCgiUGVzb3MgaW5pY2lhbGl6YWRvcy4uLiIpDQogIHByaW50KCIuLi4iKQ0KICANCiAgIyBGVU5DSU9OIERFIEFDVElWQUNJT04gU0lHTU9JREUgWSBTVSBERVJJVkFEQQ0KICBhY3RpdmF0aW9uID0gZnVuY3Rpb24oeCkgMS8oMSArIGV4cCgteCkpDQogIGRlcml2YXRpdmUgPSBmdW5jdGlvbih4KSB4KigxIC0geCkNCiAgDQogICMgVkVDVE9SIFZBQ0lPIFBBUkEgR1VBUkRBUiBFUlJPUkVTDQogIE1TRSA9IE5VTEwNCiAgDQogIHByaW50KCJDb21lbnphbmRvIGl0ZXJhY2lvbmVzLCBlc3RlIHByb2Nlc28gcHVlZGUgdGFyZGFyLi4uIikNCiAgcHJpbnQoIi4uLiIpDQogIA0KICAjIENPTUVOWkFORE8gSVRFUkFDSU9ORVMNCiAgZm9yKGVwb2NoIGluIDE6ZXBvY2hzKXsNCiAgICANCiAgICAjIExJU1RBUyBWQUNJQVMgUEFSQSBHVUFSREFSDQogICAgIyAxLiBQUk9EVUNUT1MgV1gNCiAgICAjIDIuIEFDVElWQUNJT04gZihXWCkNCiAgICBwcm9kdWN0cyA9IGxpc3QoKQ0KICAgIGFjdGl2YXRlZCA9IGxpc3QoKQ0KICAgIA0KICAgICMgR0VORVJBUiBMT1MgUFJPRFVDVE9TDQogICAgZm9yKGkgaW4gMTpuX3dlaWdodHMpew0KICAgICAgDQogICAgICAjIENBTENVTE8gREUgUFJPRFVDVE9TDQogICAgICAjIFNJIEVTIEVMIFBSSU1FUiBDQUxDVUxPIERFIFBST0RVQ1RPUyBFTCBSRVNVTFRBRE8gRVMgWFcNCiAgICAgICMgU0kgTk8gTE8gRVMgRUwgUkVTVUxUQURPIEVTIExBIEFDVElWQUNJT04gQU5URVJJT1IgUE9SIFcNCiAgICAgIGlmKGkgPT0gMSl7cHJvZHVjdHNbW2ldXSA9IFggJSolIHQoV1tbaV1dKX1lbHNle3Byb2R1Y3RzW1tpXV0gPSBhY3RpdmF0ZWRbW2kgLSAxXV0gJSolIHQoV1tbaV1dKX0NCiAgICAgIA0KICAgICAgIyBDQUxDVUxPIERFIEFDVElWQUNJT05FUw0KICAgICAgYWN0aXZhdGVkW1tpXV0gPSBhY3RpdmF0aW9uKHByb2R1Y3RzW1tpXV0pDQogICAgICANCiAgICB9DQogICAgDQogICAgIyBDQUxDVUxPIERFTCBFUlJPUg0KICAgIGVycm9yID0geSAtIGFjdGl2YXRlZFtbbl93ZWlnaHRzXV0NCiAgICANCiAgICAjIENBTENVTE8gREUgREVMVEENCiAgICAjIEVSUk9SICogKEVSUk9SICogKDEgLSBFUlJPUikpDQogICAgZGVsdGEgPSBlcnJvciAqIGRlcml2YXRpdmUoZXJyb3IpDQogICAgDQogICAgIyBMSVNUQSBWQUNJQSBQQVJBIENBTENVTEFSIExPUyBERUxUQVMgREVMIEdSQURJRU5URQ0KICAgIGdkID0gbGlzdCgpDQogICAgDQogICAgIyBTRSBDQUxDVUxBTiBMT1MgREVMVEFTIERFTCBHUkFESUVOVEUNCiAgICBmb3IoaSBpbiBuX3dlaWdodHM6MSl7DQogICAgICANCiAgICAgIGdkW1tpXV0gPSB0KGRlbHRhKQ0KICAgICAgDQogICAgICBmb3IoaiBpbiBuX3dlaWdodHM6aSl7DQogICAgICAgIA0KICAgICAgICBpZihqID09IGkpew0KICAgICAgICAgIA0KICAgICAgICAgIGlmKChqIC0gMSkgPiAwKXsNCiAgICAgICAgICAgIA0KICAgICAgICAgICAgZ2RbW2ldXSA9IGdkW1tpXV0gJSolIGFjdGl2YXRlZFtbai0xXV0NCiAgICAgICAgICAgIA0KICAgICAgICAgIH1lbHNlew0KICAgICAgICAgICAgDQogICAgICAgICAgICBnZFtbaV1dID0gZ2RbW2ldXSAlKiUgWA0KICAgICAgICAgICAgDQogICAgICAgICAgfQ0KICAgICAgICAgIA0KICAgICAgICB9ZWxzZXsNCiAgICAgICAgICANCiAgICAgICAgICBnZFtbaV1dID0gdCh0KGdkW1tpXV0pICUqJSBXW1tqXV0gKiBkZXJpdmF0aXZlKHByb2R1Y3RzW1tqIC0gMV1dKSkNCiAgICAgICAgfQ0KICAgICAgICANCiAgICAgIH0NCiAgICAgIA0KICAgIH0NCiAgICANCiAgICAjIFNFIENBTENVTEEgWSBTRSBHVUFSREEgRUwgRVJST1IgUE9SIEVQT0NBDQogICAgTVNFID0gYyhNU0Usc3VtKGVycm9yXjIpL25yb3coZXJyb3IpKQ0KICAgIA0KICAgICMgU0UgQUNVQUxJWkFOIExPUyBQRVNPUw0KICAgIGZvcihpIGluIDE6bl93ZWlnaHRzKXsNCiAgICAgIA0KICAgICAgV1tbaV1dID0gV1tbaV1dIC0gZXRhICogZ2RbW2ldXQ0KICAgICAgDQogICAgfQ0KICAgIA0KICB9DQogIA0KICAjIFNFIENSRUEgVU5BIExJU1RBIENPTiBMQVMgVkFSSUFCTEVTIEEgUkVUT1JOQVINCiAgdG9fcmV0dXJuID0gbGlzdChlcnJvciA9IE1TRSx3ZWlnaHRzID0gVyx2YWx1ZXMgPSBhY3RpdmF0ZWRbW25fd2VpZ2h0c11dKQ0KICANCiAgcHJpbnQoIkFqdXN0ZSBmaW5hbGl6YWRvIikNCiAgDQogIHJldHVybih0b19yZXR1cm4pDQogIA0KfQ0KYGBgDQoNCg0KYGBge3J9DQpsaW4gPSByZWFkLmNzdigiY2lyY2xlLmNzdiIsaGVhZGVyID0gRkFMU0UpDQoNCmluZCA9IHdoaWNoKGxpblssM10gPT0gMCkNCg0KcGxvdChsaW5baW5kLDFdLGxpbltpbmQsMl0sdHlwZT0icCIseGxpbT1jKC0xLDEpLHlsaW09YygtMSwxKSkNCmxpbmVzKGxpblstaW5kLDFdLGxpblstaW5kLDJdLHR5cGU9InAiLGNvbD0icmVkIikNCmBgYA0KDQpgYGB7cn0NCmEgPSBhcy5tYXRyaXgobGluWywtM10pDQpkaW0oYSkNCmBgYA0KDQpgYGB7cn0NCmIgPSBhcy5tYXRyaXgobGluWywzXSkNCmRpbShiKQ0KYGBgDQoNCmBgYHtyfQ0KYWp1c3RlID0gYmFja3Byb3BfbWxwKGEsYixoID0gYyg1LDMsMyksZXBvY2hzID0gMTAwMCxldGEgPSAwLjAxKQ0KYGBgDQoNCmBgYHtyfQ0KcGxvdChhanVzdGUkZXJyb3IpDQpgYGANCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRhcmVhIDEuIEJhY2twcm9wYWdhdGlvbiINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMjIFRBUkVBIChsb3MgQk9OVVMgMSB5IDIgc29uIG9wY2lvbmFsZXMpOg0KIyMjIERhdmlkIE1vbnRlcm8gTG9haXphDQoNCkdlbmVyYWxpemFyIGxhIGZ1bmNpw7NuIGJhY2twcm9wIGFudGVyaW9yIHBhcmEgcXVlIGNvbnRlbXBsZSBsYSBpbmNsdXNpw7NuIGRlIHVuYSBjYXBhIG9jdWx0YS4gDQoNCmBgYHtyfQ0KYWRkQmlhcyA9IGZ1bmN0aW9uKHgpIGNiaW5kKHgscmVwKDEsbnJvdyh4KSkpICMgQURJQ0lPTkFSIEJJQVMNCg0KYWN0aXZhdGlvbiA9IGZ1bmN0aW9uKHgpIDEvKDEgKyBleHAoLXgpKSAjIEZVTkNJT04gREUgQUNUSVZBQ0lPTg0KDQpkZXJpdmF0aXZlID0gZnVuY3Rpb24oeCkgeCooMSAtIHgpICMgRlVOQ0lPTiBERSBERVJJVkFEQQ0KDQpNU0UgPSBmdW5jdGlvbih4KSBzdW0oeF4yKS9ucm93KHgpICMgRlVOQ0lPTiBERSBNU0UNCg0KaW5pdGlhbGl6ZXIgPSBmdW5jdGlvbihsYXllcnMpeyAjIEZVTkNJT04gUEFSQSBJTklDSUFMSVpBUiBQRVNPUw0KICBuID0gbGVuZ3RoKGxheWVycykgLSAxICMgQ0FOVElEQUQgREUgTUFUUklDRVMgREUgUEVTT1MNCiAgVyA9IGxpc3QoKSAjIElOSUNJQUxJWkFNT1MgVU5BIExJU1RBIERFIFBFU09TIFZBQ0lBDQogIGZvcihpIGluIDE6bil7ICMgUEFSQSBDQURBIExJU1RBIERFIFBFU09TIENSRUFNT1MgVU5BIE1BVFJJWiBERSBQRVNPUyBBTEVBVE9SSUENCiAgICBXW1tpXV0gPSBtYXRyaXgoZGF0YSA9IHJ1bmlmKGxheWVyc1tpXSpsYXllcnNbaSArIDFdLG1pbiA9IC0xLCBtYXggPSAxKSxucm93ID0gbGF5ZXJzW2kgKyAxXSxuY29sID0gbGF5ZXJzW2ldKQ0KICB9DQogIHJldHVybihXKSAjIFJFVE9STkFNT1MgTE9TIFBFU09TDQp9DQoNCmZlZWRmb3J3YXJkID0gZnVuY3Rpb24oeCxXKXsgIyBGVU5DSU9OIFBBUkEgSEFDRVIgRkVFREZPUldBUkQNCiAgaCA9IGxpc3QoKQ0KICBoW1sxXV0gPSBhY3RpdmF0aW9uKHggJSolIHQoV1tbMV1dKSkgIyBQUklNRVJBIEFDVElWQUNJT04NCiAgZm9yKGkgaW4gMjpsZW5ndGgoVykpeyAjIFNJR1VJRU5URVMgQUNUSVZBQ0lPTkVTDQogICAgaFtbaV1dID0gYWN0aXZhdGlvbihoW1tpIC0gMV1dICUqJSB0KFdbW2ldXSkpDQogIH0NCiAgcmV0dXJuKGgpICMgUkVUT1JOQU1PUyBMQSBVTFRJTUEgQUNUSVZBQ0lPTg0KfQ0KYGBgDQoNCmBgYHtyfQ0Kc2luZ2xlSGlkZGVuQmFja3Byb3AgPSBmdW5jdGlvbih4LHksaGwsZXBvY2hzID0gNTAwLGV0YSA9IDAuMSl7DQogIA0KICAjIEFHUkVHQVIgQklBUw0KICB4ID0gYWRkQmlhcyh4KQ0KICANCiAgIyBDQU5USURBRCBERSBMQVlFUlMgWSBORVVST05BUyBQT1IgTEFZRVINCiAgbGF5ZXJzID0gYyhuY29sKHgpLGhsLG5jb2woeSkpDQogIA0KICAjIFBFU09TIElOSUNJQUxFUw0KICBXID0gaW5pdGlhbGl6ZXIobGF5ZXJzKQ0KICANCiAgIyBWRUNUT1IgVkFDSU8gUEFSQSBHVUFSREFSIEVSUk9SRVMNCiAgbXNlID0gTlVMTA0KICANCiAgZm9yKGVwb2NoIGluIDE6ZXBvY2hzKXsNCiAgICANCiAgICAjIEhBQ0VSIEZFRURGT1JXQVJEDQogICAgaCA9IGZlZWRmb3J3YXJkKHgsVykNCiAgICANCiAgICAjIENBTENVTEFSIFkgQUxNQUNFTkFSIEVSUk9SDQogICAgZXJyb3IgPSB5IC0gaFtbMl1dDQogICAgbXNlID0gYyhtc2UsTVNFKGVycm9yKSkNCiAgICANCiAgICAjIENBTENVTEFSIERFTFRBDQogICAgZGVsdGEgPSBlcnJvcipkZXJpdmF0aXZlKGhbWzJdXSkNCiAgICANCiAgICAjIENBTENVTEFSIERFTFRBUyBQQVJBIENBREEgTUFUUklaIERFIFBFU09TDQogICAgZGVsdGFXMiA9IHQoZGVsdGEpICUqJSBoW1sxXV0NCiAgICBkZWx0YVcxID0gdCgoZGVsdGEgJSolIFdbWzJdXSkgKiBkZXJpdmF0aXZlKGhbWzFdXSkpICUqJSB4DQogICAgDQogICAgIyBBQ1RVQUxJWkFSIFBFU09TDQogICAgV1tbMV1dID0gV1tbMV1dICsgZXRhICogZGVsdGFXMQ0KICAgIFdbWzJdXSA9IFdbWzJdXSArIGV0YSAqIGRlbHRhVzINCiAgICANCiAgfQ0KICANCiAgIyBSRVRPUk5BUiBFUlJPUkVTLCBQRVNPUyBZIFNBTElEQSBGSU5BTA0KICB0b19yZXR1cm4gPSBsaXN0KGVycm9yID0gbXNlLHdlaWdodHMgPSBXLHZhbHVlcyA9IGhbWzJdXSkNCiAgcmV0dXJuKHRvX3JldHVybikNCiAgDQp9DQpgYGANCg0KQXBsaWNhciBsYSBmdW5jacOzbiBhbCBlamVtcGxvIGRlIGxhIGNsYXNpZmljYWNpw7NuIGNpcmN1bGFyLiBTaSBzZSBmaWphIGVsIG7Dum1lcm8gbcOheGltbyBkZSDDqXBvY2FzIGVuIDEwMDAuIMK/UXXDqSBuw7ptZXJvIGRlIG5ldXJvbmFzIG9jdWx0YXMgeSBxdcOpIHZhbG9yIGRlIGxhIHRhc2EgZGUgYXByZW5kaXphamUgKGV0YSkgZXMgw7NwdGltbyBwYXJhIGVzdGUgcHJvYmxlbWE/IChiYXN0YSB1bmEgc29sdWNpw7NuIGFwcm94aW1hZGEpLg0KDQpgYGB7cn0NCmNpcmNsZSA9IHJlYWQuY3N2KCJDOi9Vc2Vycy9EYXZlIE1vbnQvRGVza3RvcC9NYXN0ZXJfb2ZfRGF0YVNjaWVuY2UvMDAtZGF0YXNldHMvY2lyY2xlLmNzdiIpDQp4ID0gYXMubWF0cml4KGNpcmNsZVssLTNdKQ0KeSA9IGFzLm1hdHJpeChjaXJjbGVbLDNdKQ0KYGBgDQoNCmBgYHtyfQ0KSEwgPSBOVUxMDQpMUiA9IE5VTEwNCkVSID0gTlVMTA0KUkUgPSBsaXN0KCkNCmkgPSAxDQpmb3IoaGlkZGVuTGF5ZXJzIGluIGMoMSw1LDEwKSl7DQogIGZvcihsZWFybmluZ1JhdGUgaW4gYygwLjAxLDAuMDUsMC4xKSl7DQogICAgSEwgPSBjKEhMLGhpZGRlbkxheWVycykNCiAgICBMUiA9IGMoTFIsbGVhcm5pbmdSYXRlKQ0KICAgIFJFW1tpXV0gPSBzaW5nbGVIaWRkZW5CYWNrcHJvcCh4LHksaGwgPSBoaWRkZW5MYXllcnMsZXBvY2hzID0gMTAwMCxldGEgPSBsZWFybmluZ1JhdGUpDQogICAgRVIgPSBjKEVSLFJFW1tpXV0kZXJyb3JbMTAwMF0pDQogICAgaSA9IGkgKyAxDQogIH0NCn0NCmBgYA0KDQpgYGB7cn0NCmRmID0gZGF0YS5mcmFtZShIaWRkZW5MYXllcnMgPSBITCxMZWFybmluZ1JhdGUgPSBMUixNU0UgPSBFUikNCmRmDQpgYGANCg0KRWwgbWVqb3IgbW9kZWxvIHNlIG9idGllbmUgY29uIDEwIG5ldXJvbmFzIHkgdW5hIHRhc2EgZGUgYXByZW5kaXphamUgZGUgMC4xLg0KDQoqQk9OVVMgMSogLSDCv1NhYnLDrWFzIGluY2x1aXIgdW4gdMOpcm1pbm8gZGUgaW5lcmNpYSBlbiBlbCBtw6l0b2RvIGRlIGJhY2twcm9wYWdhdGlvbiAodmVyIHRyYW5zcGFyZW5jaWEgNCk/DQoNCmBgYHtyfQ0Kc2luZ2xlSGlkZGVuQmFja3Byb3Aud2l0aEluZXJ0aWEgPSBmdW5jdGlvbih4LHksaGwsZXBvY2hzID0gNTAwLGV0YSA9IDAuMSxpbmVydGlhID0gMC41KXsNCiAgDQogICMgQUdSRUdBUiBCSUFTDQogIHggPSBhZGRCaWFzKHgpDQogIA0KICAjIENBTlRJREFEIERFIExBWUVSUyBZIE5FVVJPTkFTIFBPUiBMQVlFUg0KICBsYXllcnMgPSBjKG5jb2woeCksaGwsbmNvbCh5KSkNCiAgDQogICMgUEVTT1MgSU5JQ0lBTEVTDQogIFcgPSBpbml0aWFsaXplcihsYXllcnMpDQogIA0KICAjIFZFQ1RPUiBWQUNJTyBQQVJBIEdVQVJEQVIgRVJST1JFUw0KICBtc2UgPSBOVUxMDQogIA0KICBmb3IoZXBvY2ggaW4gMTplcG9jaHMpew0KICAgIA0KICAgICMgSEFDRVIgRkVFREZPUldBUkQNCiAgICBoID0gZmVlZGZvcndhcmQoeCxXKQ0KICAgIA0KICAgICMgQ0FMQ1VMQVIgWSBBTE1BQ0VOQVIgRVJST1INCiAgICBlcnJvciA9IHkgLSBoW1syXV0NCiAgICBtc2UgPSBjKG1zZSxNU0UoZXJyb3IpKQ0KICAgIA0KICAgICMgQ0FMQ1VMQVIgREVMVEENCiAgICBkZWx0YSA9IGVycm9yKmRlcml2YXRpdmUoaFtbMl1dKQ0KICAgIA0KICAgICMgSU5FUkNJQQ0KICAgIGlmKGVwb2NoID09IDEpew0KICAgICAgZGVsdGFJbmVydGlhID0gbGlzdCgpDQogICAgICBkZWx0YUluZXJ0aWFbWzFdXSA9IDANCiAgICAgIGRlbHRhSW5lcnRpYVtbMl1dID0gMA0KICAgIH0NCiAgICANCiAgICAjIENBTENVTEFSIERFTFRBUyBQQVJBIENBREEgTUFUUklaIERFIFBFU09TDQogICAgZGVsdGFXMiA9IHQoZGVsdGEpICUqJSBoW1sxXV0gKyBpbmVydGlhICogZGVsdGFJbmVydGlhW1syXV0NCiAgICBkZWx0YVcxID0gdCgoZGVsdGEgJSolIFdbWzJdXSkgKiBkZXJpdmF0aXZlKGhbWzFdXSkpICUqJSB4ICsgaW5lcnRpYSAqIGRlbHRhSW5lcnRpYVtbMV1dDQogICAgDQogICAgIyBBQ1RVQUxJWkFSIElORVJDSUENCiAgICBkZWx0YUluZXJ0aWFbWzFdXSA9IGRlbHRhVzENCiAgICBkZWx0YUluZXJ0aWFbWzJdXSA9IGRlbHRhVzINCiAgICANCiAgICAjIEFDVFVBTElaQVIgUEVTT1MNCiAgICBXW1sxXV0gPSBXW1sxXV0gKyBldGEgKiBkZWx0YVcxIA0KICAgIFdbWzJdXSA9IFdbWzJdXSArIGV0YSAqIGRlbHRhVzINCiAgICANCiAgfQ0KICANCiAgIyBSRVRPUk5BUiBFUlJPUkVTLCBQRVNPUyBZIFNBTElEQSBGSU5BTA0KICB0b19yZXR1cm4gPSBsaXN0KGVycm9yID0gbXNlLHdlaWdodHMgPSBXLHZhbHVlcyA9IGhbWzJdXSkNCiAgcmV0dXJuKHRvX3JldHVybikNCiAgDQp9DQpgYGANCg0KYGBge3J9DQppbmVydGlhcyA9IGMoMC4xLDAuMjUsMC41LDAuNzUpDQpFUiA9IE5VTEwNClJFID0gbGlzdCgpDQppID0gMQ0KDQpmb3IoaW5lcnRpYSBpbiBpbmVydGlhcyl7DQogIFJFW1tpXV0gPSBzaW5nbGVIaWRkZW5CYWNrcHJvcC53aXRoSW5lcnRpYSh4LHksaGwgPSAxMCxlcG9jaHMgPSAxMDAwLGV0YSA9IDAuMSxpbmVydGlhID0gaW5lcnRpYSkNCiAgRVIgPSBjKEVSLFJFW1tpXV0kZXJyb3JbMTAwMF0pDQogIGkgPSBpICsgMQ0KfQ0KYGBgDQoNCmBgYHtyfQ0KZGYgPSBkYXRhLmZyYW1lKEluZXJ0aWEgPSBpbmVydGlhcyxNU0UgPSBFUikNCmRmDQpgYGANCg0KQSB1biBtYXlvciB2YWxvciBkZSBpbmVyY2lhIHNlIGxsZWdhIG3DoXMgcsOhcGlkbyBhbCBtw61uaW1vLg0KDQoqQk9OVVMgMiogLSBHZW5lcmFsaXphciBhIHVuIG7Dum1lcm8gYXJiaXRyYXJpbyBkZSBjYXBhcyAocmVjb21lbmRhY2nDs24sIGRlZmluaXIgbG9zIHBlc29zIGNvbW8gdW5hIGxpc3RhIGRlIG1hdHJpY2VzLCB1bmEgcGFyYSBjYWRhIGNhcGEpLg==</div>
 
 
 

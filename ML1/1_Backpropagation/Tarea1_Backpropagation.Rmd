@@ -1,171 +1,194 @@
 ---
 title: "Tarea 1. Backpropagation"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 ## TAREA (los BONUS 1 y 2 son opcionales):
 ### David Montero Loaiza
 
-Generalizar la función backprop anterior para que contemple la inclusión de una capa oculta. Aplicar la función al ejemplo de la clasificación circular. Si se fija el número máximo de épocas en 1000. ¿Qué número de neuronas
-ocultas y qué valor de la tasa de aprendizaje (eta) es óptimo para este problema? (basta una solución aproximada).
-
-*BONUS 1* - ¿Sabrías incluir un término de inercia en el método de backpropagation (ver transparencia 4)?
-*BONUS 2* - Generalizar a un número arbitrario de capas (recomendación, definir los pesos como una lista de matrices, una para cada capa).
+Generalizar la función backprop anterior para que contemple la inclusión de una capa oculta. 
 
 ```{r}
-backprop_mlp = function(X,y,h = c(3,2),epochs = 10,eta = 0.1){
-  
-  print("Iniciando ajuste...")
-  print("...")
-  
-  # AGREGAMOS EL BIAS
-  # ES DECIR, AGREGAMOS UNA COLUMNA DE 1'S
-  X = cbind(X,rep(1,nrow(X)))
-  print("Tamaño de X con bias:")
-  print(dim(X))
-  print("**************************************************")
-  
-  # CANTIDAD DE NEURONAS POR CAPA
-  neurons = c(ncol(X),h,ncol(y))
-  print("Cantidad de neuronas por capa:")
-  print(neurons)
-  print("**************************************************")
-  
-  # PESOS INICIALES ALEATORIOS
-  n_weights = length(neurons) - 1
-  
-  # INICIALIZAMOS UNA LISTA DE PESOS VACIA
-  W = list()
-  
-  # PARA CADA LISTA DE PESOS CREAMOS UNA MATRIZ DE PESOS ALEATORIA
-  for(i in 1:n_weights){
-    
-    W[[i]] = matrix(data = runif(neurons[i]*neurons[i + 1],min = -1, max = 1),
-                    nrow = neurons[i + 1],
-                    ncol = neurons[i])
-    
+addBias = function(x) cbind(x,rep(1,nrow(x))) # ADICIONAR BIAS
+
+activation = function(x) 1/(1 + exp(-x)) # FUNCION DE ACTIVACION
+
+derivative = function(x) x*(1 - x) # FUNCION DE DERIVADA
+
+MSE = function(x) sum(x^2)/nrow(x) # FUNCION DE MSE
+
+initializer = function(layers){ # FUNCION PARA INICIALIZAR PESOS
+  n = length(layers) - 1 # CANTIDAD DE MATRICES DE PESOS
+  W = list() # INICIALIZAMOS UNA LISTA DE PESOS VACIA
+  for(i in 1:n){ # PARA CADA LISTA DE PESOS CREAMOS UNA MATRIZ DE PESOS ALEATORIA
+    W[[i]] = matrix(data = runif(layers[i]*layers[i + 1],min = -1, max = 1),nrow = layers[i + 1],ncol = layers[i])
   }
+  return(W) # RETORNAMOS LOS PESOS
+}
+
+feedforward = function(x,W){ # FUNCION PARA HACER FEEDFORWARD
+  h = list()
+  h[[1]] = activation(x %*% t(W[[1]])) # PRIMERA ACTIVACION
+  for(i in 2:length(W)){ # SIGUIENTES ACTIVACIONES
+    h[[i]] = activation(h[[i - 1]] %*% t(W[[i]]))
+  }
+  return(h) # RETORNAMOS LA ULTIMA ACTIVACION
+}
+```
+
+```{r}
+singleHiddenBackprop = function(x,y,hl,epochs = 500,eta = 0.1){
   
-  print("Pesos inicializados...")
-  print("...")
+  # AGREGAR BIAS
+  x = addBias(x)
   
-  # FUNCION DE ACTIVACION SIGMOIDE Y SU DERIVADA
-  activation = function(x) 1/(1 + exp(-x))
-  derivative = function(x) x*(1 - x)
+  # CANTIDAD DE LAYERS Y NEURONAS POR LAYER
+  layers = c(ncol(x),hl,ncol(y))
+  
+  # PESOS INICIALES
+  W = initializer(layers)
   
   # VECTOR VACIO PARA GUARDAR ERRORES
-  MSE = NULL
+  mse = NULL
   
-  print("Comenzando iteraciones, este proceso puede tardar...")
-  print("...")
-  
-  # COMENZANDO ITERACIONES
   for(epoch in 1:epochs){
     
-    # LISTAS VACIAS PARA GUARDAR
-    # 1. PRODUCTOS WX
-    # 2. ACTIVACION f(WX)
-    products = list()
-    activated = list()
+    # HACER FEEDFORWARD
+    h = feedforward(x,W)
     
-    # GENERAR LOS PRODUCTOS
-    for(i in 1:n_weights){
-      
-      # CALCULO DE PRODUCTOS
-      # SI ES EL PRIMER CALCULO DE PRODUCTOS EL RESULTADO ES XW
-      # SI NO LO ES EL RESULTADO ES LA ACTIVACION ANTERIOR POR W
-      if(i == 1){products[[i]] = X %*% t(W[[i]])}else{products[[i]] = activated[[i - 1]] %*% t(W[[i]])}
-      
-      # CALCULO DE ACTIVACIONES
-      activated[[i]] = activation(products[[i]])
-      
-    }
+    # CALCULAR Y ALMACENAR ERROR
+    error = y - h[[2]]
+    mse = c(mse,MSE(error))
     
-    # CALCULO DEL ERROR
-    error = y - activated[[n_weights]]
+    # CALCULAR DELTA
+    delta = error*derivative(h[[2]])
     
-    # CALCULO DE DELTA
-    # ERROR * (ERROR * (1 - ERROR))
-    delta = error * derivative(error)
+    # CALCULAR DELTAS PARA CADA MATRIZ DE PESOS
+    deltaW2 = t(delta) %*% h[[1]]
+    deltaW1 = t((delta %*% W[[2]]) * derivative(h[[1]])) %*% x
     
-    # LISTA VACIA PARA CALCULAR LOS DELTAS DEL GRADIENTE
-    gd = list()
-    
-    # SE CALCULAN LOS DELTAS DEL GRADIENTE
-    for(i in n_weights:1){
-      
-      gd[[i]] = t(delta)
-      
-      for(j in n_weights:i){
-        
-        if(j == i){
-          
-          if((j - 1) > 0){
-            
-            gd[[i]] = gd[[i]] %*% activated[[j-1]]
-            
-          }else{
-            
-            gd[[i]] = gd[[i]] %*% X
-            
-          }
-          
-        }else{
-          
-          gd[[i]] = t(t(gd[[i]]) %*% W[[j]] * derivative(products[[j - 1]]))
-        }
-        
-      }
-      
-    }
-    
-    # SE CALCULA Y SE GUARDA EL ERROR POR EPOCA
-    MSE = c(MSE,sum(error^2)/nrow(error))
-    
-    # SE ACUALIZAN LOS PESOS
-    for(i in 1:n_weights){
-      
-      W[[i]] = W[[i]] - eta * gd[[i]]
-      
-    }
+    # ACTUALIZAR PESOS
+    W[[1]] = W[[1]] + eta * deltaW1
+    W[[2]] = W[[2]] + eta * deltaW2
     
   }
   
-  # SE CREA UNA LISTA CON LAS VARIABLES A RETORNAR
-  to_return = list(error = MSE,weights = W,values = activated[[n_weights]])
-  
-  print("Ajuste finalizado")
-  
+  # RETORNAR ERRORES, PESOS Y SALIDA FINAL
+  to_return = list(error = mse,weights = W,values = h[[2]])
   return(to_return)
   
 }
 ```
 
+Aplicar la función al ejemplo de la clasificación circular. Si se fija el número máximo de épocas en 1000. ¿Qué número de neuronas ocultas y qué valor de la tasa de aprendizaje (eta) es óptimo para este problema? (basta una solución aproximada).
 
 ```{r}
-lin = read.csv("circle.csv",header = FALSE)
-
-ind = which(lin[,3] == 0)
-
-plot(lin[ind,1],lin[ind,2],type="p",xlim=c(-1,1),ylim=c(-1,1))
-lines(lin[-ind,1],lin[-ind,2],type="p",col="red")
+circle = read.csv("C:/Users/Dave Mont/Desktop/Master_of_DataScience/00-datasets/circle.csv")
+x = as.matrix(circle[,-3])
+y = as.matrix(circle[,3])
 ```
 
 ```{r}
-a = as.matrix(lin[,-3])
-dim(a)
+HL = NULL
+LR = NULL
+ER = NULL
+RE = list()
+i = 1
+for(hiddenLayers in c(1,5,10)){
+  for(learningRate in c(0.01,0.05,0.1)){
+    HL = c(HL,hiddenLayers)
+    LR = c(LR,learningRate)
+    RE[[i]] = singleHiddenBackprop(x,y,hl = hiddenLayers,epochs = 1000,eta = learningRate)
+    ER = c(ER,RE[[i]]$error[1000])
+    i = i + 1
+  }
+}
 ```
 
 ```{r}
-b = as.matrix(lin[,3])
-dim(b)
+df = data.frame(HiddenLayers = HL,LearningRate = LR,MSE = ER)
+df
+```
+
+El mejor modelo se obtiene con 10 neuronas y una tasa de aprendizaje de 0.1.
+
+*BONUS 1* - ¿Sabrías incluir un término de inercia en el método de backpropagation (ver transparencia 4)?
+
+```{r}
+singleHiddenBackprop.withInertia = function(x,y,hl,epochs = 500,eta = 0.1,inertia = 0.5){
+  
+  # AGREGAR BIAS
+  x = addBias(x)
+  
+  # CANTIDAD DE LAYERS Y NEURONAS POR LAYER
+  layers = c(ncol(x),hl,ncol(y))
+  
+  # PESOS INICIALES
+  W = initializer(layers)
+  
+  # VECTOR VACIO PARA GUARDAR ERRORES
+  mse = NULL
+  
+  for(epoch in 1:epochs){
+    
+    # HACER FEEDFORWARD
+    h = feedforward(x,W)
+    
+    # CALCULAR Y ALMACENAR ERROR
+    error = y - h[[2]]
+    mse = c(mse,MSE(error))
+    
+    # CALCULAR DELTA
+    delta = error*derivative(h[[2]])
+    
+    # INERCIA
+    if(epoch == 1){
+      deltaInertia = list()
+      deltaInertia[[1]] = 0
+      deltaInertia[[2]] = 0
+    }
+    
+    # CALCULAR DELTAS PARA CADA MATRIZ DE PESOS
+    deltaW2 = t(delta) %*% h[[1]] + inertia * deltaInertia[[2]]
+    deltaW1 = t((delta %*% W[[2]]) * derivative(h[[1]])) %*% x + inertia * deltaInertia[[1]]
+    
+    # ACTUALIZAR INERCIA
+    deltaInertia[[1]] = deltaW1
+    deltaInertia[[2]] = deltaW2
+    
+    # ACTUALIZAR PESOS
+    W[[1]] = W[[1]] + eta * deltaW1 
+    W[[2]] = W[[2]] + eta * deltaW2
+    
+  }
+  
+  # RETORNAR ERRORES, PESOS Y SALIDA FINAL
+  to_return = list(error = mse,weights = W,values = h[[2]])
+  return(to_return)
+  
+}
 ```
 
 ```{r}
-ajuste = backprop_mlp(a,b,h = c(5,3,3),epochs = 1000,eta = 0.01)
+inertias = c(0.1,0.25,0.5,0.75)
+ER = NULL
+RE = list()
+i = 1
+
+for(inertia in inertias){
+  RE[[i]] = singleHiddenBackprop.withInertia(x,y,hl = 10,epochs = 1000,eta = 0.1,inertia = inertia)
+  ER = c(ER,RE[[i]]$error[1000])
+  i = i + 1
+}
 ```
 
 ```{r}
-plot(ajuste$error)
+df = data.frame(Inertia = inertias,MSE = ER)
+df
 ```
 
+A un mayor valor de inercia se llega más rápido al mínimo.
+
+*BONUS 2* - Generalizar a un número arbitrario de capas (recomendación, definir los pesos como una lista de matrices, una para cada capa).
