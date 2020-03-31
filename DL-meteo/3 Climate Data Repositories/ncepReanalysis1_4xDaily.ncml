@@ -1,0 +1,1245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+    <attribute name="svn_id" value="$Id: ncepReanalysis1_4xDaily.ncml 654 2015-03-05 17:27:46Z sixto $"/>
+    <dimension name="time" length="102272" isUnlimited="false"/>
+    <variable name="time" shape="time" type="float">
+        <attribute name="units" value="hours since 1948-01-01 00:00:00"/>
+        <attribute name="_CoordinateAxisType" value="Time" />
+        <values start="0" increment="6" />
+    </variable>
+    <aggregation type="union">
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/air.2m.gauss.2017.nc" ncoords="1460"/>
+                <variable name="tas" orgName="air">
+                    <attribute name="_CoordinateAxes" value="time rlat rlon"/>
+                </variable>
+                <dimension name="rlon" orgName="lon"/>
+                <variable name="rlon" shape="rlon" type="float">
+                    <attribute name="standard_name" value="longitude"/>
+                    <attribute name="long_name" value="longitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lon"/>
+                    <attribute name="axis" value="X"/>
+                    <attribute name="units" value="degrees_east"/>
+                    <values>0.0 1.875 3.75 5.625 7.5 9.375 11.25 13.125 15.0 16.875 18.75 20.625 22.5 24.375 26.25 28.125 30.0 31.875 33.75 35.625 37.5 39.375 41.25 43.125 45.0 46.875 48.75 50.625 52.5 54.375 56.25 58.125 60.0 61.875 63.75 65.625 67.5 69.375 71.25 73.125 75.0 76.875 78.75 80.625 82.5 84.375 86.25 88.125 90.0 91.875 93.75 95.625 97.5 99.375 101.25 103.125 105.0 106.875 108.75 110.625 112.5 114.375 116.25 118.125 120.0 121.875 123.75 125.625 127.5 129.375 131.25 133.125 135.0 136.875 138.75 140.625 142.5 144.375 146.25 148.125 150.0 151.875 153.75 155.625 157.5 159.375 161.25 163.125 165.0 166.875 168.75 170.625 172.5 174.375 176.25 178.125 180.0 181.875 183.75 185.625 187.5 189.375 191.25 193.125 195.0 196.875 198.75 200.625 202.5 204.375 206.25 208.125 210.0 211.875 213.75 215.625 217.5 219.375 221.25 223.125 225.0 226.875 228.75 230.625 232.5 234.375 236.25 238.125 240.0 241.875 243.75 245.625 247.5 249.375 251.25 253.125 255.0 256.875 258.75 260.625 262.5 264.375 266.25 268.125 270.0 271.875 273.75 275.625 277.5 279.375 281.25 283.125 285.0 286.875 288.75 290.625 292.5 294.375 296.25 298.125 300.0 301.875 303.75 305.625 307.5 309.375 311.25 313.125 315.0 316.875 318.75 320.625 322.5 324.375 326.25 328.125 330.0 331.875 333.75 335.625 337.5 339.375 341.25 343.125 345.0 346.875 348.75 350.625 352.5 354.375 356.25 358.125</values>
+                </variable>
+                <dimension name="rlat" orgName="lat"/>
+                <variable name="rlat" shape="rlat" type="float">
+                    <attribute name="standard_name" value="latitude"/>
+                    <attribute name="long_name" value="latitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lat"/>
+                    <attribute name="axis" value="Y"/>
+                    <attribute name="units" value="degrees_north"/>
+                    <values>88.542 86.6531 84.7532 82.8508 80.9473 79.0435 77.1394 75.2351 73.3307 71.4262 69.5217 67.6171 65.7125 63.8079 61.9033 59.9986 58.0939 56.1893 54.2846 52.3799 50.4752 48.5705 46.6658 44.7611 42.8564 40.9517 39.047 37.1422 35.2375 33.3328 31.4281 29.5234 27.6186 25.7139 23.8092 21.9044 19.9997 18.095 16.1902 14.2855 12.3808 10.47604 8.57131 6.66657 4.76184 2.8571 0.952368 -0.952368 -2.8571 -4.76184 -6.66657 -8.57131 -10.47604 -12.3808 -14.2855 -16.1902 -18.095 -19.9997 -21.9044 -23.8092 -25.7139 -27.6186 -29.5234 -31.4281 -33.3328 -35.2375 -37.1422 -39.047 -40.9517 -42.8564 -44.7611 -46.6658 -48.5705 -50.4752 -52.3799 -54.2846 -56.1893 -58.0939 -59.9986 -61.9033 -63.8079 -65.7125 -67.6171 -69.5217 -71.4262 -73.3307 -75.2351 -77.1394 -79.0435 -80.9473 -82.8508 -84.7532 -86.6531 -88.542</values>
+                </variable>
+                <remove name="lat" type="variable" />
+                <remove name="lon" type="variable" />
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nlwrs.sfc.gauss.2017.nc" ncoords="1460"/>
+                <variable name="nlwrs">
+                    <attribute name="_CoordinateAxes" value="time rlat rlon"/>
+                </variable>
+                <dimension name="rlon" orgName="lon"/>
+                <variable name="rlon" shape="rlon" type="float">
+                    <attribute name="standard_name" value="longitude"/>
+                    <attribute name="long_name" value="longitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lon"/>
+                    <attribute name="axis" value="X"/>
+                    <attribute name="units" value="degrees_east"/>
+                    <values>0.0 1.875 3.75 5.625 7.5 9.375 11.25 13.125 15.0 16.875 18.75 20.625 22.5 24.375 26.25 28.125 30.0 31.875 33.75 35.625 37.5 39.375 41.25 43.125 45.0 46.875 48.75 50.625 52.5 54.375 56.25 58.125 60.0 61.875 63.75 65.625 67.5 69.375 71.25 73.125 75.0 76.875 78.75 80.625 82.5 84.375 86.25 88.125 90.0 91.875 93.75 95.625 97.5 99.375 101.25 103.125 105.0 106.875 108.75 110.625 112.5 114.375 116.25 118.125 120.0 121.875 123.75 125.625 127.5 129.375 131.25 133.125 135.0 136.875 138.75 140.625 142.5 144.375 146.25 148.125 150.0 151.875 153.75 155.625 157.5 159.375 161.25 163.125 165.0 166.875 168.75 170.625 172.5 174.375 176.25 178.125 180.0 181.875 183.75 185.625 187.5 189.375 191.25 193.125 195.0 196.875 198.75 200.625 202.5 204.375 206.25 208.125 210.0 211.875 213.75 215.625 217.5 219.375 221.25 223.125 225.0 226.875 228.75 230.625 232.5 234.375 236.25 238.125 240.0 241.875 243.75 245.625 247.5 249.375 251.25 253.125 255.0 256.875 258.75 260.625 262.5 264.375 266.25 268.125 270.0 271.875 273.75 275.625 277.5 279.375 281.25 283.125 285.0 286.875 288.75 290.625 292.5 294.375 296.25 298.125 300.0 301.875 303.75 305.625 307.5 309.375 311.25 313.125 315.0 316.875 318.75 320.625 322.5 324.375 326.25 328.125 330.0 331.875 333.75 335.625 337.5 339.375 341.25 343.125 345.0 346.875 348.75 350.625 352.5 354.375 356.25 358.125</values>
+                </variable>
+                <dimension name="rlat" orgName="lat"/>
+                <variable name="rlat" shape="rlat" type="float">
+                    <attribute name="standard_name" value="latitude"/>
+                    <attribute name="long_name" value="latitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lat"/>
+                    <attribute name="axis" value="Y"/>
+                    <attribute name="units" value="degrees_north"/>
+                    <values>88.542 86.6531 84.7532 82.8508 80.9473 79.0435 77.1394 75.2351 73.3307 71.4262 69.5217 67.6171 65.7125 63.8079 61.9033 59.9986 58.0939 56.1893 54.2846 52.3799 50.4752 48.5705 46.6658 44.7611 42.8564 40.9517 39.047 37.1422 35.2375 33.3328 31.4281 29.5234 27.6186 25.7139 23.8092 21.9044 19.9997 18.095 16.1902 14.2855 12.3808 10.47604 8.57131 6.66657 4.76184 2.8571 0.952368 -0.952368 -2.8571 -4.76184 -6.66657 -8.57131 -10.47604 -12.3808 -14.2855 -16.1902 -18.095 -19.9997 -21.9044 -23.8092 -25.7139 -27.6186 -29.5234 -31.4281 -33.3328 -35.2375 -37.1422 -39.047 -40.9517 -42.8564 -44.7611 -46.6658 -48.5705 -50.4752 -52.3799 -54.2846 -56.1893 -58.0939 -59.9986 -61.9033 -63.8079 -65.7125 -67.6171 -69.5217 -71.4262 -73.3307 -75.2351 -77.1394 -79.0435 -80.9473 -82.8508 -84.7532 -86.6531 -88.542</values>
+                </variable>
+                <remove name="lat" type="variable" />
+                <remove name="lon" type="variable" />
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/nswrs.sfc.gauss.2017.nc" ncoords="1460"/>
+                <variable name="nswrs">
+                    <attribute name="_CoordinateAxes" value="time rlat rlon"/>
+                </variable>
+                <dimension name="rlon" orgName="lon"/>
+                <variable name="rlon" shape="rlon" type="float">
+                    <attribute name="standard_name" value="longitude"/>
+                    <attribute name="long_name" value="longitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lon"/>
+                    <attribute name="axis" value="X"/>
+                    <attribute name="units" value="degrees_east"/>
+                    <values>0.0 1.875 3.75 5.625 7.5 9.375 11.25 13.125 15.0 16.875 18.75 20.625 22.5 24.375 26.25 28.125 30.0 31.875 33.75 35.625 37.5 39.375 41.25 43.125 45.0 46.875 48.75 50.625 52.5 54.375 56.25 58.125 60.0 61.875 63.75 65.625 67.5 69.375 71.25 73.125 75.0 76.875 78.75 80.625 82.5 84.375 86.25 88.125 90.0 91.875 93.75 95.625 97.5 99.375 101.25 103.125 105.0 106.875 108.75 110.625 112.5 114.375 116.25 118.125 120.0 121.875 123.75 125.625 127.5 129.375 131.25 133.125 135.0 136.875 138.75 140.625 142.5 144.375 146.25 148.125 150.0 151.875 153.75 155.625 157.5 159.375 161.25 163.125 165.0 166.875 168.75 170.625 172.5 174.375 176.25 178.125 180.0 181.875 183.75 185.625 187.5 189.375 191.25 193.125 195.0 196.875 198.75 200.625 202.5 204.375 206.25 208.125 210.0 211.875 213.75 215.625 217.5 219.375 221.25 223.125 225.0 226.875 228.75 230.625 232.5 234.375 236.25 238.125 240.0 241.875 243.75 245.625 247.5 249.375 251.25 253.125 255.0 256.875 258.75 260.625 262.5 264.375 266.25 268.125 270.0 271.875 273.75 275.625 277.5 279.375 281.25 283.125 285.0 286.875 288.75 290.625 292.5 294.375 296.25 298.125 300.0 301.875 303.75 305.625 307.5 309.375 311.25 313.125 315.0 316.875 318.75 320.625 322.5 324.375 326.25 328.125 330.0 331.875 333.75 335.625 337.5 339.375 341.25 343.125 345.0 346.875 348.75 350.625 352.5 354.375 356.25 358.125</values>
+                </variable>
+                <dimension name="rlat" orgName="lat"/>
+                <variable name="rlat" shape="rlat" type="float">
+                    <attribute name="standard_name" value="latitude"/>
+                    <attribute name="long_name" value="latitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lat"/>
+                    <attribute name="axis" value="Y"/>
+                    <attribute name="units" value="degrees_north"/>
+                    <values>88.542 86.6531 84.7532 82.8508 80.9473 79.0435 77.1394 75.2351 73.3307 71.4262 69.5217 67.6171 65.7125 63.8079 61.9033 59.9986 58.0939 56.1893 54.2846 52.3799 50.4752 48.5705 46.6658 44.7611 42.8564 40.9517 39.047 37.1422 35.2375 33.3328 31.4281 29.5234 27.6186 25.7139 23.8092 21.9044 19.9997 18.095 16.1902 14.2855 12.3808 10.47604 8.57131 6.66657 4.76184 2.8571 0.952368 -0.952368 -2.8571 -4.76184 -6.66657 -8.57131 -10.47604 -12.3808 -14.2855 -16.1902 -18.095 -19.9997 -21.9044 -23.8092 -25.7139 -27.6186 -29.5234 -31.4281 -33.3328 -35.2375 -37.1422 -39.047 -40.9517 -42.8564 -44.7611 -46.6658 -48.5705 -50.4752 -52.3799 -54.2846 -56.1893 -58.0939 -59.9986 -61.9033 -63.8079 -65.7125 -67.6171 -69.5217 -71.4262 -73.3307 -75.2351 -77.1394 -79.0435 -80.9473 -82.8508 -84.7532 -86.6531 -88.542</values>
+                </variable>
+                <remove name="lat" type="variable" />
+                <remove name="lon" type="variable" />
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/prate.sfc.gauss.2017.nc" ncoords="1460"/>
+                <variable name="prate">
+                    <attribute name="_CoordinateAxes" value="time rlat rlon"/>
+                </variable>
+                <dimension name="rlon" orgName="lon"/>
+                <variable name="rlon" shape="rlon" type="float">
+                    <attribute name="standard_name" value="longitude"/>
+                    <attribute name="long_name" value="longitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lon"/>
+                    <attribute name="axis" value="X"/>
+                    <attribute name="units" value="degrees_east"/>
+                    <values>0.0 1.875 3.75 5.625 7.5 9.375 11.25 13.125 15.0 16.875 18.75 20.625 22.5 24.375 26.25 28.125 30.0 31.875 33.75 35.625 37.5 39.375 41.25 43.125 45.0 46.875 48.75 50.625 52.5 54.375 56.25 58.125 60.0 61.875 63.75 65.625 67.5 69.375 71.25 73.125 75.0 76.875 78.75 80.625 82.5 84.375 86.25 88.125 90.0 91.875 93.75 95.625 97.5 99.375 101.25 103.125 105.0 106.875 108.75 110.625 112.5 114.375 116.25 118.125 120.0 121.875 123.75 125.625 127.5 129.375 131.25 133.125 135.0 136.875 138.75 140.625 142.5 144.375 146.25 148.125 150.0 151.875 153.75 155.625 157.5 159.375 161.25 163.125 165.0 166.875 168.75 170.625 172.5 174.375 176.25 178.125 180.0 181.875 183.75 185.625 187.5 189.375 191.25 193.125 195.0 196.875 198.75 200.625 202.5 204.375 206.25 208.125 210.0 211.875 213.75 215.625 217.5 219.375 221.25 223.125 225.0 226.875 228.75 230.625 232.5 234.375 236.25 238.125 240.0 241.875 243.75 245.625 247.5 249.375 251.25 253.125 255.0 256.875 258.75 260.625 262.5 264.375 266.25 268.125 270.0 271.875 273.75 275.625 277.5 279.375 281.25 283.125 285.0 286.875 288.75 290.625 292.5 294.375 296.25 298.125 300.0 301.875 303.75 305.625 307.5 309.375 311.25 313.125 315.0 316.875 318.75 320.625 322.5 324.375 326.25 328.125 330.0 331.875 333.75 335.625 337.5 339.375 341.25 343.125 345.0 346.875 348.75 350.625 352.5 354.375 356.25 358.125</values>
+                </variable>
+                <dimension name="rlat" orgName="lat"/>
+                <variable name="rlat" shape="rlat" type="float">
+                    <attribute name="standard_name" value="latitude"/>
+                    <attribute name="long_name" value="latitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lat"/>
+                    <attribute name="axis" value="Y"/>
+                    <attribute name="units" value="degrees_north"/>
+                    <values>88.542 86.6531 84.7532 82.8508 80.9473 79.0435 77.1394 75.2351 73.3307 71.4262 69.5217 67.6171 65.7125 63.8079 61.9033 59.9986 58.0939 56.1893 54.2846 52.3799 50.4752 48.5705 46.6658 44.7611 42.8564 40.9517 39.047 37.1422 35.2375 33.3328 31.4281 29.5234 27.6186 25.7139 23.8092 21.9044 19.9997 18.095 16.1902 14.2855 12.3808 10.47604 8.57131 6.66657 4.76184 2.8571 0.952368 -0.952368 -2.8571 -4.76184 -6.66657 -8.57131 -10.47604 -12.3808 -14.2855 -16.1902 -18.095 -19.9997 -21.9044 -23.8092 -25.7139 -27.6186 -29.5234 -31.4281 -33.3328 -35.2375 -37.1422 -39.047 -40.9517 -42.8564 -44.7611 -46.6658 -48.5705 -50.4752 -52.3799 -54.2846 -56.1893 -58.0939 -59.9986 -61.9033 -63.8079 -65.7125 -67.6171 -69.5217 -71.4262 -73.3307 -75.2351 -77.1394 -79.0435 -80.9473 -82.8508 -84.7532 -86.6531 -88.542</values>
+                </variable>
+                <remove name="lat" type="variable" />
+                <remove name="lon" type="variable" />
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmax.2m.gauss.2017.nc" ncoords="1460"/>
+                <variable name="tmax">
+                    <attribute name="_CoordinateAxes" value="time rlat rlon"/>
+                </variable>
+                <dimension name="rlon" orgName="lon"/>
+                <variable name="rlon" shape="rlon" type="float">
+                    <attribute name="standard_name" value="longitude"/>
+                    <attribute name="long_name" value="longitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lon"/>
+                    <attribute name="axis" value="X"/>
+                    <attribute name="units" value="degrees_east"/>
+                    <values>0.0 1.875 3.75 5.625 7.5 9.375 11.25 13.125 15.0 16.875 18.75 20.625 22.5 24.375 26.25 28.125 30.0 31.875 33.75 35.625 37.5 39.375 41.25 43.125 45.0 46.875 48.75 50.625 52.5 54.375 56.25 58.125 60.0 61.875 63.75 65.625 67.5 69.375 71.25 73.125 75.0 76.875 78.75 80.625 82.5 84.375 86.25 88.125 90.0 91.875 93.75 95.625 97.5 99.375 101.25 103.125 105.0 106.875 108.75 110.625 112.5 114.375 116.25 118.125 120.0 121.875 123.75 125.625 127.5 129.375 131.25 133.125 135.0 136.875 138.75 140.625 142.5 144.375 146.25 148.125 150.0 151.875 153.75 155.625 157.5 159.375 161.25 163.125 165.0 166.875 168.75 170.625 172.5 174.375 176.25 178.125 180.0 181.875 183.75 185.625 187.5 189.375 191.25 193.125 195.0 196.875 198.75 200.625 202.5 204.375 206.25 208.125 210.0 211.875 213.75 215.625 217.5 219.375 221.25 223.125 225.0 226.875 228.75 230.625 232.5 234.375 236.25 238.125 240.0 241.875 243.75 245.625 247.5 249.375 251.25 253.125 255.0 256.875 258.75 260.625 262.5 264.375 266.25 268.125 270.0 271.875 273.75 275.625 277.5 279.375 281.25 283.125 285.0 286.875 288.75 290.625 292.5 294.375 296.25 298.125 300.0 301.875 303.75 305.625 307.5 309.375 311.25 313.125 315.0 316.875 318.75 320.625 322.5 324.375 326.25 328.125 330.0 331.875 333.75 335.625 337.5 339.375 341.25 343.125 345.0 346.875 348.75 350.625 352.5 354.375 356.25 358.125</values>
+                </variable>
+                <dimension name="rlat" orgName="lat"/>
+                <variable name="rlat" shape="rlat" type="float">
+                    <attribute name="standard_name" value="latitude"/>
+                    <attribute name="long_name" value="latitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lat"/>
+                    <attribute name="axis" value="Y"/>
+                    <attribute name="units" value="degrees_north"/>
+                    <values>88.542 86.6531 84.7532 82.8508 80.9473 79.0435 77.1394 75.2351 73.3307 71.4262 69.5217 67.6171 65.7125 63.8079 61.9033 59.9986 58.0939 56.1893 54.2846 52.3799 50.4752 48.5705 46.6658 44.7611 42.8564 40.9517 39.047 37.1422 35.2375 33.3328 31.4281 29.5234 27.6186 25.7139 23.8092 21.9044 19.9997 18.095 16.1902 14.2855 12.3808 10.47604 8.57131 6.66657 4.76184 2.8571 0.952368 -0.952368 -2.8571 -4.76184 -6.66657 -8.57131 -10.47604 -12.3808 -14.2855 -16.1902 -18.095 -19.9997 -21.9044 -23.8092 -25.7139 -27.6186 -29.5234 -31.4281 -33.3328 -35.2375 -37.1422 -39.047 -40.9517 -42.8564 -44.7611 -46.6658 -48.5705 -50.4752 -52.3799 -54.2846 -56.1893 -58.0939 -59.9986 -61.9033 -63.8079 -65.7125 -67.6171 -69.5217 -71.4262 -73.3307 -75.2351 -77.1394 -79.0435 -80.9473 -82.8508 -84.7532 -86.6531 -88.542</values>
+                </variable>
+                <remove name="lat" type="variable" />
+                <remove name="lon" type="variable" />
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/tmin.2m.gauss.2017.nc" ncoords="1460"/>
+                <variable name="tmin">
+                    <attribute name="_CoordinateAxes" value="time rlat rlon"/>
+                </variable>
+                <dimension name="rlon" orgName="lon"/>
+                <variable name="rlon" shape="rlon" type="float">
+                    <attribute name="standard_name" value="longitude"/>
+                    <attribute name="long_name" value="longitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lon"/>
+                    <attribute name="axis" value="X"/>
+                    <attribute name="units" value="degrees_east"/>
+                    <values>0.0 1.875 3.75 5.625 7.5 9.375 11.25 13.125 15.0 16.875 18.75 20.625 22.5 24.375 26.25 28.125 30.0 31.875 33.75 35.625 37.5 39.375 41.25 43.125 45.0 46.875 48.75 50.625 52.5 54.375 56.25 58.125 60.0 61.875 63.75 65.625 67.5 69.375 71.25 73.125 75.0 76.875 78.75 80.625 82.5 84.375 86.25 88.125 90.0 91.875 93.75 95.625 97.5 99.375 101.25 103.125 105.0 106.875 108.75 110.625 112.5 114.375 116.25 118.125 120.0 121.875 123.75 125.625 127.5 129.375 131.25 133.125 135.0 136.875 138.75 140.625 142.5 144.375 146.25 148.125 150.0 151.875 153.75 155.625 157.5 159.375 161.25 163.125 165.0 166.875 168.75 170.625 172.5 174.375 176.25 178.125 180.0 181.875 183.75 185.625 187.5 189.375 191.25 193.125 195.0 196.875 198.75 200.625 202.5 204.375 206.25 208.125 210.0 211.875 213.75 215.625 217.5 219.375 221.25 223.125 225.0 226.875 228.75 230.625 232.5 234.375 236.25 238.125 240.0 241.875 243.75 245.625 247.5 249.375 251.25 253.125 255.0 256.875 258.75 260.625 262.5 264.375 266.25 268.125 270.0 271.875 273.75 275.625 277.5 279.375 281.25 283.125 285.0 286.875 288.75 290.625 292.5 294.375 296.25 298.125 300.0 301.875 303.75 305.625 307.5 309.375 311.25 313.125 315.0 316.875 318.75 320.625 322.5 324.375 326.25 328.125 330.0 331.875 333.75 335.625 337.5 339.375 341.25 343.125 345.0 346.875 348.75 350.625 352.5 354.375 356.25 358.125</values>
+                </variable>
+                <dimension name="rlat" orgName="lat"/>
+                <variable name="rlat" shape="rlat" type="float">
+                    <attribute name="standard_name" value="latitude"/>
+                    <attribute name="long_name" value="latitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lat"/>
+                    <attribute name="axis" value="Y"/>
+                    <attribute name="units" value="degrees_north"/>
+                    <values>88.542 86.6531 84.7532 82.8508 80.9473 79.0435 77.1394 75.2351 73.3307 71.4262 69.5217 67.6171 65.7125 63.8079 61.9033 59.9986 58.0939 56.1893 54.2846 52.3799 50.4752 48.5705 46.6658 44.7611 42.8564 40.9517 39.047 37.1422 35.2375 33.3328 31.4281 29.5234 27.6186 25.7139 23.8092 21.9044 19.9997 18.095 16.1902 14.2855 12.3808 10.47604 8.57131 6.66657 4.76184 2.8571 0.952368 -0.952368 -2.8571 -4.76184 -6.66657 -8.57131 -10.47604 -12.3808 -14.2855 -16.1902 -18.095 -19.9997 -21.9044 -23.8092 -25.7139 -27.6186 -29.5234 -31.4281 -33.3328 -35.2375 -37.1422 -39.047 -40.9517 -42.8564 -44.7611 -46.6658 -48.5705 -50.4752 -52.3799 -54.2846 -56.1893 -58.0939 -59.9986 -61.9033 -63.8079 -65.7125 -67.6171 -69.5217 -71.4262 -73.3307 -75.2351 -77.1394 -79.0435 -80.9473 -82.8508 -84.7532 -86.6531 -88.542</values>
+                </variable>
+                <remove name="lat" type="variable" />
+                <remove name="lon" type="variable" />
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/uwnd.10m.gauss.2017.nc" ncoords="1460"/>
+                <variable name="uas" orgName="uwnd">
+                    <attribute name="_CoordinateAxes" value="time rlat rlon"/>
+                </variable>
+                <dimension name="rlon" orgName="lon"/>
+                <variable name="rlon" shape="rlon" type="float">
+                    <attribute name="standard_name" value="longitude"/>
+                    <attribute name="long_name" value="longitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lon"/>
+                    <attribute name="axis" value="X"/>
+                    <attribute name="units" value="degrees_east"/>
+                    <values>0.0 1.875 3.75 5.625 7.5 9.375 11.25 13.125 15.0 16.875 18.75 20.625 22.5 24.375 26.25 28.125 30.0 31.875 33.75 35.625 37.5 39.375 41.25 43.125 45.0 46.875 48.75 50.625 52.5 54.375 56.25 58.125 60.0 61.875 63.75 65.625 67.5 69.375 71.25 73.125 75.0 76.875 78.75 80.625 82.5 84.375 86.25 88.125 90.0 91.875 93.75 95.625 97.5 99.375 101.25 103.125 105.0 106.875 108.75 110.625 112.5 114.375 116.25 118.125 120.0 121.875 123.75 125.625 127.5 129.375 131.25 133.125 135.0 136.875 138.75 140.625 142.5 144.375 146.25 148.125 150.0 151.875 153.75 155.625 157.5 159.375 161.25 163.125 165.0 166.875 168.75 170.625 172.5 174.375 176.25 178.125 180.0 181.875 183.75 185.625 187.5 189.375 191.25 193.125 195.0 196.875 198.75 200.625 202.5 204.375 206.25 208.125 210.0 211.875 213.75 215.625 217.5 219.375 221.25 223.125 225.0 226.875 228.75 230.625 232.5 234.375 236.25 238.125 240.0 241.875 243.75 245.625 247.5 249.375 251.25 253.125 255.0 256.875 258.75 260.625 262.5 264.375 266.25 268.125 270.0 271.875 273.75 275.625 277.5 279.375 281.25 283.125 285.0 286.875 288.75 290.625 292.5 294.375 296.25 298.125 300.0 301.875 303.75 305.625 307.5 309.375 311.25 313.125 315.0 316.875 318.75 320.625 322.5 324.375 326.25 328.125 330.0 331.875 333.75 335.625 337.5 339.375 341.25 343.125 345.0 346.875 348.75 350.625 352.5 354.375 356.25 358.125</values>
+                </variable>
+                <dimension name="rlat" orgName="lat"/>
+                <variable name="rlat" shape="rlat" type="float">
+                    <attribute name="standard_name" value="latitude"/>
+                    <attribute name="long_name" value="latitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lat"/>
+                    <attribute name="axis" value="Y"/>
+                    <attribute name="units" value="degrees_north"/>
+                    <values>88.542 86.6531 84.7532 82.8508 80.9473 79.0435 77.1394 75.2351 73.3307 71.4262 69.5217 67.6171 65.7125 63.8079 61.9033 59.9986 58.0939 56.1893 54.2846 52.3799 50.4752 48.5705 46.6658 44.7611 42.8564 40.9517 39.047 37.1422 35.2375 33.3328 31.4281 29.5234 27.6186 25.7139 23.8092 21.9044 19.9997 18.095 16.1902 14.2855 12.3808 10.47604 8.57131 6.66657 4.76184 2.8571 0.952368 -0.952368 -2.8571 -4.76184 -6.66657 -8.57131 -10.47604 -12.3808 -14.2855 -16.1902 -18.095 -19.9997 -21.9044 -23.8092 -25.7139 -27.6186 -29.5234 -31.4281 -33.3328 -35.2375 -37.1422 -39.047 -40.9517 -42.8564 -44.7611 -46.6658 -48.5705 -50.4752 -52.3799 -54.2846 -56.1893 -58.0939 -59.9986 -61.9033 -63.8079 -65.7125 -67.6171 -69.5217 -71.4262 -73.3307 -75.2351 -77.1394 -79.0435 -80.9473 -82.8508 -84.7532 -86.6531 -88.542</values>
+                </variable>
+                <remove name="lat" type="variable" />
+                <remove name="lon" type="variable" />
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface_gauss/vwnd.10m.gauss.2017.nc" ncoords="1460"/>
+                <variable name="vas" orgName="vwnd">
+                    <attribute name="_CoordinateAxes" value="time rlat rlon"/>
+                </variable>
+                <dimension name="rlon" orgName="lon"/>
+                <variable name="rlon" shape="rlon" type="float">
+                    <attribute name="standard_name" value="longitude"/>
+                    <attribute name="long_name" value="longitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lon"/>
+                    <attribute name="axis" value="X"/>
+                    <attribute name="units" value="degrees_east"/>
+                    <values>0.0 1.875 3.75 5.625 7.5 9.375 11.25 13.125 15.0 16.875 18.75 20.625 22.5 24.375 26.25 28.125 30.0 31.875 33.75 35.625 37.5 39.375 41.25 43.125 45.0 46.875 48.75 50.625 52.5 54.375 56.25 58.125 60.0 61.875 63.75 65.625 67.5 69.375 71.25 73.125 75.0 76.875 78.75 80.625 82.5 84.375 86.25 88.125 90.0 91.875 93.75 95.625 97.5 99.375 101.25 103.125 105.0 106.875 108.75 110.625 112.5 114.375 116.25 118.125 120.0 121.875 123.75 125.625 127.5 129.375 131.25 133.125 135.0 136.875 138.75 140.625 142.5 144.375 146.25 148.125 150.0 151.875 153.75 155.625 157.5 159.375 161.25 163.125 165.0 166.875 168.75 170.625 172.5 174.375 176.25 178.125 180.0 181.875 183.75 185.625 187.5 189.375 191.25 193.125 195.0 196.875 198.75 200.625 202.5 204.375 206.25 208.125 210.0 211.875 213.75 215.625 217.5 219.375 221.25 223.125 225.0 226.875 228.75 230.625 232.5 234.375 236.25 238.125 240.0 241.875 243.75 245.625 247.5 249.375 251.25 253.125 255.0 256.875 258.75 260.625 262.5 264.375 266.25 268.125 270.0 271.875 273.75 275.625 277.5 279.375 281.25 283.125 285.0 286.875 288.75 290.625 292.5 294.375 296.25 298.125 300.0 301.875 303.75 305.625 307.5 309.375 311.25 313.125 315.0 316.875 318.75 320.625 322.5 324.375 326.25 328.125 330.0 331.875 333.75 335.625 337.5 339.375 341.25 343.125 345.0 346.875 348.75 350.625 352.5 354.375 356.25 358.125</values>
+                </variable>
+                <dimension name="rlat" orgName="lat"/>
+                <variable name="rlat" shape="rlat" type="float">
+                    <attribute name="standard_name" value="latitude"/>
+                    <attribute name="long_name" value="latitude"/>
+                    <attribute name="_CoordinateAxisType" value="Lat"/>
+                    <attribute name="axis" value="Y"/>
+                    <attribute name="units" value="degrees_north"/>
+                    <values>88.542 86.6531 84.7532 82.8508 80.9473 79.0435 77.1394 75.2351 73.3307 71.4262 69.5217 67.6171 65.7125 63.8079 61.9033 59.9986 58.0939 56.1893 54.2846 52.3799 50.4752 48.5705 46.6658 44.7611 42.8564 40.9517 39.047 37.1422 35.2375 33.3328 31.4281 29.5234 27.6186 25.7139 23.8092 21.9044 19.9997 18.095 16.1902 14.2855 12.3808 10.47604 8.57131 6.66657 4.76184 2.8571 0.952368 -0.952368 -2.8571 -4.76184 -6.66657 -8.57131 -10.47604 -12.3808 -14.2855 -16.1902 -18.095 -19.9997 -21.9044 -23.8092 -25.7139 -27.6186 -29.5234 -31.4281 -33.3328 -35.2375 -37.1422 -39.047 -40.9517 -42.8564 -44.7611 -46.6658 -48.5705 -50.4752 -52.3799 -54.2846 -56.1893 -58.0939 -59.9986 -61.9033 -63.8079 -65.7125 -67.6171 -69.5217 -71.4262 -73.3307 -75.2351 -77.1394 -79.0435 -80.9473 -82.8508 -84.7532 -86.6531 -88.542</values>
+                </variable>
+                <remove name="lat" type="variable" />
+                <remove name="lon" type="variable" />
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/air.2017.nc" ncoords="1460"/>
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/hgt.2017.nc" ncoords="1460"/>
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/shum.2017.nc" ncoords="1460"/>
+            </aggregation> 
+            <variable name="shum">
+                <attribute name="_CoordinateAxes" value="time level1 lat lon"/>
+            </variable>
+            <dimension name="level1" orgName="level"/>
+            <variable name="level1" shape="level1" type="float">
+                <attribute name="standard_name" value="pressure_level"/>
+                <attribute name="long_name" value="Level"/>
+                <attribute name="positive" value="down"/>
+                <attribute name="_CoordinateAxisType" value="Z"/>
+                <attribute name="units" value="millibar"/>
+                <values>1000 925 850 700 600 500 400 300</values>
+            </variable>
+            <remove name="level" type="variable" />
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/uwnd.2017.nc" ncoords="1460"/>
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/pressure/vwnd.2017.nc" ncoords="1460"/>
+            </aggregation> 
+        </netcdf>
+        <netcdf>
+            <aggregation dimName="time" type="joinExisting">
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1948.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1949.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1950.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1951.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1952.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1953.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1954.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1955.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1956.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1957.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1958.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1959.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1960.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1961.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1962.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1963.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1964.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1965.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1966.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1967.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1968.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1969.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1970.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1971.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1972.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1973.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1974.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1975.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1976.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1977.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1978.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1979.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1980.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1981.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1982.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1983.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1984.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1985.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1986.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1987.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1988.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1989.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1990.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1991.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1992.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1993.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1994.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1995.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1996.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1997.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1998.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.1999.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2000.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2001.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2002.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2003.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2004.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2005.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2006.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2007.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2008.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2009.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2010.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2011.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2012.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2013.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2014.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2015.nc" ncoords="1460"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2016.nc" ncoords="1464"/>
+                <netcdf location="http://www.esrl.noaa.gov/psd/thredds/dodsC/Datasets/ncep.reanalysis/surface/slp.2017.nc" ncoords="1460"/>
+            </aggregation> 
+        </netcdf>
+    </aggregation> 
+</netcdf>
