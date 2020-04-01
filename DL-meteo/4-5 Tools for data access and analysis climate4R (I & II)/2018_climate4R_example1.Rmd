@@ -166,7 +166,7 @@ list.files(dirh, recursive = T)
 dir <- "C:/Users/Dave Mont/Desktop/sim/Simulaciones EC-EARTH-20200331/tasmax_historical/tasmax_historical/tasmax"
 dirf <- "C:/Users/Dave Mont/Desktop/sim/Simulaciones EC-EARTH-20200331/tasmax_rcp85/tasmax_rcp85/tasmax"
 
-list.files(dir, recursive = T)
+list.files(dirf, recursive = T)
 ```
 
 Each file in the list contains data for a 5-year period of the same variable (tasmax). Therefore, we use a "catalog" (*.ncml file) to load data for the required period without worrying about the different files that need to be read and bound. Next we create two catalogs (for each scenario) with function `makeAggregateDataset` ("CDX_hist.ncml" and "CDX_rcp85.ncml"):
@@ -189,9 +189,9 @@ str(di$tasmax)
 Contrarily to the case of the E-OBS dataset, the variable name is standard, but not the units (K). Therefore we define the harmonization parameters in another dictionary file ("dicCDX.dic"), where the offset is -273.15 to convert the data to the standard units (ºC):
 
 ```{r cordexdic, message=FALSE, warning=FALSE,eval=FALSE}
-dir.dic = paste0(dir,"/dicCDX.dic")
+dir.dic = paste0(dirf,"/dicCDX.dic")
 file.create(dir.dic)
-writeLines(c("identifier,short_name,time_step,lower_time_bound,upper_time_bound,cell_metod,offset,scale,deaccum,derived,interface", "tasmax,tasmax,24h,0,24,max,-273.15,1,0,0,"), dir.dic)
+writeLines(c("identifier,short_name,time_step,lower_time_bound,upper_time_bound,cell_metod,offset,scale,deaccum,derived,interface", "tasmax,tasmax,24h,0,24,max,-273.15,1,0,0,"), "dicCDX.dic")
 ```
 
 #### Historical data
@@ -251,8 +251,13 @@ spatialPlot(climatology(bias), backdrop.theme = "countries",
 
 We repeat the same operations of data loading and transformation but for the RCP8.5 scenario and future period 2071-2100:
 
+```{r}
+getwd()
+```
+
+
 ```{r sucordexrcp, message=FALSE, warning=FALSE}
-SUf <- loadGridData(dataset = "CDX_rcp85.ncml",
+SUf <- loadGridData(dataset = dirf.ncml,
                      var = "tasmax",
                      season = 1:12,
                      lonLim = lon,
@@ -261,7 +266,7 @@ SUf <- loadGridData(dataset = "CDX_rcp85.ncml",
                      aggr.m = "sum", 
                      threshold = 25,
                      condition = "GT",
-                     dictionary = "dicCDX.dic")
+                     dictionary = dir.dic)
 ```
 
 ```{r sucordexrcpannual, message=FALSE, warning=FALSE}
