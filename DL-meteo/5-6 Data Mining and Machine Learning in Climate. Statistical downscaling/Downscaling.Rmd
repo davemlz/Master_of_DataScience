@@ -1,0 +1,449 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(loadeR)
+loginUDG(username = "dml.mont", password = "D$1144070117m")
+```
+
+```{r}
+lonLim <- c(-90,40)
+latLim <- c(20,80)
+```
+
+```{r}
+ncep.url <- "http://meteo.unican.es/tds5/dodsC/ncepReanalysis1/ncepReanalysis1_4xDaily.ncml"
+```
+
+```{r}
+di.ncep <- dataInventory(ncep.url)
+```
+
+```{r}
+names(di.ncep)
+```
+
+```{r}
+str(di.ncep$slp)
+```
+
+```{r}
+ncep.psl <- loadGridData(dataset = ncep.url,
+                         var = "slp",
+                         lonLim = lonLim,
+                         latLim = latLim,
+                         season = c(12,1,2),
+                         years = 1951:2010,
+                         time = "DD",
+                         aggr.d = "mean",
+                         aggr.m = "mean")
+```
+
+```{r}
+library(visualizeR)
+spatialPlot(climatology(ncep.psl),
+            backdrop.theme = "coastline",
+            main = "NCEP mean DJF SLP (1951-2010)",
+            rev.colors = TRUE)
+```
+
+```{r}
+getTimeResolution(ncep.psl)
+```
+
+```{r}
+ncep.psl <- aggregateGrid(grid = ncep.psl, aggr.y = list(FUN = "mean"))
+```
+
+```{r}
+getTimeResolution(ncep.psl)
+```
+
+```{r}
+psl.anom <- scaleGrid(grid = ncep.psl)
+```
+
+```{r}
+pca1 <- prinComp(psl.anom, n.eofs = 1)
+plotEOF(pca1, var = "psl", n.eofs = 1,
+        backdrop.theme = "countries",
+        main = "Primera EOF de la anomalía de la SLP")
+```
+
+```{r}
+nao <- PC2grid(pca1, scale = TRUE, opp = TRUE)
+nao.index.ncep <- nao[["Data"]][1,,1,1]
+years <- getYearsAsINDEX(ncep.psl)
+plot(years, nao.index.ncep, ty = 'l', ylab = "NAO Index", xlab = "year")
+grid()
+pos <- which(nao.index.ncep > 0) ## Index of positive NAO years
+neg <- setdiff(1:length(nao.index.ncep), pos) ## Index of negative NAO years
+points(years[pos], nao.index.ncep[pos], pch = 19, col = "red")
+points(years[neg], nao.index.ncep[neg], pch = 19, col = "blue")
+abline(h = 0, lty = 3)
+title(main = "PC-based NAO Index ")
+```
+
+```{r}
+eobs.url <- "http://opendap.knmi.nl/knmi/thredds/dodsC/e-obs_0.50regular/rr_0.50deg_reg_v17.0.nc"
+di.eobs <- dataInventory(eobs.url)
+```
+
+```{r}
+str(di.eobs)
+```
+
+```{r}
+eobs.precip <- loadGridData(dataset = eobs.url,
+                            var = "rr",
+                            lonLim = c(-10,20),
+                            latLim = c(35,70),
+                            season = c(12,1,2),
+                            years = 1951:2010,
+                            aggr.m = "sum")
+```
+
+
+```{r}
+eobs.precip <- aggregateGrid(eobs.precip, aggr.y = list(FUN = "sum"))
+```
+
+```{r}
+spatialPlot(climatology(eobs.precip),
+            backdrop.theme = "countries",
+            main = "Precipitación media de invierno (1951-2010)")
+```
+
+```{r}
+iberia <- map.lines(lonLim = c(-9.5,0), latLim = c(42,44), col = "green", lwd = 2)
+scandinavia <- map.lines(lonLim = c(4,10), latLim = c(57.5,64), col = "green", lwd = 2)
+spatialPlot(climatology(eobs.precip),
+            backdrop.theme = "countries",
+            sp.layout = list(iberia, scandinavia))
+```
+
+```{r}
+eobs.precip.anom <- scaleGrid(eobs.precip)
+```
+
+```{r}
+eobs.tp.iberia <- subsetGrid(eobs.precip.anom, lonLim = c(-9.5,3.5), latLim = c(40,44))
+```
+
+```{r}
+iberia.tp <- aggregateGrid(eobs.tp.iberia,
+                           aggr.lon = list(FUN = "mean", na.rm = TRUE),
+                           aggr.lat = list(FUN = "mean", na.rm = TRUE))
+```
+
+```{r}
+eobs.tp.scandinavia <- subsetGrid(eobs.precip.anom, lonLim = c(4,10), latLim = c(57.5,64))
+scandinavia.tp <- aggregateGrid(eobs.tp.scandinavia,
+                           aggr.lon = list(FUN = "mean", na.rm = TRUE),
+                           aggr.lat = list(FUN = "mean", na.rm = TRUE))
+```
+
+```{r}
+plot(1951:2010, nao.index.ncep, ty = "o", xlab = "year", ylab = "Standardized Value")
+lines(1951:2010, scale(iberia.tp$Data), col = "red")
+grid()
+legend("bottomleft", c("NAO", "Winter Precip Anomaly"), lty = 1, col = c("black", "red"), bty = "n")
+title(main = "Dominio de Iberia-Cantábrico")
+mtext(paste("Correlation =", round(cor(nao.index.ncep, iberia.tp$Data),3)))
+```
+
+```{r}
+plot(1951:2010, nao.index.ncep, ty = "o", xlab = "year", ylab = "Standardized Value")
+lines(1951:2010, scale(scandinavia.tp$Data), col = "red")
+grid()
+legend("bottomleft", c("NAO", "Winter Precip Anomaly"), lty = 1, col = c("black", "red"), bty = "n")
+title(main = "Dominio de SW Escandinavia")
+mtext(paste("Correlation =", round(cor(nao.index.ncep, scandinavia.tp$Data),3)))
+```
+
+```{r}
+cor.test(nao.index.ncep, iberia.tp$Data)
+```
+
+```{r}
+cor.test(nao.index.ncep, scandinavia.tp$Data)
+```
+
+##################### DOWNSCALING
+
+```{r}
+data("NCEP_Iberia_hus850", "NCEP_Iberia_psl", "NCEP_Iberia_ta850", package = "transformeR")
+```
+
+```{r}
+mg <- makeMultiGrid(NCEP_Iberia_hus850, NCEP_Iberia_psl, NCEP_Iberia_ta850)
+```
+
+```{r}
+getVarNames(mg)
+```
+
+```{r}
+getGridVerticalLevels(mg)
+```
+
+
+```{r}
+getGridUnits(NCEP_Iberia_ta850)
+```
+
+```{r}
+getShape(mg)
+```
+
+
+```{r}
+data("VALUE_Iberia_pr", package = "transformeR")
+spatialPlot(climatology(VALUE_Iberia_pr), backdrop.theme = "countries",
+            cuts = seq(1,8,1),
+            cex = 1.5, main = "Mean daily DJF precipitation (1983-2002)")
+```
+
+```{r}
+ncep.train <- subsetGrid(mg, years = 1983:1995)
+ncep.test <- subsetGrid(mg, years = 1996:2002)
+```
+
+```{r}
+obs.train <- subsetGrid(VALUE_Iberia_pr, years = 1983:1995)
+obs.test <- subsetGrid(VALUE_Iberia_pr, years = 1996:2002)
+```
+
+```{r}
+library(downscaleR)
+obs.pred <- downscale(y = obs.train,
+                      x = ncep.train,
+                      newdata = ncep.test,
+                      method = "analogs")
+```
+
+```{r}
+obs.pred.monthly <- aggregateGrid(obs.pred, aggr.m = list(FUN = "sum"))
+obs.test.monthly <- aggregateGrid(obs.test, aggr.m = list(FUN = "sum"))
+```
+
+```{r}
+df <- cbind.data.frame("predicted" = obs.pred.monthly$Data[,1],
+                       "observed" = obs.test.monthly$Data[,1])
+plot(df$observed, df$predicted, ylab = "Predicho", xlab = "observado")
+grid()
+modelo.reg <- lm(predicted ~ observed, data = df)
+abline(reg = modelo.reg, col = "red")
+title(obs.pred$Metadata$name[1])
+mtext(paste("r2 =", round(summary(modelo.reg)$adj.r.squared, 2)))
+```
+
+
+```{r}
+n.stations <- getShape(obs.pred.monthly, "loc") 
+par(mfrow = c(3,4))
+for (i in 1:n.stations) {
+    df <- cbind.data.frame("predicted" = obs.pred.monthly$Data[,i],
+                           "observed" = obs.test.monthly$Data[,i])
+    plot(df$observed, df$predicted, ylab = "Predicho", xlab = "observado")
+    grid()
+    modelo.reg <- lm(predicted ~ observed, data = df)
+    abline(reg = modelo.reg, col = "red")
+    title(obs.pred$Metadata$name[i])
+    mtext(paste("r2 =", round(summary(modelo.reg)$adj.r.squared, 2)))
+}
+par(mfrow = c(1,1))
+```
+
+```{r}
+obs.train.toulouse <- subsetGrid(obs.train, station.id = obs.train$Metadata$station_id[8], drop = FALSE)
+```
+
+```{r}
+predictor2 <- prepareData(x = ncep.train, y = obs.train.toulouse,
+                          global.vars = c("psl", "ta@850"),
+                          local.predictors = list(vars = "hus@850", n = 4))
+```
+
+```{r}
+analog2 <- downscaleTrain(predictor2, method = "analogs", n.analogs = 1)
+```
+
+```{r}
+newdata2 <- prepareNewData(newdata = ncep.test,  data.structure = predictor2)
+```
+
+```{r}
+pred2  <- downscalePredict(newdata2, analog2)
+```
+
+```{r}
+obs.pred2.monthly <- aggregateGrid(pred2, aggr.m = list(FUN = "sum"))
+df2 <- cbind.data.frame("predicted1" = obs.pred.monthly$Data[,8],
+                       "predicted2" = obs.pred2.monthly$Data[,1],
+                       "observed" = obs.test.monthly$Data[,8])
+```
+
+```{r}
+plot(df2$observed, df2$predicted1, ylab = "Predicho", xlab = "observado", xlim = c(0,100), ylim = c(0,120), asp = 1)
+points(df2$observed, df2$predicted2, col = "blue")
+modelo.reg <- lm(predicted1 ~ observed, data = df2)
+modelo.reg2 <- lm(predicted2 ~ observed, data = df2)
+abline(reg = modelo.reg)
+abline(reg = modelo.reg2, col = "blue")
+title(obs.pred$Metadata$name[i])
+mtext(side = 3, adj = 0, paste("r2 =", round(summary(modelo.reg)$adj.r.squared, 2)))
+mtext(side = 3, adj = 1, paste("r2 =", round(summary(modelo.reg2)$adj.r.squared, 2)), col = "blue")
+legend("bottomright", col = c("black", "blue"), c("Predictores \'globales\'", "Predictores locales"), lty = 1)
+```
+
+####################### FUTURO
+
+```{r}
+# URL de la simulación histórica:
+mpi.hist <- "http://meteo.unican.es/tds5/dodsC/cmip5/MPI-M/MPI-ESM-MR/historical/day/mpi-m_mpi-esm-mr_historical_r1i1p1.ncml"
+
+# URL de la simulación futura RCP 4.5.:
+mpi <- "http://meteo.unican.es/tds5/dodsC/cmip5/MPI-M/MPI-ESM-MR/rcp45/day/mpi-m_mpi-esm-mr_rcp45_r1i1p1.ncml"
+```
+
+```{r}
+di.mpi.hist <- dataInventory(mpi.hist)
+```
+
+```{r}
+names(di.mpi.hist)
+```
+
+```{r}
+str(di.mpi.hist$hus)
+```
+
+```{r}
+mpi.hus850.train <- loadGridData(dataset = mpi.hist,
+                                 var = "hus@850",
+                                 lonLim = c(-10,5),
+                                 latLim = c(35,45),
+                                 season = c(12,1,2),
+                                 years = 1983:2002)
+```
+
+```{r}
+mpi.hus850.train <- interpGrid(mpi.hus850.train,
+                               method = "nearest",
+                               new.coordinates = getGrid(NCEP_Iberia_hus850))
+```
+
+```{r}
+library(magrittr)
+```
+
+```{r}
+mpi.psl.train <- loadGridData(dataset = mpi.hist,
+                              var = "psl",
+                              lonLim = c(-10,5),
+                              latLim = c(35,45),
+                              season = c(12,1,2),
+                              years = 1983:2002) %>% interpGrid(new.coordinates = getGrid(NCEP_Iberia_hus850))
+```
+
+```{r}
+mpi.ta850.train <- loadGridData(dataset = mpi.hist,
+                                var = "ta@850",
+                                lonLim = c(-10,5),
+                                latLim = c(35,45),
+                                season = c(12,1,2),
+                                years = 1983:2002) %>% interpGrid(new.coordinates = getGrid(NCEP_Iberia_hus850))
+```
+
+```{r}
+mg.mpi.train <- makeMultiGrid(mpi.hus850.train, mpi.psl.train, mpi.ta850.train)
+mg.mpi.train$Variable$varName <- c("hus", "psl", "ta")
+mg.mpi.train$Variable$level <- c(850, NA, 850)
+```
+
+```{r}
+mpi.hus850 <- loadGridData(dataset = mpi,
+                           var = "hus@850",
+                           lonLim = c(-10,5),
+                           latLim = c(35,45),
+                           years = 2021:2050,
+                           season = c(12,1,2)) %>% interpGrid(new.coordinates = getGrid(NCEP_Iberia_hus850))
+```
+
+```{r}
+mpi.psl <- loadGridData(dataset = mpi,
+                        var = "psl",
+                        lonLim = c(-10,5),
+                        latLim = c(35,45),
+                        years = 2021:2050,
+                        season = c(12,1,2)) %>% interpGrid(new.coordinates = getGrid(NCEP_Iberia_hus850))
+```
+
+```{r}
+mpi.ta850 <- loadGridData(dataset = mpi,
+                          var = "ta@850",
+                          lonLim = c(-10,5),
+                          latLim = c(35,45),
+                          years = 2021:2050,
+                          season = c(12,1,2)) %>% interpGrid(new.coordinates = getGrid(NCEP_Iberia_hus850))
+```
+
+```{r}
+library(transformeR)
+mg.mpi <- makeMultiGrid(mpi.hus850, mpi.psl, mpi.ta850)
+mg.mpi$Variable$varName <- c("hus", "psl", "ta")
+mg.mpi$Variable$level <- c(850, NA, 850)
+```
+
+```{r}
+newdata <- scaleGrid(grid = mg.mpi,
+                     base = mg,
+                     ref = mg.mpi.train,
+                     time.frame = "monthly")
+```
+
+```{r}
+precip.projection <- downscale(y = VALUE_Iberia_pr,
+                               x = mg,
+                               newdata = newdata,
+                               method = "analogs")
+```
+
+```{r}
+monthly.projection <- aggregateGrid(precip.projection, aggr.m = list(FUN = "sum"))
+monthly.observation <- aggregateGrid(VALUE_Iberia_pr, aggr.m = list(FUN = "sum"))
+```
+
+```{r}
+par(mfrow = c(3,4))
+for (i in 1:n.stations) {
+    plot(density(monthly.observation$Data[,i], na.rm = TRUE),
+         main = obs.pred$Metadata$name[i],
+         xlab = "Precip amount (mm/month)")
+    grid()
+    lines(density(monthly.projection$Data[,i], na.rm = TRUE), col = "red")
+}
+par(mfrow = c(1,1))
+```
+
+```{r}
+# Usamos el operador %>% para concatenar la agregación anual y el cálculo de la climatología
+future <- aggregateGrid(monthly.projection, aggr.y = list(FUN = "sum")) %>% climatology()
+baseline <- aggregateGrid(monthly.observation, aggr.y = list(FUN = "sum")) %>% climatology()
+# creamos en objeto delta para guardar las anomalias:
+delta <- future
+delta$Data <- future$Data - baseline$Data
+```
+
+```{r}
+spatialPlot(delta,
+            backdrop.theme = "countries",
+            cex = 2,
+            cuts = seq(-100,100,25),
+            set.max = 100,
+            col.regions = colorRampPalette(c("blue","grey","red"))(8))
+```
+

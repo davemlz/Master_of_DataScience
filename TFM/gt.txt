@@ -1,0 +1,3 @@
+'square', 'square', 'square', 'square', 'square', 'square',
+       'square', 'square', 'square', 'hex', 'hex', 'hex', 'hex', 'hex',
+       'hex', 'hex', 'hex'
