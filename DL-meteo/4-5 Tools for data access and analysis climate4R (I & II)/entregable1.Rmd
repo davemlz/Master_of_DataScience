@@ -1,0 +1,64 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(loadeR)
+loginUDG(username = "dml.mont", password = "D$1144070117m")
+```
+
+```{r}
+lonLim <- c(3.6,33.9)
+latLim <- c(54.4,71.5)
+```
+
+```{r}
+hitsorical.url = "http://meteo.unican.es//tds5/dodsC/cordex/EUR-44/day/ETH/ICHEC-EC-EARTH_historical_r12i1p1_CCLM5-0-6_v1_day.ncml"
+rcp85.url = "http://meteo.unican.es//tds5/dodsC/cordex/EUR-44/day/ETH/ICHEC-EC-EARTH_rcp85_r12i1p1_CCLM5-0-6_v1_day.ncml"
+```
+
+```{r}
+di.historical <- dataInventory(hitsorical.url)
+```
+
+```{r}
+names(di.historical)
+```
+
+```{r}
+di.historical$tasmax
+```
+
+
+
+```{r}
+file.create("dic.dic")
+writeLines(c("identifier,short_name,time_step,lower_time_bound,upper_time_bound,cell_metod,offset,scale,deaccum,derived,interface","tasmax,tasmax,24h,0,24,max,-273.15,1,0,0,"), "dic.dic")
+```
+
+```{r}
+ID = loadGridData(hitsorical.url,var = "tasmax",season = 1:12,years = 1971:2000,
+                  lonLim = lonLim,latLim = latLim,aggr.m = "sum",
+                  condition = "LT",threshold = 0,dictionary = "dic.dic")
+```
+
+```{r}
+ID <- aggregateGrid(ID, aggr.y = list(FUN = "sum"))
+```
+
+
+```{r}
+library(RColorBrewer)
+colstx <- rev(brewer.pal(n = 9, "Spectral"))
+colsindex <- rev(brewer.pal(n = 9, "RdYlBu"))
+colsdelta <- brewer.pal(n = 9, "Reds")
+colsbias <- brewer.pal(n = 9, "PiYG")
+colssd <- brewer.pal(n = 9, "Blues")
+```
+
+```{r fig2a, message=FALSE, warning=FALSE, fig.cap="\\label{fig:fig2a}Southern Europe summer days for E-OBS and the historical period 1971-2000. Fig. 2a in the manuscript."}
+library(visualizeR)
+spatialPlot(climatology(ID), 
+            at = seq(0, 260, 10), col.regions = colorRampPalette(colsindex))
+```

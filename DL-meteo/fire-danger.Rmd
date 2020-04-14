@@ -1,0 +1,183 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(loadeR.ECOMS)
+```
+
+```{r}
+library(transformeR)
+```
+
+```{r}
+library(downscaleR)
+```
+
+```{r}
+library(visualizeR)
+```
+
+```{r}
+devtools::install_github("SantanderMetGroup/fireDanger@v1.0.2")
+```
+
+```{r}
+library(fireDanger)
+```
+
+```{r}
+library(easyVerification)
+library(RColorBrewer)
+```
+
+```{r}
+loginUDG(username = "dml.mont", password = "D$1144070117m")
+```
+
+```{r}
+dataset <- "CFSv2_seasonal"
+season <- 5:9
+leadMonth <- 0
+years <- 1983:2009
+latLim <- c(35, 47)
+lonLim <- c(-10, 30)
+members <- 1:15
+```
+
+```{r}
+load(url("http://www.meteo.unican.es/work/fireDanger/wiki/data/multigrid_hind.rda"))
+load(url("http://www.meteo.unican.es/work/fireDanger/wiki/data/multigrid_obs.rda"))
+```
+
+```{r}
+obs <- fwiGrid(multigrid = multigrid_obs)
+```
+
+```{r}
+cfs_mask <- loadECOMS(dataset, var = "lm", latLim = latLim, lonLim = lonLim)
+mask <- interpGrid(cfs_mask, getGrid(multigrid_hind))
+```
+
+```{r}
+hindcast <- fwiGrid(multigrid = multigrid_hind, mask = mask)
+```
+
+```{r}
+hindcastJJAS <- subsetGrid(hindcast, season = 6:9)
+obsJJAS <- subsetGrid(obs, season = 6:9)
+```
+
+```{r}
+fwi.colors <- colorRampPalette(c(rev(brewer.pal(9, "YlGnBu")[3:5]), 
+                                 brewer.pal(9, "YlOrRd")[3:9]))
+
+spatialPlot(climatology(obsJJAS), 
+                backdrop.theme = "coastline", 
+                col.regions = fwi.colors,
+                main = "WFDEI (observations) - Mean FWI Climatology")
+```
+
+```{r}
+spatialPlot(climatology(hindcastJJAS), 
+                backdrop.theme = "coastline", 
+                col.regions = fwi.colors,
+                main = "CFSv2 (model) - Mean FWI Climatology")
+```
+
+```{r}
+hindcast_aggr <- aggregateGrid(hindcastJJAS, aggr.mem = list(FUN = mean))
+bias <- hindcast_aggr
+obsJJAS_int <- interpGrid(grid = obsJJAS, new.coordinates = getGrid(hindcast_aggr))
+bias$Data <- hindcast_aggr$Data - obsJJAS_int$Data
+```
+
+```{r}
+bias.colors <- colorRampPalette(c("blue", "white", "red"))
+spatialPlot(climatology(bias), 
+                backdrop.theme = "coastline", 
+                col.regions = bias.colors, 
+                at = seq(-20,20,2),
+                main = "Mean FWI bias of CFSv2")
+```
+
+```{r}
+hindcast_bc <- biasCorrection(y = obsJJAS, x = hindcastJJAS, 
+                              newdata = hindcastJJAS, method = "eqm")
+```
+
+```{r}
+fwimean_obs <- aggregateGrid(obsJJAS, aggr.y = list(FUN = "mean", na.rm = TRUE))
+```
+
+```{r}
+# raw data
+fwimean_hind_raw <- aggregateGrid(hindcast, aggr.y = list(FUN = "mean", na.rm = TRUE))
+# bias-corrected data
+fwimean_hind <- aggregateGrid(hindcast_bc, aggr.y = list(FUN = "mean", na.rm = TRUE))
+```
+
+```{r}
+fwi90_obs <- aggregateGrid(obs, aggr.y = list(FUN = "quantile",
+                                              probs = .9, na.rm = TRUE))
+```
+
+```{r}
+fot30 <- function(x) {
+      sum(x > 30, na.rm = TRUE) / length(na.omit(x))
+}
+
+fwi30_obs <- aggregateGrid(obs, aggr.y = list(FUN = "fot30"))
+```
+
+```{r}
+fwimean_obs_detrend <- detrendGrid(fwimean_obs)
+fwimean_hind_detrend <- detrendGrid(fwimean_hind)
+```
+
+```{r}
+skill <- veriApply(verifun = "EnsRoca",
+                   fcst = fwimean_hind_detrend$Data,
+                   obs = fwimean_obs_detrend$Data,
+                   prob = 2/3,
+                   ensdim = 1,
+                   tdim = 2)
+```
+
+```{r}
+upper.tercile <- easyVeri2grid(easyVeri.mat = skill$cat2,
+                               obs.grid = fwimean_obs_detrend,
+                               verifun = "EnsRoca")
+```
+
+```{r}
+ms.colors <- colorRampPalette(c("blue", "grey90", "brown"))
+spatialPlot(upper.tercile, 
+                backdrop.theme = "countries",
+                main = "ROC AREA (Above-normal FWI predictions)",
+                col.regions = ms.colors)
+```
+
+```{r}
+library(visualizeR)
+```
+
+```{r}
+fwimean_hind_sub <- subsetGrid(fwimean_hind_detrend, 
+                               latLim = c(40,43.5), lonLim = c(24,26.5))
+fwimean_obs_sub <- subsetGrid(fwimean_obs_detrend, 
+                              latLim = c(40,43.5), lonLim = c(24,26.5))
+spatialPlot(climatology(fwimean_obs_sub), 
+                backdrop.theme = "countries", 
+                col.regions = fwi.colors,
+                scales = list(draw = TRUE,
+                              x = list(alternating = FALSE, tick.number = 6)),
+                main = "Obs FWI climatology - Subset Area")
+```
+
+```{r}
+tercilePlot(fwimean_hind_sub, obs = fwimean_obs_sub, color.pal = "ypb")
+
+```
+

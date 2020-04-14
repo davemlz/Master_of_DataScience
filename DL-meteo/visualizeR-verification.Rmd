@@ -1,0 +1,142 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(visualizeR)
+```
+
+```{r}
+data(tas.cfs)
+data(tas.cfs.operative.2016)
+data(tas.ncep)
+```
+
+```{r}
+# Adjusting data spatial resolution to 5º lat-lon resolution
+newgrid <- getGrid(tas.cfs) 
+attr(newgrid, "resX") <- 5
+attr(newgrid, "resY") <- 5
+lower.res <- function(x, newgrid) {
+      interpGrid(x, new.coordinates = newgrid, method = "bilinear", bilin.method = "fields")
+}
+obs <- lower.res(tas.ncep, newgrid)
+```
+
+```{r}
+hindcast <- lower.res(tas.cfs, newgrid)
+forecast <- lower.res(tas.cfs.operative.2016, newgrid)
+```
+
+```{r}
+subtitle <- sprintf("Reference data: NCEP;  Hindcast: CFS (%d members); %d-%d", 
+                    length(hindcast$Members),
+                    getYearsAsINDEX(hindcast)[1],
+                    tail(getYearsAsINDEX(hindcast),1)
+)
+```
+
+```{r}
+# Only colour of the bubble is plotted indicating the most likely tercile 
+bubblePlot(hindcast, obs, forecast = forecast,
+           bubble.size = 1.5,
+           subtitle = subtitle,
+           size.as.probability = FALSE,
+           score = FALSE
+)
+```
+
+```{r}
+bubblePlot(hindcast, obs, forecast = forecast,
+           bubble.size = 1.5,
+           subtitle = subtitle,
+           size.as.probability = TRUE,
+           score = FALSE
+)
+```
+
+```{r}
+bubblePlot(hindcast, obs, forecast = forecast,
+           bubble.size = 1.5,
+           subtitle = subtitle,
+           size.as.probability = TRUE,
+           score = TRUE
+)
+```
+
+```{r}
+bubblePlot(hindcast, obs, forecast = forecast,
+           bubble.size = 1.5,
+           subtitle = subtitle,
+           size.as.probability = TRUE,
+           score = TRUE,
+           score.range = c(0.5, 1)
+)
+```
+
+```{r}
+# Cropping the North Atlantic region
+crop.natl <- function(x) subsetGrid(x, lonLim = c(-80, 42), latLim = c(35, 72))
+hindcast.natl <- crop.natl(hindcast)
+forecast.natl <- crop.natl(forecast)
+obs.natl <- crop.natl(obs)
+```
+
+```{r}
+bubblePlot(hindcast.natl, obs.natl, forecast = forecast.natl,
+           bubble.size = 1.5,
+           subtitle = subtitle,
+           piechart = TRUE,
+           score = TRUE
+)
+```
+
+```{r}
+crop.nino <- function(x) subsetGrid(x, lonLim = c(-170, -120), latLim = c(-5, 5))
+hindcast.nino <- crop.nino(hindcast)
+obs.nino <- crop.nino(obs)
+forecast.nino <- crop.nino(forecast)
+```
+
+```{r}
+tercilePlot(hindcast.nino, obs.nino, forecast = forecast.nino, subtitle = subtitle)
+```
+
+```{r}
+tercilePlot(hindcast.nino, obs.nino, forecast = NULL, year.target = 1998, subtitle = subtitle)
+```
+
+```{r}
+# Plot for winter 2016 (forecast data)
+tercileBarplot(hindcast.nino, obs.nino, forecast = forecast.nino, score.threshold = 0.6,
+               subtitle = subtitle)
+```
+
+```{r}
+# Plot for winter 2002 (selected from the hindcast)
+year.target <- 2002
+subtitle_year.target <- sprintf("Reference data: NCEP;  Hindcast: CFS (%d members); %d-%d (except %d)", 
+                                length(hindcast$Members), getYearsAsINDEX(hindcast)[1],
+                                tail(getYearsAsINDEX(hindcast),1), year.target)
+tercileBarplot(hindcast.nino, obs.nino, year.target = year.target, score.threshold = 0.6,
+               subtitle = subtitle_year.target)
+```
+
+```{r}
+rl.nino <- reliabilityCategories(hindcast = hindcast.nino,
+                                 obs = obs.nino, 
+                                 n.events = 3, labels = c("Below", "Normal", "Above"),
+                                 n.bins = 5,
+                                 n.boot = 1000, conf.level = 0.9,
+                                 cex0 = 0.5, cex.scale = 20
+) 
+```
+
+```{r}
+rl.map <- reliabilityCategories(hindcast, obs, 
+                                n.events = 3, labels = c("Below", "Normal", "Above"), n.bins = 5,
+                                n.boot = 100, conf.level = 0.9,
+                                regions = AR5regions)
+```
+
