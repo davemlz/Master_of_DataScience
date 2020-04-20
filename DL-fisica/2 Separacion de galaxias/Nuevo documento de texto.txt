@@ -1,1 +1,5 @@
 diego.tuccillo@gmail.com
+
+X = np.expand_dims(X[:,0,:,:], axis=3)
+
+Y = Y.reshape(-1,1)

@@ -1,55 +1,19 @@
 ---
-title: "R Notebook"
+title: "Índice ID: Señal de Cambio Climático"
 output: html_notebook
 ---
 
+# Eduardo Ruíz Ruíz
+# David Montero Loaiza
+
 ```{r}
+library(visualizeR)
 library(loadeR)
-loginUDG(username = "dml.mont", password = "D$1144070117m")
+require(transformeR)
+require(RColorBrewer)
 ```
 
 ```{r}
-lonLim <- c(3.6,33.9)
-latLim <- c(54.4,71.5)
-```
-
-```{r}
-hitsorical.url = "http://meteo.unican.es//tds5/dodsC/cordex/EUR-44/day/ETH/ICHEC-EC-EARTH_historical_r12i1p1_CCLM5-0-6_v1_day.ncml"
-rcp85.url = "http://meteo.unican.es//tds5/dodsC/cordex/EUR-44/day/ETH/ICHEC-EC-EARTH_rcp85_r12i1p1_CCLM5-0-6_v1_day.ncml"
-```
-
-```{r}
-di.historical <- dataInventory(hitsorical.url)
-```
-
-```{r}
-names(di.historical)
-```
-
-```{r}
-di.historical$tasmax
-```
-
-
-
-```{r}
-file.create("dic.dic")
-writeLines(c("identifier,short_name,time_step,lower_time_bound,upper_time_bound,cell_metod,offset,scale,deaccum,derived,interface","tasmax,tasmax,24h,0,24,max,-273.15,1,0,0,"), "dic.dic")
-```
-
-```{r}
-ID = loadGridData(hitsorical.url,var = "tasmax",season = 1:12,years = 1971:2000,
-                  lonLim = lonLim,latLim = latLim,aggr.m = "sum",
-                  condition = "LT",threshold = 0,dictionary = "dic.dic")
-```
-
-```{r}
-ID <- aggregateGrid(ID, aggr.y = list(FUN = "sum"))
-```
-
-
-```{r}
-library(RColorBrewer)
 colstx <- rev(brewer.pal(n = 9, "Spectral"))
 colsindex <- rev(brewer.pal(n = 9, "RdYlBu"))
 colsdelta <- brewer.pal(n = 9, "Reds")
@@ -57,8 +21,131 @@ colsbias <- brewer.pal(n = 9, "PiYG")
 colssd <- brewer.pal(n = 9, "Blues")
 ```
 
-```{r fig2a, message=FALSE, warning=FALSE, fig.cap="\\label{fig:fig2a}Southern Europe summer days for E-OBS and the historical period 1971-2000. Fig. 2a in the manuscript."}
-library(visualizeR)
-spatialPlot(climatology(ID), 
-            at = seq(0, 260, 10), col.regions = colorRampPalette(colsindex))
+```{r}
+the_password = readline(prompt = "Ingresar contraseña: ")
+loginUDG(username = "dml.mont", password = the_password)
 ```
+
+## Índice ETCCDI
+
+El índice ETCCDI seleccionado es el ID (Icing Days), que utiliza la variable de temperatura máxima $TX$ diaria en grados centigrados para calcular el número de días al año en que la temperatura máxima diaria fue menor que 0 ($TX<0$).
+
+## Área y Fechas de estudio
+
+El área de estudio de este trabajo comprende a la península Escandinava (Noruega, Suecia y Finlandia). Las coordenadas de la extensión del área de estudio se guardan a continuación:
+
+```{r}
+lonLim = c(3.6,33.9)
+latLim = c(54.4,71.5)
+```
+
+Para el período histórico se estableción un rango desde 1971 hasta 2000, mientras que para el escenario futuro comprendió los años desde 2031 hasta 2060. Se utilizaron todos los meses del año.
+
+```{r}
+years.historical = 1971:2000
+years.future = 2031:2060
+seasons = 1:12
+```
+
+## Modelo RCM
+
+Se utilizó el RCM de CORDEX a una resolución espacial de 0.44 grados decimales (EUR-44):
+
+```{r}
+hitsorical.url = "http://meteo.unican.es//tds5/dodsC/cordex/EUR-44/day/ETH/ICHEC-EC-EARTH_historical_r12i1p1_CCLM5-0-6_v1_day.ncml"
+rcp85.url = "http://meteo.unican.es//tds5/dodsC/cordex/EUR-44/day/ETH/ICHEC-EC-EARTH_rcp85_r12i1p1_CCLM5-0-6_v1_day.ncml"
+```
+
+Hacemos un inventario para ver las variables disponibles y cuál es su nombre.
+
+```{r}
+di.historical = dataInventory(hitsorical.url)
+names(di.historical)
+```
+
+La variable de temperatura máxima se encuentra bajo el nombre de *tasmax*, así podemos ver su contenido.
+
+```{r}
+di.historical$tasmax
+```
+
+Como esta variable se encuentra en grados Kelvin, se debe realizar la transformación a Centigrados, por tal motivo se debe crear un diccionario para establecer un *offset* de -273.15 y que los datos resultantes se encuentren en Centigrados:
+
+```{r}
+file.create("dic.dic")
+writeLines(c("identifier,short_name,time_step,lower_time_bound,upper_time_bound,cell_metod,offset,scale,deaccum,derived,interface","tasmax,tasmax,24h,0,24,max,-273.15,1,0,0,"), "dic.dic")
+```
+
+## Carga de datos y cálculo del ID
+
+Los datos son cargados online, la variable que se usa es *tasmax* durante los años y meses espeificados en el dominio espacial establecido. Se utiliza el diccionario creado para convertir los datos a Centigrados y ya que el índice ID se basa en los días en que *TX* fue menor que 0, se establece un umbral en 0 y una condición *LT* (Lower Than) para determinar si un día cumplió o no con la condición. Se realiza una agregación mensual para sumar todos los días que cumplen con la condición.
+
+```{r}
+ID.h = loadGridData(hitsorical.url,
+                    var = "tasmax",
+                    season = seasons,
+                    years = years.historical,
+                    lonLim = lonLim,
+                    latLim = latLim,
+                    aggr.m = "sum",
+                    condition = "LT",
+                    threshold = 0,
+                    dictionary = "dic.dic")
+```
+
+```{r}
+ID.f = loadGridData(rcp85.url,
+                    var = "tasmax",
+                    season = seasons,
+                    years = years.future,
+                    lonLim = lonLim,
+                    latLim = latLim,
+                    aggr.m = "sum",
+                    condition = "LT",
+                    threshold = 0,
+                    dictionary = "dic.dic")
+```
+
+El índice ID es anual, por lo tanto los datos agregados mensualmente ahora deben ser agregados anualmente:
+
+```{r}
+ID.h = aggregateGrid(ID.h,aggr.y = list(FUN = "sum"))
+ID.f = aggregateGrid(ID.f,aggr.y = list(FUN = "sum"))
+```
+
+### Visualización
+
+En la siguiente figura se observa la climatología del ID histórico y del ID futuro.
+
+```{r}
+spatialPlot(climatology(ID.h),at = seq(0, 300, 10),col.regions = colorRampPalette(colsindex),main = "ID Histórico")
+spatialPlot(climatology(ID.f),at = seq(0, 300, 10),col.regions = colorRampPalette(colsindex),main = "ID Futuro")
+```
+
+## Señal de Cambio Climático
+
+La señal del cambio climático es calculada como la diferencia entre ambos conjuntos:
+
+```{r}
+CCsignal = gridArithmetics(ID.f,ID.h,operator = "-")
+```
+
+### Visualización
+
+Antes de visualizar el mapa de la señal del cambio climático se realiza una reproyección del sistema de coordenadas de referencia para cambiar de coordenadas polares a una proyección de latitud y longitud.
+
+```{r}
+CCsignal = interpGrid(CCsignal,new.coordinates = list(x = seq(3.5,34,.5),y = seq(54.5,71.5,.5)))
+```
+
+En la siguiente figura se puede visualizar la señal del cambio climático del índice ID para los períodos y el área estudiados.
+
+```{r}
+spatialPlot(climatology(CCsignal),
+            at = seq(-100,0,5),
+            col.regions = colorRampPalette(colsdelta),
+            main = "ID CCS",
+            backdrop.theme = "countries")
+```
+
+
