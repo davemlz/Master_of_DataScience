@@ -1825,10 +1825,10 @@ Go to &lt;http://www.meteo.unican.es/udg-tap/home&gt; for details on your author
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<div id="índice-etccdi" class="section level2">
-<h2>Índice ETCCDI</h2>
-<p>El índice ETCCDI seleccionado es el ID (Icing Days), que utiliza la variable de temperatura máxima <span class="math inline">\(TX\)</span> diaria en grados centigrados para calcular el número de días al año en que la temperatura máxima diaria fue menor que 0 (<span class="math inline">\(TX&lt;0\)</span>).</p>
 </div>
+<div id="índice-etccdi" class="section level1">
+<h1>Índice ETCCDI</h1>
+<p>El índice ETCCDI seleccionado es el ID (Icing Days), que utiliza la variable de temperatura máxima <span class="math inline">\(TX\)</span> diaria en grados centigrados para calcular el número de días al año en que la temperatura máxima diaria fue menor que 0 (<span class="math inline">\(TX&lt;0\)</span>).</p>
 <div id="área-y-fechas-de-estudio" class="section level2">
 <h2>Área y Fechas de estudio</h2>
 <p>El área de estudio de este trabajo comprende a la península Escandinava (Noruega, Suecia y Finlandia). Las coordenadas de la extensión del área de estudio se guardan a continuación:</p>
@@ -1851,8 +1851,9 @@ seasons = 1:12</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="modelo-rcm" class="section level2">
-<h2>Modelo RCM</h2>
+</div>
+<div id="modelo-cclm5" class="section level1">
+<h1>Modelo (CCLM5)</h1>
 <p>Se utilizó el RCM de CORDEX a una resolución espacial de 0.44 grados decimales (EUR-44):</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
@@ -1967,7 +1968,6 @@ $Dimensions$lon$Values
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
 <div id="carga-de-datos-y-cálculo-del-id" class="section level2">
 <h2>Carga de datos y cálculo del ID</h2>
 <p>Los datos son cargados online, la variable que se usa es <em>tasmax</em> durante los años y meses espeificados en el dominio espacial establecido. Se utiliza el diccionario creado para convertir los datos a Centigrados y ya que el índice ID se basa en los días en que <em>TX</em> fue menor que 0, se establece un umbral en 0 y una condición <em>LT</em> (Lower Than) para determinar si un día cumplió o no con la condición. Se realiza una agregación mensual para sumar todos los días que cumplen con la condición.</p>
@@ -2068,12 +2068,271 @@ spatialPlot(climatology(ID.f),at = seq(0, 300, 10),col.regions = colorRampPalett
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+</div>
+</div>
+<div id="modelo-racmo22e" class="section level1">
+<h1>Modelo (RACMO22E)</h1>
+<p>Se utilizó el RCM de CORDEX a una resolución espacial de 0.44 grados decimales (EUR-44):</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Hacemos un inventario para ver las variables disponibles y cuál es su nombre.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGkuaGlzdG9yaWNhbCA9IGRhdGFJbnZlbnRvcnkoaGl0c29yaWNhbC51cmwpXG5gYGAifQ== -->
+<pre class="r"><code>di.historical = dataInventory(hitsorical.url)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzIwMjAtMDQtMjAgMTk6NDg6MjRdIERvaW5nIGludmVudG9yeSAuLi5cbkVycm9yIGluIC5qY2FsbChcIlJKYXZhVG9vbHNcIiwgXCJMamF2YS9sYW5nL09iamVjdDtcIiwgXCJpbnZva2VNZXRob2RcIiwgY2wsICA6IFxuICBqYXZhLmlvLklPRXhjZXB0aW9uOiBodHRwOi8vbWV0ZW8udW5pY2FuLmVzLy90ZHM1L2RvZHNDL2NvcmRleC9FVVItNDQvZGF5L0tOTUkvSUNIRUMtRUMtRUFSVEhfaGlzdG9yaWNhbF9yMWkxcDFfUkFDTU8yMkVfdjFfZGF5Lm5jbWwgaXMgbm90IGEgdmFsaWQgVVJMLCByZXR1cm4gc3RhdHVzPTQwMFxuIn0= -->
+<pre><code>[2020-04-20 19:48:24] Doing inventory ...
+Error in .jcall(&quot;RJavaTools&quot;, &quot;Ljava/lang/Object;&quot;, &quot;invokeMethod&quot;, cl,  : 
+  java.io.IOException: http://meteo.unican.es//tds5/dodsC/cordex/EUR-44/day/KNMI/ICHEC-EC-EARTH_historical_r1i1p1_RACMO22E_v1_day.ncml is not a valid URL, return status=400</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>La variable de temperatura máxima se encuentra bajo el nombre de <em>tasmax</em>, así podemos ver su contenido.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGkuaGlzdG9yaWNhbCR0YXNtYXhcbmBgYCJ9 -->
+<pre class="r"><code>di.historical$tasmax</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Como esta variable se encuentra en grados Kelvin, se debe realizar la transformación a Centigrados, por tal motivo se debe crear un diccionario para establecer un <em>offset</em> de -273.15 y que los datos resultantes se encuentren en Centigrados:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmlsZS5jcmVhdGUoXCJkaWMuZGljXCIpXG53cml0ZUxpbmVzKGMoXCJpZGVudGlmaWVyLHNob3J0X25hbWUsdGltZV9zdGVwLGxvd2VyX3RpbWVfYm91bmQsdXBwZXJfdGltZV9ib3VuZCxjZWxsX21ldG9kLG9mZnNldCxzY2FsZSxkZWFjY3VtLGRlcml2ZWQsaW50ZXJmYWNlXCIsXCJ0YXNtYXgsdGFzbWF4LDI0aCwwLDI0LG1heCwtMjczLjE1LDEsMCwwLFwiKSwgXCJkaWMuZGljXCIpXG5gYGAifQ== -->
+<pre class="r"><code>file.create(&quot;dic.dic&quot;)
+writeLines(c(&quot;identifier,short_name,time_step,lower_time_bound,upper_time_bound,cell_metod,offset,scale,deaccum,derived,interface&quot;,&quot;tasmax,tasmax,24h,0,24,max,-273.15,1,0,0,&quot;), &quot;dic.dic&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="carga-de-datos-y-cálculo-del-id-1" class="section level2">
+<h2>Carga de datos y cálculo del ID</h2>
+<p>Los datos son cargados online, la variable que se usa es <em>tasmax</em> durante los años y meses espeificados en el dominio espacial establecido. Se utiliza el diccionario creado para convertir los datos a Centigrados y ya que el índice ID se basa en los días en que <em>TX</em> fue menor que 0, se establece un umbral en 0 y una condición <em>LT</em> (Lower Than) para determinar si un día cumplió o no con la condición. Se realiza una agregación mensual para sumar todos los días que cumplen con la condición.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSUQuaCA9IGxvYWRHcmlkRGF0YShoaXRzb3JpY2FsLnVybCxcbiAgICAgICAgICAgICAgICAgICAgdmFyID0gXCJ0YXNtYXhcIixcbiAgICAgICAgICAgICAgICAgICAgc2Vhc29uID0gc2Vhc29ucyxcbiAgICAgICAgICAgICAgICAgICAgeWVhcnMgPSB5ZWFycy5oaXN0b3JpY2FsLFxuICAgICAgICAgICAgICAgICAgICBsb25MaW0gPSBsb25MaW0sXG4gICAgICAgICAgICAgICAgICAgIGxhdExpbSA9IGxhdExpbSxcbiAgICAgICAgICAgICAgICAgICAgYWdnci5tID0gXCJzdW1cIixcbiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gXCJMVFwiLFxuICAgICAgICAgICAgICAgICAgICB0aHJlc2hvbGQgPSAwLFxuICAgICAgICAgICAgICAgICAgICBkaWN0aW9uYXJ5ID0gXCJkaWMuZGljXCIpXG5gYGAifQ== -->
+<pre class="r"><code>ID.h = loadGridData(hitsorical.url,
+                    var = &quot;tasmax&quot;,
+                    season = seasons,
+                    years = years.historical,
+                    lonLim = lonLim,
+                    latLim = latLim,
+                    aggr.m = &quot;sum&quot;,
+                    condition = &quot;LT&quot;,
+                    threshold = 0,
+                    dictionary = &quot;dic.dic&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSUQuZiA9IGxvYWRHcmlkRGF0YShyY3A4NS51cmwsXG4gICAgICAgICAgICAgICAgICAgIHZhciA9IFwidGFzbWF4XCIsXG4gICAgICAgICAgICAgICAgICAgIHNlYXNvbiA9IHNlYXNvbnMsXG4gICAgICAgICAgICAgICAgICAgIHllYXJzID0geWVhcnMuZnV0dXJlLFxuICAgICAgICAgICAgICAgICAgICBsb25MaW0gPSBsb25MaW0sXG4gICAgICAgICAgICAgICAgICAgIGxhdExpbSA9IGxhdExpbSxcbiAgICAgICAgICAgICAgICAgICAgYWdnci5tID0gXCJzdW1cIixcbiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gXCJMVFwiLFxuICAgICAgICAgICAgICAgICAgICB0aHJlc2hvbGQgPSAwLFxuICAgICAgICAgICAgICAgICAgICBkaWN0aW9uYXJ5ID0gXCJkaWMuZGljXCIpXG5gYGAifQ== -->
+<pre class="r"><code>ID.f = loadGridData(rcp85.url,
+                    var = &quot;tasmax&quot;,
+                    season = seasons,
+                    years = years.future,
+                    lonLim = lonLim,
+                    latLim = latLim,
+                    aggr.m = &quot;sum&quot;,
+                    condition = &quot;LT&quot;,
+                    threshold = 0,
+                    dictionary = &quot;dic.dic&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>El índice ID es anual, por lo tanto los datos agregados mensualmente ahora deben ser agregados anualmente:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSUQuaCA9IGFnZ3JlZ2F0ZUdyaWQoSUQuaCxhZ2dyLnkgPSBsaXN0KEZVTiA9IFwic3VtXCIpKVxuSUQuZiA9IGFnZ3JlZ2F0ZUdyaWQoSUQuZixhZ2dyLnkgPSBsaXN0KEZVTiA9IFwic3VtXCIpKVxuYGBgIn0= -->
+<pre class="r"><code>ID.h = aggregateGrid(ID.h,aggr.y = list(FUN = &quot;sum&quot;))
+ID.f = aggregateGrid(ID.f,aggr.y = list(FUN = &quot;sum&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="visualización-2" class="section level3">
+<h3>Visualización</h3>
+<p>En la siguiente figura se observa la climatología del ID histórico y del ID futuro.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koSUQuaCksYXQgPSBzZXEoMCwgMzAwLCAxMCksY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNpbmRleCksbWFpbiA9IFwiSUQgSGlzdMOzcmljb1wiKVxuc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koSUQuZiksYXQgPSBzZXEoMCwgMzAwLCAxMCksY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNpbmRleCksbWFpbiA9IFwiSUQgRnV0dXJvXCIpXG5gYGAifQ== -->
+<pre class="r"><code>spatialPlot(climatology(ID.h),at = seq(0, 300, 10),col.regions = colorRampPalette(colsindex),main = &quot;ID Histórico&quot;)
+spatialPlot(climatology(ID.f),at = seq(0, 300, 10),col.regions = colorRampPalette(colsindex),main = &quot;ID Futuro&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="señal-de-cambio-climático-1" class="section level2">
+<h2>Señal de Cambio Climático</h2>
+<p>La señal del cambio climático es calculada como la diferencia entre ambos conjuntos:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ0NzaWduYWwgPSBncmlkQXJpdGhtZXRpY3MoSUQuZixJRC5oLG9wZXJhdG9yID0gXCItXCIpXG5gYGAifQ== -->
+<pre class="r"><code>CCsignal = gridArithmetics(ID.f,ID.h,operator = &quot;-&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="visualización-3" class="section level3">
+<h3>Visualización</h3>
+<p>Antes de visualizar el mapa de la señal del cambio climático se realiza una reproyección del sistema de coordenadas de referencia para cambiar de coordenadas polares a una proyección de latitud y longitud.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ0NzaWduYWwgPSBpbnRlcnBHcmlkKENDc2lnbmFsLG5ldy5jb29yZGluYXRlcyA9IGxpc3QoeCA9IHNlcSgzLjUsMzQsLjUpLHkgPSBzZXEoNTQuNSw3MS41LC41KSkpXG5gYGAifQ== -->
+<pre class="r"><code>CCsignal = interpGrid(CCsignal,new.coordinates = list(x = seq(3.5,34,.5),y = seq(54.5,71.5,.5)))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>En la siguiente figura se puede visualizar la señal del cambio climático del índice ID para los períodos y el área estudiados.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koQ0NzaWduYWwpLFxuICAgICAgICAgICAgYXQgPSBzZXEoLTEwMCwwLDUpLFxuICAgICAgICAgICAgY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNkZWx0YSksXG4gICAgICAgICAgICBtYWluID0gXCJJRCBDQ1NcIixcbiAgICAgICAgICAgIGJhY2tkcm9wLnRoZW1lID0gXCJjb3VudHJpZXNcIilcbmBgYCJ9 -->
+<pre class="r"><code>spatialPlot(climatology(CCsignal),
+            at = seq(-100,0,5),
+            col.regions = colorRampPalette(colsdelta),
+            main = &quot;ID CCS&quot;,
+            backdrop.theme = &quot;countries&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+</div>
+<div id="modelo-rca4" class="section level1">
+<h1>Modelo (RCA4)</h1>
+<p>Se utilizó el RCM de CORDEX a una resolución espacial de 0.44 grados decimales (EUR-44):</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Hacemos un inventario para ver las variables disponibles y cuál es su nombre.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGkuaGlzdG9yaWNhbCA9IGRhdGFJbnZlbnRvcnkoaGl0c29yaWNhbC51cmwpXG5cbmBgYCJ9 -->
+<pre class="r"><code>di.historical = dataInventory(hitsorical.url)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzIwMjAtMDQtMjAgMTk6NTA6MDddIERvaW5nIGludmVudG9yeSAuLi5cbkVycm9yIGluIC5qY2FsbChcIlJKYXZhVG9vbHNcIiwgXCJMamF2YS9sYW5nL09iamVjdDtcIiwgXCJpbnZva2VNZXRob2RcIiwgY2wsICA6IFxuICBqYXZhLmlvLklPRXhjZXB0aW9uOiBodHRwOi8vbWV0ZW8udW5pY2FuLmVzLy90ZHM1L2RvZHNDL2NvcmRleC9FVVItNDQvZGF5L1NNSEkvSUNIRUMtRUMtRUFSVEhfaGlzdG9yaWNhbF9yMTJpMXAxX1JDQTRfdjFfZGF5Lm5jbWwgaXMgbm90IGEgdmFsaWQgVVJMLCByZXR1cm4gc3RhdHVzPTQwMFxuIn0= -->
+<pre><code>[2020-04-20 19:50:07] Doing inventory ...
+Error in .jcall(&quot;RJavaTools&quot;, &quot;Ljava/lang/Object;&quot;, &quot;invokeMethod&quot;, cl,  : 
+  java.io.IOException: http://meteo.unican.es//tds5/dodsC/cordex/EUR-44/day/SMHI/ICHEC-EC-EARTH_historical_r12i1p1_RCA4_v1_day.ncml is not a valid URL, return status=400</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>La variable de temperatura máxima se encuentra bajo el nombre de <em>tasmax</em>, así podemos ver su contenido.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGkuaGlzdG9yaWNhbCR0YXNtYXhcbmBgYCJ9 -->
+<pre class="r"><code>di.historical$tasmax</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Como esta variable se encuentra en grados Kelvin, se debe realizar la transformación a Centigrados, por tal motivo se debe crear un diccionario para establecer un <em>offset</em> de -273.15 y que los datos resultantes se encuentren en Centigrados:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmlsZS5jcmVhdGUoXCJkaWMuZGljXCIpXG53cml0ZUxpbmVzKGMoXCJpZGVudGlmaWVyLHNob3J0X25hbWUsdGltZV9zdGVwLGxvd2VyX3RpbWVfYm91bmQsdXBwZXJfdGltZV9ib3VuZCxjZWxsX21ldG9kLG9mZnNldCxzY2FsZSxkZWFjY3VtLGRlcml2ZWQsaW50ZXJmYWNlXCIsXCJ0YXNtYXgsdGFzbWF4LDI0aCwwLDI0LG1heCwtMjczLjE1LDEsMCwwLFwiKSwgXCJkaWMuZGljXCIpXG5gYGAifQ== -->
+<pre class="r"><code>file.create(&quot;dic.dic&quot;)
+writeLines(c(&quot;identifier,short_name,time_step,lower_time_bound,upper_time_bound,cell_metod,offset,scale,deaccum,derived,interface&quot;,&quot;tasmax,tasmax,24h,0,24,max,-273.15,1,0,0,&quot;), &quot;dic.dic&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="carga-de-datos-y-cálculo-del-id-2" class="section level2">
+<h2>Carga de datos y cálculo del ID</h2>
+<p>Los datos son cargados online, la variable que se usa es <em>tasmax</em> durante los años y meses espeificados en el dominio espacial establecido. Se utiliza el diccionario creado para convertir los datos a Centigrados y ya que el índice ID se basa en los días en que <em>TX</em> fue menor que 0, se establece un umbral en 0 y una condición <em>LT</em> (Lower Than) para determinar si un día cumplió o no con la condición. Se realiza una agregación mensual para sumar todos los días que cumplen con la condición.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSUQuaCA9IGxvYWRHcmlkRGF0YShoaXRzb3JpY2FsLnVybCxcbiAgICAgICAgICAgICAgICAgICAgdmFyID0gXCJ0YXNtYXhcIixcbiAgICAgICAgICAgICAgICAgICAgc2Vhc29uID0gc2Vhc29ucyxcbiAgICAgICAgICAgICAgICAgICAgeWVhcnMgPSB5ZWFycy5oaXN0b3JpY2FsLFxuICAgICAgICAgICAgICAgICAgICBsb25MaW0gPSBsb25MaW0sXG4gICAgICAgICAgICAgICAgICAgIGxhdExpbSA9IGxhdExpbSxcbiAgICAgICAgICAgICAgICAgICAgYWdnci5tID0gXCJzdW1cIixcbiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gXCJMVFwiLFxuICAgICAgICAgICAgICAgICAgICB0aHJlc2hvbGQgPSAwLFxuICAgICAgICAgICAgICAgICAgICBkaWN0aW9uYXJ5ID0gXCJkaWMuZGljXCIpXG5gYGAifQ== -->
+<pre class="r"><code>ID.h = loadGridData(hitsorical.url,
+                    var = &quot;tasmax&quot;,
+                    season = seasons,
+                    years = years.historical,
+                    lonLim = lonLim,
+                    latLim = latLim,
+                    aggr.m = &quot;sum&quot;,
+                    condition = &quot;LT&quot;,
+                    threshold = 0,
+                    dictionary = &quot;dic.dic&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSUQuZiA9IGxvYWRHcmlkRGF0YShyY3A4NS51cmwsXG4gICAgICAgICAgICAgICAgICAgIHZhciA9IFwidGFzbWF4XCIsXG4gICAgICAgICAgICAgICAgICAgIHNlYXNvbiA9IHNlYXNvbnMsXG4gICAgICAgICAgICAgICAgICAgIHllYXJzID0geWVhcnMuZnV0dXJlLFxuICAgICAgICAgICAgICAgICAgICBsb25MaW0gPSBsb25MaW0sXG4gICAgICAgICAgICAgICAgICAgIGxhdExpbSA9IGxhdExpbSxcbiAgICAgICAgICAgICAgICAgICAgYWdnci5tID0gXCJzdW1cIixcbiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gXCJMVFwiLFxuICAgICAgICAgICAgICAgICAgICB0aHJlc2hvbGQgPSAwLFxuICAgICAgICAgICAgICAgICAgICBkaWN0aW9uYXJ5ID0gXCJkaWMuZGljXCIpXG5gYGAifQ== -->
+<pre class="r"><code>ID.f = loadGridData(rcp85.url,
+                    var = &quot;tasmax&quot;,
+                    season = seasons,
+                    years = years.future,
+                    lonLim = lonLim,
+                    latLim = latLim,
+                    aggr.m = &quot;sum&quot;,
+                    condition = &quot;LT&quot;,
+                    threshold = 0,
+                    dictionary = &quot;dic.dic&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>El índice ID es anual, por lo tanto los datos agregados mensualmente ahora deben ser agregados anualmente:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSUQuaCA9IGFnZ3JlZ2F0ZUdyaWQoSUQuaCxhZ2dyLnkgPSBsaXN0KEZVTiA9IFwic3VtXCIpKVxuSUQuZiA9IGFnZ3JlZ2F0ZUdyaWQoSUQuZixhZ2dyLnkgPSBsaXN0KEZVTiA9IFwic3VtXCIpKVxuYGBgIn0= -->
+<pre class="r"><code>ID.h = aggregateGrid(ID.h,aggr.y = list(FUN = &quot;sum&quot;))
+ID.f = aggregateGrid(ID.f,aggr.y = list(FUN = &quot;sum&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="visualización-4" class="section level3">
+<h3>Visualización</h3>
+<p>En la siguiente figura se observa la climatología del ID histórico y del ID futuro.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koSUQuaCksYXQgPSBzZXEoMCwgMzAwLCAxMCksY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNpbmRleCksbWFpbiA9IFwiSUQgSGlzdMOzcmljb1wiKVxuc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koSUQuZiksYXQgPSBzZXEoMCwgMzAwLCAxMCksY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNpbmRleCksbWFpbiA9IFwiSUQgRnV0dXJvXCIpXG5gYGAifQ== -->
+<pre class="r"><code>spatialPlot(climatology(ID.h),at = seq(0, 300, 10),col.regions = colorRampPalette(colsindex),main = &quot;ID Histórico&quot;)
+spatialPlot(climatology(ID.f),at = seq(0, 300, 10),col.regions = colorRampPalette(colsindex),main = &quot;ID Futuro&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="señal-de-cambio-climático-2" class="section level2">
+<h2>Señal de Cambio Climático</h2>
+<p>La señal del cambio climático es calculada como la diferencia entre ambos conjuntos:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ0NzaWduYWwgPSBncmlkQXJpdGhtZXRpY3MoSUQuZixJRC5oLG9wZXJhdG9yID0gXCItXCIpXG5gYGAifQ== -->
+<pre class="r"><code>CCsignal = gridArithmetics(ID.f,ID.h,operator = &quot;-&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="visualización-5" class="section level3">
+<h3>Visualización</h3>
+<p>Antes de visualizar el mapa de la señal del cambio climático se realiza una reproyección del sistema de coordenadas de referencia para cambiar de coordenadas polares a una proyección de latitud y longitud.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ0NzaWduYWwgPSBpbnRlcnBHcmlkKENDc2lnbmFsLG5ldy5jb29yZGluYXRlcyA9IGxpc3QoeCA9IHNlcSgzLjUsMzQsLjUpLHkgPSBzZXEoNTQuNSw3MS41LC41KSkpXG5gYGAifQ== -->
+<pre class="r"><code>CCsignal = interpGrid(CCsignal,new.coordinates = list(x = seq(3.5,34,.5),y = seq(54.5,71.5,.5)))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>En la siguiente figura se puede visualizar la señal del cambio climático del índice ID para los períodos y el área estudiados.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koQ0NzaWduYWwpLFxuICAgICAgICAgICAgYXQgPSBzZXEoLTEwMCwwLDUpLFxuICAgICAgICAgICAgY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNkZWx0YSksXG4gICAgICAgICAgICBtYWluID0gXCJJRCBDQ1NcIixcbiAgICAgICAgICAgIGJhY2tkcm9wLnRoZW1lID0gXCJjb3VudHJpZXNcIilcbmBgYCJ9 -->
+<pre class="r"><code>spatialPlot(climatology(CCsignal),
+            at = seq(-100,0,5),
+            col.regions = colorRampPalette(colsdelta),
+            main = &quot;ID CCS&quot;,
+            backdrop.theme = &quot;countries&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIsONbmRpY2UgSUQ6IFNlw7FhbCBkZSBDYW1iaW8gQ2xpbcOhdGljbyINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMgRWR1YXJkbyBSdcOteiBSdcOteg0KIyBEYXZpZCBNb250ZXJvIExvYWl6YQ0KDQpgYGB7cn0NCmxpYnJhcnkodmlzdWFsaXplUikNCmxpYnJhcnkobG9hZGVSKQ0KcmVxdWlyZSh0cmFuc2Zvcm1lUikNCnJlcXVpcmUoUkNvbG9yQnJld2VyKQ0KYGBgDQoNCmBgYHtyfQ0KY29sc3R4IDwtIHJldihicmV3ZXIucGFsKG4gPSA5LCAiU3BlY3RyYWwiKSkNCmNvbHNpbmRleCA8LSByZXYoYnJld2VyLnBhbChuID0gOSwgIlJkWWxCdSIpKQ0KY29sc2RlbHRhIDwtIGJyZXdlci5wYWwobiA9IDksICJSZWRzIikNCmNvbHNiaWFzIDwtIGJyZXdlci5wYWwobiA9IDksICJQaVlHIikNCmNvbHNzZCA8LSBicmV3ZXIucGFsKG4gPSA5LCAiQmx1ZXMiKQ0KYGBgDQoNCmBgYHtyfQ0KdGhlX3Bhc3N3b3JkID0gcmVhZGxpbmUocHJvbXB0ID0gIkluZ3Jlc2FyIGNvbnRyYXNlw7FhOiAiKQ0KbG9naW5VREcodXNlcm5hbWUgPSAiZG1sLm1vbnQiLCBwYXNzd29yZCA9IHRoZV9wYXNzd29yZCkNCmBgYA0KDQojIyDDjW5kaWNlIEVUQ0NESQ0KDQpFbCDDrW5kaWNlIEVUQ0NESSBzZWxlY2Npb25hZG8gZXMgZWwgSUQgKEljaW5nIERheXMpLCBxdWUgdXRpbGl6YSBsYSB2YXJpYWJsZSBkZSB0ZW1wZXJhdHVyYSBtw6F4aW1hICRUWCQgZGlhcmlhIGVuIGdyYWRvcyBjZW50aWdyYWRvcyBwYXJhIGNhbGN1bGFyIGVsIG7Dum1lcm8gZGUgZMOtYXMgYWwgYcOxbyBlbiBxdWUgbGEgdGVtcGVyYXR1cmEgbcOheGltYSBkaWFyaWEgZnVlIG1lbm9yIHF1ZSAwICgkVFg8MCQpLg0KDQojIyDDgXJlYSB5IEZlY2hhcyBkZSBlc3R1ZGlvDQoNCkVsIMOhcmVhIGRlIGVzdHVkaW8gZGUgZXN0ZSB0cmFiYWpvIGNvbXByZW5kZSBhIGxhIHBlbsOtbnN1bGEgRXNjYW5kaW5hdmEgKE5vcnVlZ2EsIFN1ZWNpYSB5IEZpbmxhbmRpYSkuIExhcyBjb29yZGVuYWRhcyBkZSBsYSBleHRlbnNpw7NuIGRlbCDDoXJlYSBkZSBlc3R1ZGlvIHNlIGd1YXJkYW4gYSBjb250aW51YWNpw7NuOg0KDQpgYGB7cn0NCmxvbkxpbSA9IGMoMy42LDMzLjkpDQpsYXRMaW0gPSBjKDU0LjQsNzEuNSkNCmBgYA0KDQpQYXJhIGVsIHBlcsOtb2RvIGhpc3TDs3JpY28gc2UgZXN0YWJsZWNpw7NuIHVuIHJhbmdvIGRlc2RlIDE5NzEgaGFzdGEgMjAwMCwgbWllbnRyYXMgcXVlIHBhcmEgZWwgZXNjZW5hcmlvIGZ1dHVybyBjb21wcmVuZGnDsyBsb3MgYcOxb3MgZGVzZGUgMjAzMSBoYXN0YSAyMDYwLiBTZSB1dGlsaXphcm9uIHRvZG9zIGxvcyBtZXNlcyBkZWwgYcOxby4NCg0KYGBge3J9DQp5ZWFycy5oaXN0b3JpY2FsID0gMTk3MToyMDAwDQp5ZWFycy5mdXR1cmUgPSAyMDMxOjIwNjANCnNlYXNvbnMgPSAxOjEyDQpgYGANCg0KIyMgTW9kZWxvIFJDTQ0KDQpTZSB1dGlsaXrDsyBlbCBSQ00gZGUgQ09SREVYIGEgdW5hIHJlc29sdWNpw7NuIGVzcGFjaWFsIGRlIDAuNDQgZ3JhZG9zIGRlY2ltYWxlcyAoRVVSLTQ0KToNCg0KYGBge3J9DQpoaXRzb3JpY2FsLnVybCA9ICJodHRwOi8vbWV0ZW8udW5pY2FuLmVzLy90ZHM1L2RvZHNDL2NvcmRleC9FVVItNDQvZGF5L0VUSC9JQ0hFQy1FQy1FQVJUSF9oaXN0b3JpY2FsX3IxMmkxcDFfQ0NMTTUtMC02X3YxX2RheS5uY21sIg0KcmNwODUudXJsID0gImh0dHA6Ly9tZXRlby51bmljYW4uZXMvL3RkczUvZG9kc0MvY29yZGV4L0VVUi00NC9kYXkvRVRIL0lDSEVDLUVDLUVBUlRIX3JjcDg1X3IxMmkxcDFfQ0NMTTUtMC02X3YxX2RheS5uY21sIg0KYGBgDQoNCkhhY2Vtb3MgdW4gaW52ZW50YXJpbyBwYXJhIHZlciBsYXMgdmFyaWFibGVzIGRpc3BvbmlibGVzIHkgY3XDoWwgZXMgc3Ugbm9tYnJlLg0KDQpgYGB7cn0NCmRpLmhpc3RvcmljYWwgPSBkYXRhSW52ZW50b3J5KGhpdHNvcmljYWwudXJsKQ0KbmFtZXMoZGkuaGlzdG9yaWNhbCkNCmBgYA0KDQpMYSB2YXJpYWJsZSBkZSB0ZW1wZXJhdHVyYSBtw6F4aW1hIHNlIGVuY3VlbnRyYSBiYWpvIGVsIG5vbWJyZSBkZSAqdGFzbWF4KiwgYXPDrSBwb2RlbW9zIHZlciBzdSBjb250ZW5pZG8uDQoNCmBgYHtyfQ0KZGkuaGlzdG9yaWNhbCR0YXNtYXgNCmBgYA0KDQpDb21vIGVzdGEgdmFyaWFibGUgc2UgZW5jdWVudHJhIGVuIGdyYWRvcyBLZWx2aW4sIHNlIGRlYmUgcmVhbGl6YXIgbGEgdHJhbnNmb3JtYWNpw7NuIGEgQ2VudGlncmFkb3MsIHBvciB0YWwgbW90aXZvIHNlIGRlYmUgY3JlYXIgdW4gZGljY2lvbmFyaW8gcGFyYSBlc3RhYmxlY2VyIHVuICpvZmZzZXQqIGRlIC0yNzMuMTUgeSBxdWUgbG9zIGRhdG9zIHJlc3VsdGFudGVzIHNlIGVuY3VlbnRyZW4gZW4gQ2VudGlncmFkb3M6DQoNCmBgYHtyfQ0KZmlsZS5jcmVhdGUoImRpYy5kaWMiKQ0Kd3JpdGVMaW5lcyhjKCJpZGVudGlmaWVyLHNob3J0X25hbWUsdGltZV9zdGVwLGxvd2VyX3RpbWVfYm91bmQsdXBwZXJfdGltZV9ib3VuZCxjZWxsX21ldG9kLG9mZnNldCxzY2FsZSxkZWFjY3VtLGRlcml2ZWQsaW50ZXJmYWNlIiwidGFzbWF4LHRhc21heCwyNGgsMCwyNCxtYXgsLTI3My4xNSwxLDAsMCwiKSwgImRpYy5kaWMiKQ0KYGBgDQoNCiMjIENhcmdhIGRlIGRhdG9zIHkgY8OhbGN1bG8gZGVsIElEDQoNCkxvcyBkYXRvcyBzb24gY2FyZ2Fkb3Mgb25saW5lLCBsYSB2YXJpYWJsZSBxdWUgc2UgdXNhIGVzICp0YXNtYXgqIGR1cmFudGUgbG9zIGHDsW9zIHkgbWVzZXMgZXNwZWlmaWNhZG9zIGVuIGVsIGRvbWluaW8gZXNwYWNpYWwgZXN0YWJsZWNpZG8uIFNlIHV0aWxpemEgZWwgZGljY2lvbmFyaW8gY3JlYWRvIHBhcmEgY29udmVydGlyIGxvcyBkYXRvcyBhIENlbnRpZ3JhZG9zIHkgeWEgcXVlIGVsIMOtbmRpY2UgSUQgc2UgYmFzYSBlbiBsb3MgZMOtYXMgZW4gcXVlICpUWCogZnVlIG1lbm9yIHF1ZSAwLCBzZSBlc3RhYmxlY2UgdW4gdW1icmFsIGVuIDAgeSB1bmEgY29uZGljacOzbiAqTFQqIChMb3dlciBUaGFuKSBwYXJhIGRldGVybWluYXIgc2kgdW4gZMOtYSBjdW1wbGnDsyBvIG5vIGNvbiBsYSBjb25kaWNpw7NuLiBTZSByZWFsaXphIHVuYSBhZ3JlZ2FjacOzbiBtZW5zdWFsIHBhcmEgc3VtYXIgdG9kb3MgbG9zIGTDrWFzIHF1ZSBjdW1wbGVuIGNvbiBsYSBjb25kaWNpw7NuLg0KDQpgYGB7cn0NCklELmggPSBsb2FkR3JpZERhdGEoaGl0c29yaWNhbC51cmwsDQogICAgICAgICAgICAgICAgICAgIHZhciA9ICJ0YXNtYXgiLA0KICAgICAgICAgICAgICAgICAgICBzZWFzb24gPSBzZWFzb25zLA0KICAgICAgICAgICAgICAgICAgICB5ZWFycyA9IHllYXJzLmhpc3RvcmljYWwsDQogICAgICAgICAgICAgICAgICAgIGxvbkxpbSA9IGxvbkxpbSwNCiAgICAgICAgICAgICAgICAgICAgbGF0TGltID0gbGF0TGltLA0KICAgICAgICAgICAgICAgICAgICBhZ2dyLm0gPSAic3VtIiwNCiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gIkxUIiwNCiAgICAgICAgICAgICAgICAgICAgdGhyZXNob2xkID0gMCwNCiAgICAgICAgICAgICAgICAgICAgZGljdGlvbmFyeSA9ICJkaWMuZGljIikNCmBgYA0KDQpgYGB7cn0NCklELmYgPSBsb2FkR3JpZERhdGEocmNwODUudXJsLA0KICAgICAgICAgICAgICAgICAgICB2YXIgPSAidGFzbWF4IiwNCiAgICAgICAgICAgICAgICAgICAgc2Vhc29uID0gc2Vhc29ucywNCiAgICAgICAgICAgICAgICAgICAgeWVhcnMgPSB5ZWFycy5mdXR1cmUsDQogICAgICAgICAgICAgICAgICAgIGxvbkxpbSA9IGxvbkxpbSwNCiAgICAgICAgICAgICAgICAgICAgbGF0TGltID0gbGF0TGltLA0KICAgICAgICAgICAgICAgICAgICBhZ2dyLm0gPSAic3VtIiwNCiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gIkxUIiwNCiAgICAgICAgICAgICAgICAgICAgdGhyZXNob2xkID0gMCwNCiAgICAgICAgICAgICAgICAgICAgZGljdGlvbmFyeSA9ICJkaWMuZGljIikNCmBgYA0KDQpFbCDDrW5kaWNlIElEIGVzIGFudWFsLCBwb3IgbG8gdGFudG8gbG9zIGRhdG9zIGFncmVnYWRvcyBtZW5zdWFsbWVudGUgYWhvcmEgZGViZW4gc2VyIGFncmVnYWRvcyBhbnVhbG1lbnRlOg0KDQpgYGB7cn0NCklELmggPSBhZ2dyZWdhdGVHcmlkKElELmgsYWdnci55ID0gbGlzdChGVU4gPSAic3VtIikpDQpJRC5mID0gYWdncmVnYXRlR3JpZChJRC5mLGFnZ3IueSA9IGxpc3QoRlVOID0gInN1bSIpKQ0KYGBgDQoNCiMjIyBWaXN1YWxpemFjacOzbg0KDQpFbiBsYSBzaWd1aWVudGUgZmlndXJhIHNlIG9ic2VydmEgbGEgY2xpbWF0b2xvZ8OtYSBkZWwgSUQgaGlzdMOzcmljbyB5IGRlbCBJRCBmdXR1cm8uDQoNCmBgYHtyfQ0Kc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koSUQuaCksYXQgPSBzZXEoMCwgMzAwLCAxMCksY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNpbmRleCksbWFpbiA9ICJJRCBIaXN0w7NyaWNvIikNCnNwYXRpYWxQbG90KGNsaW1hdG9sb2d5KElELmYpLGF0ID0gc2VxKDAsIDMwMCwgMTApLGNvbC5yZWdpb25zID0gY29sb3JSYW1wUGFsZXR0ZShjb2xzaW5kZXgpLG1haW4gPSAiSUQgRnV0dXJvIikNCmBgYA0KDQojIyBTZcOxYWwgZGUgQ2FtYmlvIENsaW3DoXRpY28NCg0KTGEgc2XDsWFsIGRlbCBjYW1iaW8gY2xpbcOhdGljbyBlcyBjYWxjdWxhZGEgY29tbyBsYSBkaWZlcmVuY2lhIGVudHJlIGFtYm9zIGNvbmp1bnRvczoNCg0KYGBge3J9DQpDQ3NpZ25hbCA9IGdyaWRBcml0aG1ldGljcyhJRC5mLElELmgsb3BlcmF0b3IgPSAiLSIpDQpgYGANCg0KIyMjIFZpc3VhbGl6YWNpw7NuDQoNCkFudGVzIGRlIHZpc3VhbGl6YXIgZWwgbWFwYSBkZSBsYSBzZcOxYWwgZGVsIGNhbWJpbyBjbGltw6F0aWNvIHNlIHJlYWxpemEgdW5hIHJlcHJveWVjY2nDs24gZGVsIHNpc3RlbWEgZGUgY29vcmRlbmFkYXMgZGUgcmVmZXJlbmNpYSBwYXJhIGNhbWJpYXIgZGUgY29vcmRlbmFkYXMgcG9sYXJlcyBhIHVuYSBwcm95ZWNjacOzbiBkZSBsYXRpdHVkIHkgbG9uZ2l0dWQuDQoNCmBgYHtyfQ0KQ0NzaWduYWwgPSBpbnRlcnBHcmlkKENDc2lnbmFsLG5ldy5jb29yZGluYXRlcyA9IGxpc3QoeCA9IHNlcSgzLjUsMzQsLjUpLHkgPSBzZXEoNTQuNSw3MS41LC41KSkpDQpgYGANCg0KRW4gbGEgc2lndWllbnRlIGZpZ3VyYSBzZSBwdWVkZSB2aXN1YWxpemFyIGxhIHNlw7FhbCBkZWwgY2FtYmlvIGNsaW3DoXRpY28gZGVsIMOtbmRpY2UgSUQgcGFyYSBsb3MgcGVyw61vZG9zIHkgZWwgw6FyZWEgZXN0dWRpYWRvcy4NCg0KYGBge3J9DQpzcGF0aWFsUGxvdChjbGltYXRvbG9neShDQ3NpZ25hbCksDQogICAgICAgICAgICBhdCA9IHNlcSgtMTAwLDAsNSksDQogICAgICAgICAgICBjb2wucmVnaW9ucyA9IGNvbG9yUmFtcFBhbGV0dGUoY29sc2RlbHRhKSwNCiAgICAgICAgICAgIG1haW4gPSAiSUQgQ0NTIiwNCiAgICAgICAgICAgIGJhY2tkcm9wLnRoZW1lID0gImNvdW50cmllcyIpDQpgYGANCg0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIsONbmRpY2UgSUQ6IFNlw7FhbCBkZSBDYW1iaW8gQ2xpbcOhdGljbyINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMgRWR1YXJkbyBSdcOteiBSdcOteg0KIyBEYXZpZCBNb250ZXJvIExvYWl6YQ0KDQpgYGB7cn0NCmxpYnJhcnkodmlzdWFsaXplUikNCmxpYnJhcnkobG9hZGVSKQ0KcmVxdWlyZSh0cmFuc2Zvcm1lUikNCnJlcXVpcmUoUkNvbG9yQnJld2VyKQ0KYGBgDQoNCmBgYHtyfQ0KY29sc3R4IDwtIHJldihicmV3ZXIucGFsKG4gPSA5LCAiU3BlY3RyYWwiKSkNCmNvbHNpbmRleCA8LSByZXYoYnJld2VyLnBhbChuID0gOSwgIlJkWWxCdSIpKQ0KY29sc2RlbHRhIDwtIGJyZXdlci5wYWwobiA9IDksICJSZWRzIikNCmNvbHNiaWFzIDwtIGJyZXdlci5wYWwobiA9IDksICJQaVlHIikNCmNvbHNzZCA8LSBicmV3ZXIucGFsKG4gPSA5LCAiQmx1ZXMiKQ0KYGBgDQoNCmBgYHtyfQ0KdGhlX3Bhc3N3b3JkID0gcmVhZGxpbmUocHJvbXB0ID0gIkluZ3Jlc2FyIGNvbnRyYXNlw7FhOiAiKQ0KbG9naW5VREcodXNlcm5hbWUgPSAiZG1sLm1vbnQiLCBwYXNzd29yZCA9IHRoZV9wYXNzd29yZCkNCmBgYA0KDQojIMONbmRpY2UgRVRDQ0RJDQoNCkVsIMOtbmRpY2UgRVRDQ0RJIHNlbGVjY2lvbmFkbyBlcyBlbCBJRCAoSWNpbmcgRGF5cyksIHF1ZSB1dGlsaXphIGxhIHZhcmlhYmxlIGRlIHRlbXBlcmF0dXJhIG3DoXhpbWEgJFRYJCBkaWFyaWEgZW4gZ3JhZG9zIGNlbnRpZ3JhZG9zIHBhcmEgY2FsY3VsYXIgZWwgbsO6bWVybyBkZSBkw61hcyBhbCBhw7FvIGVuIHF1ZSBsYSB0ZW1wZXJhdHVyYSBtw6F4aW1hIGRpYXJpYSBmdWUgbWVub3IgcXVlIDAgKCRUWDwwJCkuDQoNCiMjIMOBcmVhIHkgRmVjaGFzIGRlIGVzdHVkaW8NCg0KRWwgw6FyZWEgZGUgZXN0dWRpbyBkZSBlc3RlIHRyYWJham8gY29tcHJlbmRlIGEgbGEgcGVuw61uc3VsYSBFc2NhbmRpbmF2YSAoTm9ydWVnYSwgU3VlY2lhIHkgRmlubGFuZGlhKS4gTGFzIGNvb3JkZW5hZGFzIGRlIGxhIGV4dGVuc2nDs24gZGVsIMOhcmVhIGRlIGVzdHVkaW8gc2UgZ3VhcmRhbiBhIGNvbnRpbnVhY2nDs246DQoNCmBgYHtyfQ0KbG9uTGltID0gYygzLjYsMzMuOSkNCmxhdExpbSA9IGMoNTQuNCw3MS41KQ0KYGBgDQoNClBhcmEgZWwgcGVyw61vZG8gaGlzdMOzcmljbyBzZSBlc3RhYmxlY2nDs24gdW4gcmFuZ28gZGVzZGUgMTk3MSBoYXN0YSAyMDAwLCBtaWVudHJhcyBxdWUgcGFyYSBlbCBlc2NlbmFyaW8gZnV0dXJvIGNvbXByZW5kacOzIGxvcyBhw7FvcyBkZXNkZSAyMDMxIGhhc3RhIDIwNjAuIFNlIHV0aWxpemFyb24gdG9kb3MgbG9zIG1lc2VzIGRlbCBhw7FvLg0KDQpgYGB7cn0NCnllYXJzLmhpc3RvcmljYWwgPSAxOTcxOjIwMDANCnllYXJzLmZ1dHVyZSA9IDIwMzE6MjA2MA0Kc2Vhc29ucyA9IDE6MTINCmBgYA0KDQojIE1vZGVsbyAoQ0NMTTUpDQoNClNlIHV0aWxpesOzIGVsIFJDTSBkZSBDT1JERVggYSB1bmEgcmVzb2x1Y2nDs24gZXNwYWNpYWwgZGUgMC40NCBncmFkb3MgZGVjaW1hbGVzIChFVVItNDQpOg0KDQpgYGB7cn0NCmhpdHNvcmljYWwudXJsID0gImh0dHA6Ly9tZXRlby51bmljYW4uZXMvL3RkczUvZG9kc0MvY29yZGV4L0VVUi00NC9kYXkvRVRIL0lDSEVDLUVDLUVBUlRIX2hpc3RvcmljYWxfcjEyaTFwMV9DQ0xNNS0wLTZfdjFfZGF5Lm5jbWwiDQpyY3A4NS51cmwgPSAiaHR0cDovL21ldGVvLnVuaWNhbi5lcy8vdGRzNS9kb2RzQy9jb3JkZXgvRVVSLTQ0L2RheS9FVEgvSUNIRUMtRUMtRUFSVEhfcmNwODVfcjEyaTFwMV9DQ0xNNS0wLTZfdjFfZGF5Lm5jbWwiDQpgYGANCg0KSGFjZW1vcyB1biBpbnZlbnRhcmlvIHBhcmEgdmVyIGxhcyB2YXJpYWJsZXMgZGlzcG9uaWJsZXMgeSBjdcOhbCBlcyBzdSBub21icmUuDQoNCmBgYHtyfQ0KZGkuaGlzdG9yaWNhbCA9IGRhdGFJbnZlbnRvcnkoaGl0c29yaWNhbC51cmwpDQpuYW1lcyhkaS5oaXN0b3JpY2FsKQ0KYGBgDQoNCkxhIHZhcmlhYmxlIGRlIHRlbXBlcmF0dXJhIG3DoXhpbWEgc2UgZW5jdWVudHJhIGJham8gZWwgbm9tYnJlIGRlICp0YXNtYXgqLCBhc8OtIHBvZGVtb3MgdmVyIHN1IGNvbnRlbmlkby4NCg0KYGBge3J9DQpkaS5oaXN0b3JpY2FsJHRhc21heA0KYGBgDQoNCkNvbW8gZXN0YSB2YXJpYWJsZSBzZSBlbmN1ZW50cmEgZW4gZ3JhZG9zIEtlbHZpbiwgc2UgZGViZSByZWFsaXphciBsYSB0cmFuc2Zvcm1hY2nDs24gYSBDZW50aWdyYWRvcywgcG9yIHRhbCBtb3Rpdm8gc2UgZGViZSBjcmVhciB1biBkaWNjaW9uYXJpbyBwYXJhIGVzdGFibGVjZXIgdW4gKm9mZnNldCogZGUgLTI3My4xNSB5IHF1ZSBsb3MgZGF0b3MgcmVzdWx0YW50ZXMgc2UgZW5jdWVudHJlbiBlbiBDZW50aWdyYWRvczoNCg0KYGBge3J9DQpmaWxlLmNyZWF0ZSgiZGljLmRpYyIpDQp3cml0ZUxpbmVzKGMoImlkZW50aWZpZXIsc2hvcnRfbmFtZSx0aW1lX3N0ZXAsbG93ZXJfdGltZV9ib3VuZCx1cHBlcl90aW1lX2JvdW5kLGNlbGxfbWV0b2Qsb2Zmc2V0LHNjYWxlLGRlYWNjdW0sZGVyaXZlZCxpbnRlcmZhY2UiLCJ0YXNtYXgsdGFzbWF4LDI0aCwwLDI0LG1heCwtMjczLjE1LDEsMCwwLCIpLCAiZGljLmRpYyIpDQpgYGANCg0KIyMgQ2FyZ2EgZGUgZGF0b3MgeSBjw6FsY3VsbyBkZWwgSUQNCg0KTG9zIGRhdG9zIHNvbiBjYXJnYWRvcyBvbmxpbmUsIGxhIHZhcmlhYmxlIHF1ZSBzZSB1c2EgZXMgKnRhc21heCogZHVyYW50ZSBsb3MgYcOxb3MgeSBtZXNlcyBlc3BlaWZpY2Fkb3MgZW4gZWwgZG9taW5pbyBlc3BhY2lhbCBlc3RhYmxlY2lkby4gU2UgdXRpbGl6YSBlbCBkaWNjaW9uYXJpbyBjcmVhZG8gcGFyYSBjb252ZXJ0aXIgbG9zIGRhdG9zIGEgQ2VudGlncmFkb3MgeSB5YSBxdWUgZWwgw61uZGljZSBJRCBzZSBiYXNhIGVuIGxvcyBkw61hcyBlbiBxdWUgKlRYKiBmdWUgbWVub3IgcXVlIDAsIHNlIGVzdGFibGVjZSB1biB1bWJyYWwgZW4gMCB5IHVuYSBjb25kaWNpw7NuICpMVCogKExvd2VyIFRoYW4pIHBhcmEgZGV0ZXJtaW5hciBzaSB1biBkw61hIGN1bXBsacOzIG8gbm8gY29uIGxhIGNvbmRpY2nDs24uIFNlIHJlYWxpemEgdW5hIGFncmVnYWNpw7NuIG1lbnN1YWwgcGFyYSBzdW1hciB0b2RvcyBsb3MgZMOtYXMgcXVlIGN1bXBsZW4gY29uIGxhIGNvbmRpY2nDs24uDQoNCmBgYHtyfQ0KSUQuaCA9IGxvYWRHcmlkRGF0YShoaXRzb3JpY2FsLnVybCwNCiAgICAgICAgICAgICAgICAgICAgdmFyID0gInRhc21heCIsDQogICAgICAgICAgICAgICAgICAgIHNlYXNvbiA9IHNlYXNvbnMsDQogICAgICAgICAgICAgICAgICAgIHllYXJzID0geWVhcnMuaGlzdG9yaWNhbCwNCiAgICAgICAgICAgICAgICAgICAgbG9uTGltID0gbG9uTGltLA0KICAgICAgICAgICAgICAgICAgICBsYXRMaW0gPSBsYXRMaW0sDQogICAgICAgICAgICAgICAgICAgIGFnZ3IubSA9ICJzdW0iLA0KICAgICAgICAgICAgICAgICAgICBjb25kaXRpb24gPSAiTFQiLA0KICAgICAgICAgICAgICAgICAgICB0aHJlc2hvbGQgPSAwLA0KICAgICAgICAgICAgICAgICAgICBkaWN0aW9uYXJ5ID0gImRpYy5kaWMiKQ0KYGBgDQoNCmBgYHtyfQ0KSUQuZiA9IGxvYWRHcmlkRGF0YShyY3A4NS51cmwsDQogICAgICAgICAgICAgICAgICAgIHZhciA9ICJ0YXNtYXgiLA0KICAgICAgICAgICAgICAgICAgICBzZWFzb24gPSBzZWFzb25zLA0KICAgICAgICAgICAgICAgICAgICB5ZWFycyA9IHllYXJzLmZ1dHVyZSwNCiAgICAgICAgICAgICAgICAgICAgbG9uTGltID0gbG9uTGltLA0KICAgICAgICAgICAgICAgICAgICBsYXRMaW0gPSBsYXRMaW0sDQogICAgICAgICAgICAgICAgICAgIGFnZ3IubSA9ICJzdW0iLA0KICAgICAgICAgICAgICAgICAgICBjb25kaXRpb24gPSAiTFQiLA0KICAgICAgICAgICAgICAgICAgICB0aHJlc2hvbGQgPSAwLA0KICAgICAgICAgICAgICAgICAgICBkaWN0aW9uYXJ5ID0gImRpYy5kaWMiKQ0KYGBgDQoNCkVsIMOtbmRpY2UgSUQgZXMgYW51YWwsIHBvciBsbyB0YW50byBsb3MgZGF0b3MgYWdyZWdhZG9zIG1lbnN1YWxtZW50ZSBhaG9yYSBkZWJlbiBzZXIgYWdyZWdhZG9zIGFudWFsbWVudGU6DQoNCmBgYHtyfQ0KSUQuaCA9IGFnZ3JlZ2F0ZUdyaWQoSUQuaCxhZ2dyLnkgPSBsaXN0KEZVTiA9ICJzdW0iKSkNCklELmYgPSBhZ2dyZWdhdGVHcmlkKElELmYsYWdnci55ID0gbGlzdChGVU4gPSAic3VtIikpDQpgYGANCg0KIyMjIFZpc3VhbGl6YWNpw7NuDQoNCkVuIGxhIHNpZ3VpZW50ZSBmaWd1cmEgc2Ugb2JzZXJ2YSBsYSBjbGltYXRvbG9nw61hIGRlbCBJRCBoaXN0w7NyaWNvIHkgZGVsIElEIGZ1dHVyby4NCg0KYGBge3J9DQpzcGF0aWFsUGxvdChjbGltYXRvbG9neShJRC5oKSxhdCA9IHNlcSgwLCAzMDAsIDEwKSxjb2wucmVnaW9ucyA9IGNvbG9yUmFtcFBhbGV0dGUoY29sc2luZGV4KSxtYWluID0gIklEIEhpc3TDs3JpY28iKQ0Kc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koSUQuZiksYXQgPSBzZXEoMCwgMzAwLCAxMCksY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNpbmRleCksbWFpbiA9ICJJRCBGdXR1cm8iKQ0KYGBgDQoNCiMjIFNlw7FhbCBkZSBDYW1iaW8gQ2xpbcOhdGljbw0KDQpMYSBzZcOxYWwgZGVsIGNhbWJpbyBjbGltw6F0aWNvIGVzIGNhbGN1bGFkYSBjb21vIGxhIGRpZmVyZW5jaWEgZW50cmUgYW1ib3MgY29uanVudG9zOg0KDQpgYGB7cn0NCkNDc2lnbmFsID0gZ3JpZEFyaXRobWV0aWNzKElELmYsSUQuaCxvcGVyYXRvciA9ICItIikNCmBgYA0KDQojIyMgVmlzdWFsaXphY2nDs24NCg0KQW50ZXMgZGUgdmlzdWFsaXphciBlbCBtYXBhIGRlIGxhIHNlw7FhbCBkZWwgY2FtYmlvIGNsaW3DoXRpY28gc2UgcmVhbGl6YSB1bmEgcmVwcm95ZWNjacOzbiBkZWwgc2lzdGVtYSBkZSBjb29yZGVuYWRhcyBkZSByZWZlcmVuY2lhIHBhcmEgY2FtYmlhciBkZSBjb29yZGVuYWRhcyBwb2xhcmVzIGEgdW5hIHByb3llY2Npw7NuIGRlIGxhdGl0dWQgeSBsb25naXR1ZC4NCg0KYGBge3J9DQpDQ3NpZ25hbCA9IGludGVycEdyaWQoQ0NzaWduYWwsbmV3LmNvb3JkaW5hdGVzID0gbGlzdCh4ID0gc2VxKDMuNSwzNCwuNSkseSA9IHNlcSg1NC41LDcxLjUsLjUpKSkNCmBgYA0KDQpFbiBsYSBzaWd1aWVudGUgZmlndXJhIHNlIHB1ZWRlIHZpc3VhbGl6YXIgbGEgc2XDsWFsIGRlbCBjYW1iaW8gY2xpbcOhdGljbyBkZWwgw61uZGljZSBJRCBwYXJhIGxvcyBwZXLDrW9kb3MgeSBlbCDDoXJlYSBlc3R1ZGlhZG9zLg0KDQpgYGB7cn0NCnNwYXRpYWxQbG90KGNsaW1hdG9sb2d5KENDc2lnbmFsKSwNCiAgICAgICAgICAgIGF0ID0gc2VxKC0xMDAsMCw1KSwNCiAgICAgICAgICAgIGNvbC5yZWdpb25zID0gY29sb3JSYW1wUGFsZXR0ZShjb2xzZGVsdGEpLA0KICAgICAgICAgICAgbWFpbiA9ICJJRCBDQ1MiLA0KICAgICAgICAgICAgYmFja2Ryb3AudGhlbWUgPSAiY291bnRyaWVzIikNCmBgYA0KDQojIE1vZGVsbyAoUkFDTU8yMkUpDQoNClNlIHV0aWxpesOzIGVsIFJDTSBkZSBDT1JERVggYSB1bmEgcmVzb2x1Y2nDs24gZXNwYWNpYWwgZGUgMC40NCBncmFkb3MgZGVjaW1hbGVzIChFVVItNDQpOg0KDQpgYGB7cn0NCmhpdHNvcmljYWwudXJsID0gImh0dHA6Ly9tZXRlby51bmljYW4uZXMvL3RkczUvZG9kc0MvY29yZGV4L0VVUi00NC9kYXkvS05NSS9JQ0hFQy1FQy1FQVJUSF9oaXN0b3JpY2FsX3IxaTFwMV9SQUNNTzIyRV92MV9kYXkubmNtbCINCnJjcDg1LnVybCA9ICJodHRwOi8vbWV0ZW8udW5pY2FuLmVzLy90ZHM1L2RvZHNDL2NvcmRleC9FVVItNDQvZGF5L0tOTUkvSUNIRUMtRUMtRUFSVEhfcmNwODVfcjFpMXAxX1JBQ01PMjJFX3YxX2RheS5uY21sIg0KYGBgDQoNCkhhY2Vtb3MgdW4gaW52ZW50YXJpbyBwYXJhIHZlciBsYXMgdmFyaWFibGVzIGRpc3BvbmlibGVzIHkgY3XDoWwgZXMgc3Ugbm9tYnJlLg0KDQpgYGB7cn0NCmRpLmhpc3RvcmljYWwgPSBkYXRhSW52ZW50b3J5KGhpdHNvcmljYWwudXJsKQ0KbmFtZXMoZGkuaGlzdG9yaWNhbCkNCmBgYA0KDQpMYSB2YXJpYWJsZSBkZSB0ZW1wZXJhdHVyYSBtw6F4aW1hIHNlIGVuY3VlbnRyYSBiYWpvIGVsIG5vbWJyZSBkZSAqdGFzbWF4KiwgYXPDrSBwb2RlbW9zIHZlciBzdSBjb250ZW5pZG8uDQoNCmBgYHtyfQ0KZGkuaGlzdG9yaWNhbCR0YXNtYXgNCmBgYA0KDQpDb21vIGVzdGEgdmFyaWFibGUgc2UgZW5jdWVudHJhIGVuIGdyYWRvcyBLZWx2aW4sIHNlIGRlYmUgcmVhbGl6YXIgbGEgdHJhbnNmb3JtYWNpw7NuIGEgQ2VudGlncmFkb3MsIHBvciB0YWwgbW90aXZvIHNlIGRlYmUgY3JlYXIgdW4gZGljY2lvbmFyaW8gcGFyYSBlc3RhYmxlY2VyIHVuICpvZmZzZXQqIGRlIC0yNzMuMTUgeSBxdWUgbG9zIGRhdG9zIHJlc3VsdGFudGVzIHNlIGVuY3VlbnRyZW4gZW4gQ2VudGlncmFkb3M6DQoNCmBgYHtyfQ0KZmlsZS5jcmVhdGUoImRpYy5kaWMiKQ0Kd3JpdGVMaW5lcyhjKCJpZGVudGlmaWVyLHNob3J0X25hbWUsdGltZV9zdGVwLGxvd2VyX3RpbWVfYm91bmQsdXBwZXJfdGltZV9ib3VuZCxjZWxsX21ldG9kLG9mZnNldCxzY2FsZSxkZWFjY3VtLGRlcml2ZWQsaW50ZXJmYWNlIiwidGFzbWF4LHRhc21heCwyNGgsMCwyNCxtYXgsLTI3My4xNSwxLDAsMCwiKSwgImRpYy5kaWMiKQ0KYGBgDQoNCiMjIENhcmdhIGRlIGRhdG9zIHkgY8OhbGN1bG8gZGVsIElEDQoNCkxvcyBkYXRvcyBzb24gY2FyZ2Fkb3Mgb25saW5lLCBsYSB2YXJpYWJsZSBxdWUgc2UgdXNhIGVzICp0YXNtYXgqIGR1cmFudGUgbG9zIGHDsW9zIHkgbWVzZXMgZXNwZWlmaWNhZG9zIGVuIGVsIGRvbWluaW8gZXNwYWNpYWwgZXN0YWJsZWNpZG8uIFNlIHV0aWxpemEgZWwgZGljY2lvbmFyaW8gY3JlYWRvIHBhcmEgY29udmVydGlyIGxvcyBkYXRvcyBhIENlbnRpZ3JhZG9zIHkgeWEgcXVlIGVsIMOtbmRpY2UgSUQgc2UgYmFzYSBlbiBsb3MgZMOtYXMgZW4gcXVlICpUWCogZnVlIG1lbm9yIHF1ZSAwLCBzZSBlc3RhYmxlY2UgdW4gdW1icmFsIGVuIDAgeSB1bmEgY29uZGljacOzbiAqTFQqIChMb3dlciBUaGFuKSBwYXJhIGRldGVybWluYXIgc2kgdW4gZMOtYSBjdW1wbGnDsyBvIG5vIGNvbiBsYSBjb25kaWNpw7NuLiBTZSByZWFsaXphIHVuYSBhZ3JlZ2FjacOzbiBtZW5zdWFsIHBhcmEgc3VtYXIgdG9kb3MgbG9zIGTDrWFzIHF1ZSBjdW1wbGVuIGNvbiBsYSBjb25kaWNpw7NuLg0KDQpgYGB7cn0NCklELmggPSBsb2FkR3JpZERhdGEoaGl0c29yaWNhbC51cmwsDQogICAgICAgICAgICAgICAgICAgIHZhciA9ICJ0YXNtYXgiLA0KICAgICAgICAgICAgICAgICAgICBzZWFzb24gPSBzZWFzb25zLA0KICAgICAgICAgICAgICAgICAgICB5ZWFycyA9IHllYXJzLmhpc3RvcmljYWwsDQogICAgICAgICAgICAgICAgICAgIGxvbkxpbSA9IGxvbkxpbSwNCiAgICAgICAgICAgICAgICAgICAgbGF0TGltID0gbGF0TGltLA0KICAgICAgICAgICAgICAgICAgICBhZ2dyLm0gPSAic3VtIiwNCiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gIkxUIiwNCiAgICAgICAgICAgICAgICAgICAgdGhyZXNob2xkID0gMCwNCiAgICAgICAgICAgICAgICAgICAgZGljdGlvbmFyeSA9ICJkaWMuZGljIikNCmBgYA0KDQpgYGB7cn0NCklELmYgPSBsb2FkR3JpZERhdGEocmNwODUudXJsLA0KICAgICAgICAgICAgICAgICAgICB2YXIgPSAidGFzbWF4IiwNCiAgICAgICAgICAgICAgICAgICAgc2Vhc29uID0gc2Vhc29ucywNCiAgICAgICAgICAgICAgICAgICAgeWVhcnMgPSB5ZWFycy5mdXR1cmUsDQogICAgICAgICAgICAgICAgICAgIGxvbkxpbSA9IGxvbkxpbSwNCiAgICAgICAgICAgICAgICAgICAgbGF0TGltID0gbGF0TGltLA0KICAgICAgICAgICAgICAgICAgICBhZ2dyLm0gPSAic3VtIiwNCiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gIkxUIiwNCiAgICAgICAgICAgICAgICAgICAgdGhyZXNob2xkID0gMCwNCiAgICAgICAgICAgICAgICAgICAgZGljdGlvbmFyeSA9ICJkaWMuZGljIikNCmBgYA0KDQpFbCDDrW5kaWNlIElEIGVzIGFudWFsLCBwb3IgbG8gdGFudG8gbG9zIGRhdG9zIGFncmVnYWRvcyBtZW5zdWFsbWVudGUgYWhvcmEgZGViZW4gc2VyIGFncmVnYWRvcyBhbnVhbG1lbnRlOg0KDQpgYGB7cn0NCklELmggPSBhZ2dyZWdhdGVHcmlkKElELmgsYWdnci55ID0gbGlzdChGVU4gPSAic3VtIikpDQpJRC5mID0gYWdncmVnYXRlR3JpZChJRC5mLGFnZ3IueSA9IGxpc3QoRlVOID0gInN1bSIpKQ0KYGBgDQoNCiMjIyBWaXN1YWxpemFjacOzbg0KDQpFbiBsYSBzaWd1aWVudGUgZmlndXJhIHNlIG9ic2VydmEgbGEgY2xpbWF0b2xvZ8OtYSBkZWwgSUQgaGlzdMOzcmljbyB5IGRlbCBJRCBmdXR1cm8uDQoNCmBgYHtyfQ0Kc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koSUQuaCksYXQgPSBzZXEoMCwgMzAwLCAxMCksY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNpbmRleCksbWFpbiA9ICJJRCBIaXN0w7NyaWNvIikNCnNwYXRpYWxQbG90KGNsaW1hdG9sb2d5KElELmYpLGF0ID0gc2VxKDAsIDMwMCwgMTApLGNvbC5yZWdpb25zID0gY29sb3JSYW1wUGFsZXR0ZShjb2xzaW5kZXgpLG1haW4gPSAiSUQgRnV0dXJvIikNCmBgYA0KDQojIyBTZcOxYWwgZGUgQ2FtYmlvIENsaW3DoXRpY28NCg0KTGEgc2XDsWFsIGRlbCBjYW1iaW8gY2xpbcOhdGljbyBlcyBjYWxjdWxhZGEgY29tbyBsYSBkaWZlcmVuY2lhIGVudHJlIGFtYm9zIGNvbmp1bnRvczoNCg0KYGBge3J9DQpDQ3NpZ25hbCA9IGdyaWRBcml0aG1ldGljcyhJRC5mLElELmgsb3BlcmF0b3IgPSAiLSIpDQpgYGANCg0KIyMjIFZpc3VhbGl6YWNpw7NuDQoNCkFudGVzIGRlIHZpc3VhbGl6YXIgZWwgbWFwYSBkZSBsYSBzZcOxYWwgZGVsIGNhbWJpbyBjbGltw6F0aWNvIHNlIHJlYWxpemEgdW5hIHJlcHJveWVjY2nDs24gZGVsIHNpc3RlbWEgZGUgY29vcmRlbmFkYXMgZGUgcmVmZXJlbmNpYSBwYXJhIGNhbWJpYXIgZGUgY29vcmRlbmFkYXMgcG9sYXJlcyBhIHVuYSBwcm95ZWNjacOzbiBkZSBsYXRpdHVkIHkgbG9uZ2l0dWQuDQoNCmBgYHtyfQ0KQ0NzaWduYWwgPSBpbnRlcnBHcmlkKENDc2lnbmFsLG5ldy5jb29yZGluYXRlcyA9IGxpc3QoeCA9IHNlcSgzLjUsMzQsLjUpLHkgPSBzZXEoNTQuNSw3MS41LC41KSkpDQpgYGANCg0KRW4gbGEgc2lndWllbnRlIGZpZ3VyYSBzZSBwdWVkZSB2aXN1YWxpemFyIGxhIHNlw7FhbCBkZWwgY2FtYmlvIGNsaW3DoXRpY28gZGVsIMOtbmRpY2UgSUQgcGFyYSBsb3MgcGVyw61vZG9zIHkgZWwgw6FyZWEgZXN0dWRpYWRvcy4NCg0KYGBge3J9DQpzcGF0aWFsUGxvdChjbGltYXRvbG9neShDQ3NpZ25hbCksDQogICAgICAgICAgICBhdCA9IHNlcSgtMTAwLDAsNSksDQogICAgICAgICAgICBjb2wucmVnaW9ucyA9IGNvbG9yUmFtcFBhbGV0dGUoY29sc2RlbHRhKSwNCiAgICAgICAgICAgIG1haW4gPSAiSUQgQ0NTIiwNCiAgICAgICAgICAgIGJhY2tkcm9wLnRoZW1lID0gImNvdW50cmllcyIpDQpgYGANCg0KIyBNb2RlbG8gKFJDQTQpDQoNClNlIHV0aWxpesOzIGVsIFJDTSBkZSBDT1JERVggYSB1bmEgcmVzb2x1Y2nDs24gZXNwYWNpYWwgZGUgMC40NCBncmFkb3MgZGVjaW1hbGVzIChFVVItNDQpOg0KDQpgYGB7cn0NCmhpdHNvcmljYWwudXJsID0gImh0dHA6Ly9tZXRlby51bmljYW4uZXMvL3RkczUvZG9kc0MvY29yZGV4L0VVUi00NC9kYXkvU01ISS9JQ0hFQy1FQy1FQVJUSF9oaXN0b3JpY2FsX3IxMmkxcDFfUkNBNF92MV9kYXkubmNtbCINCnJjcDg1LnVybCA9ICJodHRwOi8vbWV0ZW8udW5pY2FuLmVzLy90ZHM1L2RvZHNDL2NvcmRleC9FVVItNDQvZGF5L1NNSEkvSUNIRUMtRUMtRUFSVEhfcmNwODVfcjEyaTFwMV9SQ0E0X3YxX2RheS5uY21sIg0KYGBgDQoNCkhhY2Vtb3MgdW4gaW52ZW50YXJpbyBwYXJhIHZlciBsYXMgdmFyaWFibGVzIGRpc3BvbmlibGVzIHkgY3XDoWwgZXMgc3Ugbm9tYnJlLg0KDQpgYGB7cn0NCmRpLmhpc3RvcmljYWwgPSBkYXRhSW52ZW50b3J5KGhpdHNvcmljYWwudXJsKQ0KbmFtZXMoZGkuaGlzdG9yaWNhbCkNCmBgYA0KDQpMYSB2YXJpYWJsZSBkZSB0ZW1wZXJhdHVyYSBtw6F4aW1hIHNlIGVuY3VlbnRyYSBiYWpvIGVsIG5vbWJyZSBkZSAqdGFzbWF4KiwgYXPDrSBwb2RlbW9zIHZlciBzdSBjb250ZW5pZG8uDQoNCmBgYHtyfQ0KZGkuaGlzdG9yaWNhbCR0YXNtYXgNCmBgYA0KDQpDb21vIGVzdGEgdmFyaWFibGUgc2UgZW5jdWVudHJhIGVuIGdyYWRvcyBLZWx2aW4sIHNlIGRlYmUgcmVhbGl6YXIgbGEgdHJhbnNmb3JtYWNpw7NuIGEgQ2VudGlncmFkb3MsIHBvciB0YWwgbW90aXZvIHNlIGRlYmUgY3JlYXIgdW4gZGljY2lvbmFyaW8gcGFyYSBlc3RhYmxlY2VyIHVuICpvZmZzZXQqIGRlIC0yNzMuMTUgeSBxdWUgbG9zIGRhdG9zIHJlc3VsdGFudGVzIHNlIGVuY3VlbnRyZW4gZW4gQ2VudGlncmFkb3M6DQoNCmBgYHtyfQ0KZmlsZS5jcmVhdGUoImRpYy5kaWMiKQ0Kd3JpdGVMaW5lcyhjKCJpZGVudGlmaWVyLHNob3J0X25hbWUsdGltZV9zdGVwLGxvd2VyX3RpbWVfYm91bmQsdXBwZXJfdGltZV9ib3VuZCxjZWxsX21ldG9kLG9mZnNldCxzY2FsZSxkZWFjY3VtLGRlcml2ZWQsaW50ZXJmYWNlIiwidGFzbWF4LHRhc21heCwyNGgsMCwyNCxtYXgsLTI3My4xNSwxLDAsMCwiKSwgImRpYy5kaWMiKQ0KYGBgDQoNCiMjIENhcmdhIGRlIGRhdG9zIHkgY8OhbGN1bG8gZGVsIElEDQoNCkxvcyBkYXRvcyBzb24gY2FyZ2Fkb3Mgb25saW5lLCBsYSB2YXJpYWJsZSBxdWUgc2UgdXNhIGVzICp0YXNtYXgqIGR1cmFudGUgbG9zIGHDsW9zIHkgbWVzZXMgZXNwZWlmaWNhZG9zIGVuIGVsIGRvbWluaW8gZXNwYWNpYWwgZXN0YWJsZWNpZG8uIFNlIHV0aWxpemEgZWwgZGljY2lvbmFyaW8gY3JlYWRvIHBhcmEgY29udmVydGlyIGxvcyBkYXRvcyBhIENlbnRpZ3JhZG9zIHkgeWEgcXVlIGVsIMOtbmRpY2UgSUQgc2UgYmFzYSBlbiBsb3MgZMOtYXMgZW4gcXVlICpUWCogZnVlIG1lbm9yIHF1ZSAwLCBzZSBlc3RhYmxlY2UgdW4gdW1icmFsIGVuIDAgeSB1bmEgY29uZGljacOzbiAqTFQqIChMb3dlciBUaGFuKSBwYXJhIGRldGVybWluYXIgc2kgdW4gZMOtYSBjdW1wbGnDsyBvIG5vIGNvbiBsYSBjb25kaWNpw7NuLiBTZSByZWFsaXphIHVuYSBhZ3JlZ2FjacOzbiBtZW5zdWFsIHBhcmEgc3VtYXIgdG9kb3MgbG9zIGTDrWFzIHF1ZSBjdW1wbGVuIGNvbiBsYSBjb25kaWNpw7NuLg0KDQpgYGB7cn0NCklELmggPSBsb2FkR3JpZERhdGEoaGl0c29yaWNhbC51cmwsDQogICAgICAgICAgICAgICAgICAgIHZhciA9ICJ0YXNtYXgiLA0KICAgICAgICAgICAgICAgICAgICBzZWFzb24gPSBzZWFzb25zLA0KICAgICAgICAgICAgICAgICAgICB5ZWFycyA9IHllYXJzLmhpc3RvcmljYWwsDQogICAgICAgICAgICAgICAgICAgIGxvbkxpbSA9IGxvbkxpbSwNCiAgICAgICAgICAgICAgICAgICAgbGF0TGltID0gbGF0TGltLA0KICAgICAgICAgICAgICAgICAgICBhZ2dyLm0gPSAic3VtIiwNCiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gIkxUIiwNCiAgICAgICAgICAgICAgICAgICAgdGhyZXNob2xkID0gMCwNCiAgICAgICAgICAgICAgICAgICAgZGljdGlvbmFyeSA9ICJkaWMuZGljIikNCmBgYA0KDQpgYGB7cn0NCklELmYgPSBsb2FkR3JpZERhdGEocmNwODUudXJsLA0KICAgICAgICAgICAgICAgICAgICB2YXIgPSAidGFzbWF4IiwNCiAgICAgICAgICAgICAgICAgICAgc2Vhc29uID0gc2Vhc29ucywNCiAgICAgICAgICAgICAgICAgICAgeWVhcnMgPSB5ZWFycy5mdXR1cmUsDQogICAgICAgICAgICAgICAgICAgIGxvbkxpbSA9IGxvbkxpbSwNCiAgICAgICAgICAgICAgICAgICAgbGF0TGltID0gbGF0TGltLA0KICAgICAgICAgICAgICAgICAgICBhZ2dyLm0gPSAic3VtIiwNCiAgICAgICAgICAgICAgICAgICAgY29uZGl0aW9uID0gIkxUIiwNCiAgICAgICAgICAgICAgICAgICAgdGhyZXNob2xkID0gMCwNCiAgICAgICAgICAgICAgICAgICAgZGljdGlvbmFyeSA9ICJkaWMuZGljIikNCmBgYA0KDQpFbCDDrW5kaWNlIElEIGVzIGFudWFsLCBwb3IgbG8gdGFudG8gbG9zIGRhdG9zIGFncmVnYWRvcyBtZW5zdWFsbWVudGUgYWhvcmEgZGViZW4gc2VyIGFncmVnYWRvcyBhbnVhbG1lbnRlOg0KDQpgYGB7cn0NCklELmggPSBhZ2dyZWdhdGVHcmlkKElELmgsYWdnci55ID0gbGlzdChGVU4gPSAic3VtIikpDQpJRC5mID0gYWdncmVnYXRlR3JpZChJRC5mLGFnZ3IueSA9IGxpc3QoRlVOID0gInN1bSIpKQ0KYGBgDQoNCiMjIyBWaXN1YWxpemFjacOzbg0KDQpFbiBsYSBzaWd1aWVudGUgZmlndXJhIHNlIG9ic2VydmEgbGEgY2xpbWF0b2xvZ8OtYSBkZWwgSUQgaGlzdMOzcmljbyB5IGRlbCBJRCBmdXR1cm8uDQoNCmBgYHtyfQ0Kc3BhdGlhbFBsb3QoY2xpbWF0b2xvZ3koSUQuaCksYXQgPSBzZXEoMCwgMzAwLCAxMCksY29sLnJlZ2lvbnMgPSBjb2xvclJhbXBQYWxldHRlKGNvbHNpbmRleCksbWFpbiA9ICJJRCBIaXN0w7NyaWNvIikNCnNwYXRpYWxQbG90KGNsaW1hdG9sb2d5KElELmYpLGF0ID0gc2VxKDAsIDMwMCwgMTApLGNvbC5yZWdpb25zID0gY29sb3JSYW1wUGFsZXR0ZShjb2xzaW5kZXgpLG1haW4gPSAiSUQgRnV0dXJvIikNCmBgYA0KDQojIyBTZcOxYWwgZGUgQ2FtYmlvIENsaW3DoXRpY28NCg0KTGEgc2XDsWFsIGRlbCBjYW1iaW8gY2xpbcOhdGljbyBlcyBjYWxjdWxhZGEgY29tbyBsYSBkaWZlcmVuY2lhIGVudHJlIGFtYm9zIGNvbmp1bnRvczoNCg0KYGBge3J9DQpDQ3NpZ25hbCA9IGdyaWRBcml0aG1ldGljcyhJRC5mLElELmgsb3BlcmF0b3IgPSAiLSIpDQpgYGANCg0KIyMjIFZpc3VhbGl6YWNpw7NuDQoNCkFudGVzIGRlIHZpc3VhbGl6YXIgZWwgbWFwYSBkZSBsYSBzZcOxYWwgZGVsIGNhbWJpbyBjbGltw6F0aWNvIHNlIHJlYWxpemEgdW5hIHJlcHJveWVjY2nDs24gZGVsIHNpc3RlbWEgZGUgY29vcmRlbmFkYXMgZGUgcmVmZXJlbmNpYSBwYXJhIGNhbWJpYXIgZGUgY29vcmRlbmFkYXMgcG9sYXJlcyBhIHVuYSBwcm95ZWNjacOzbiBkZSBsYXRpdHVkIHkgbG9uZ2l0dWQuDQoNCmBgYHtyfQ0KQ0NzaWduYWwgPSBpbnRlcnBHcmlkKENDc2lnbmFsLG5ldy5jb29yZGluYXRlcyA9IGxpc3QoeCA9IHNlcSgzLjUsMzQsLjUpLHkgPSBzZXEoNTQuNSw3MS41LC41KSkpDQpgYGANCg0KRW4gbGEgc2lndWllbnRlIGZpZ3VyYSBzZSBwdWVkZSB2aXN1YWxpemFyIGxhIHNlw7FhbCBkZWwgY2FtYmlvIGNsaW3DoXRpY28gZGVsIMOtbmRpY2UgSUQgcGFyYSBsb3MgcGVyw61vZG9zIHkgZWwgw6FyZWEgZXN0dWRpYWRvcy4NCg0KYGBge3J9DQpzcGF0aWFsUGxvdChjbGltYXRvbG9neShDQ3NpZ25hbCksDQogICAgICAgICAgICBhdCA9IHNlcSgtMTAwLDAsNSksDQogICAgICAgICAgICBjb2wucmVnaW9ucyA9IGNvbG9yUmFtcFBhbGV0dGUoY29sc2RlbHRhKSwNCiAgICAgICAgICAgIG1haW4gPSAiSUQgQ0NTIiwNCiAgICAgICAgICAgIGJhY2tkcm9wLnRoZW1lID0gImNvdW50cmllcyIpDQpgYGANCg0K</div>
 
 
 
