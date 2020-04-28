@@ -17,6 +17,7 @@ class posterior:
     
     def lnprior(self, p, arg):
         if p[0]>0. or p[1]>arg[0] or p[1]<arg[1] or p[2]>0.:
+#        if p[0]>0. or p[1]>0.:
             return 0. 
         else:
             return -np.inf
@@ -43,9 +44,9 @@ class posterior:
         self.ns = ns
         self.data_scal = data_scal[:,:lmax+1]/fl
         
-#        self.cl_scal_ns1 = data_scal[30,:lmax+1]/fl
+#        self.cl_scal_ns1 = data_scal[30,:lmax+1]/fl # COMENTAR
         
-#        self.interp = []
+#        self.interp = [] # COMENTAR
 #        for l in range(lmax+1):
 #            self.interp.append(interp1d(ns, data_scal[:,l]/fl[l]))
 
@@ -100,11 +101,11 @@ class posterior:
             converged = err < tol
             converged &= i >= min_n
             if converged:
-                print ' Converged!'
+                print(' Converged!')
                 ite.close()
                 return lnev
             old_lnev = lnev
 
-        print 'Evidence not converged: err = %7.1e' % err
+        print('Evidence not converged: err = %7.1e' % err)
         return None
 
