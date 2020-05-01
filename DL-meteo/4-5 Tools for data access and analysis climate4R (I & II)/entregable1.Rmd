@@ -5,12 +5,44 @@ output:
     df_print: paged
 ---
 
-# Eduardo Ruíz Ruíz
-# David Montero Loaiza
+## Eduardo Ruíz Ruíz
+## David Montero Loaiza
 
-## Ajustes iniciales
+## Introducción
 
-Cargar paquetes:
+Diferentes índices ETCCDI han sido generados como indicadores del cambio climático (Clivar, 2009). En este estudio se utilizó el índice Icing Days (ID) como índicador del cambio climático. El índice ETCCDI ID utiliza la variable de temperatura máxima $TX$ diaria en grados centigrados para calcular el número de días al año en que la temperatura máxima diaria fue menor que 0 ($TX<0$).
+
+Teniendo en cuenta 3 modelos de CORDEX (Europa), se evaluó si mediante el índice ID se podía detectar una señal de cambio climático que, en este caso, afectara la cantidad de días al año en que la temperatura máxima diaria fuera menor que 0. Los 3 modelos de CORDEX usados fueron el CCLM5, el RACMO22E y el RCA4, todos a una resolución espacial de 0.44 grados decimales.
+
+## Materiales y Métodos
+
+### Área de estudio
+
+El área de estudio de este trabajo comprendió a la península Escandinava (Noruega, Suecia y Finlandia). Las coordenadas de la extensión del área de estudio estan dadas por una longitud mínima de 3.6 E, una longitud máxima de 33.9 E, una latitud mínima de 54.4 N y una latitud máxima de 71.5 N.
+
+```{r}
+lonLim = c(3.6,33.9)
+latLim = c(54.4,71.5)
+```
+
+### Períodos de estudio
+
+Dos períodos de estudio, de 30 años cada uno, se tuvieron en cuenta para calcular la señal de cambio climático: un período histórico que comprende los años 1971-2000, y un período futuro, que comprende los años 2031-2060.
+
+```{r}
+years.historical = 1971:2000
+years.future = 2031:2060
+```
+
+Durante cada uno de los años se decidió evaluar la totalidad de los meses del año y no sólo una estación en particular.
+
+```{r}
+seasons = 1:12
+```
+
+### Climate4R
+
+Se utilizó el paquete climate4R (Iturbide et al., 2019) para cargar, procesar y analizar los datos.
 
 ```{r}
 library(visualizeR)
@@ -19,24 +51,21 @@ require(transformeR)
 require(RColorBrewer)
 ```
 
-Cargar escalas de color:
+Dos paletas de colores se definieron para visualizar el índice ID y la señal de cambio climático, respectivamente.
 
 ```{r}
-colstx = rev(brewer.pal(n = 9, "Spectral"))
 colsindex = rev(brewer.pal(n = 9, "RdYlBu"))
 colsdelta = brewer.pal(n = 9, "Reds")
-colsbias = brewer.pal(n = 9, "PiYG")
-colssd = brewer.pal(n = 9, "Blues")
 ```
 
-Realizar login en UDG:
+Se accedió a los datasets utilizando la plataforma de UDG.
 
 ```{r}
 password = read.table("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/pass.txt",header = TRUE)
 loginUDG(username = toString(password$user), password = toString(password$password))
 ```
 
-### Función para obtener la Señal de Cambio Climático
+### Señal de Cambio Climático
 
 Se generó una función que carga los datos históricos (*historicalData*) y futuros (*futureData*) para un dominio espacial dado (*xExtent* e *yExtent*), un rango temporal histórico (*historicalYears*), un rango temporal futuro (*futureYears*), un conunto de meses de estudio (*seasons*) y una variable objetivo (*variable*).
 
@@ -44,7 +73,7 @@ Sobre esta carga de datos se pueden realizar ciertas operaciones, como agregacio
 
 La función tiene la opción de interpolar (*interpolate*) los datos para reproyectar las imágenes a un sistema de coordenadas proyectado en Latitud y Longitud según un tamaño de píxel determinado (*pixelSize*).
 
-Finalmente, la función calcula la resta entre los datos futuros e historicos para obtener la seña de cambio climático, dando la opción de retornar sólo la señal o también los datos usados (*onlyCCS*).
+Finalmente, la función calcula la resta entre los datos futuros e historicos para obtener la Señal de Cambio Climático (CCS), dando la opción de retornar sólo la señal o también los datos usados (*onlyCCS*).
 
 ```{r}
 getCCSignal = function(historicalData,
@@ -146,27 +175,6 @@ getCCSignal = function(historicalData,
   }
   
 }
-```
-
-## Índice ETCCDI
-
-El índice ETCCDI seleccionado es el ID (Icing Days), que utiliza la variable de temperatura máxima $TX$ diaria en grados centigrados para calcular el número de días al año en que la temperatura máxima diaria fue menor que 0 ($TX<0$).
-
-### Área y Fechas de estudio
-
-El área de estudio de este trabajo comprende a la península Escandinava (Noruega, Suecia y Finlandia). Las coordenadas de la extensión del área de estudio se guardan a continuación:
-
-```{r}
-lonLim = c(3.6,33.9)
-latLim = c(54.4,71.5)
-```
-
-Para el período histórico se estableción un rango desde 1971 hasta 2000, mientras que para el escenario futuro comprendió los años desde 2031 hasta 2060. Se utilizaron todos los meses del año.
-
-```{r}
-years.historical = 1971:2000
-years.future = 2031:2060
-seasons = 1:12
 ```
 
 ### Modelo (CCLM5)
@@ -305,9 +313,9 @@ CCS.RCA4 = getCCSignal(historicalData = RCA4.h,
                        onlyCCS = FALSE)
 ```
 
-### Resultados
+## Resultados y Discusiones
 
-Para visualizar los resultados de los tres modelos evaluados, estos se unieron como miembros de una única rejilla. Los datos históricos, futuros y de señal de cambio climático se unieron por separado.
+Para visualizar los resultados de los tres modelos evaluados, se unieron como miembros de una única rejilla. Los datos históricos, futuros y de señal de cambio climático se unieron por separado.
 
 ```{r}
 CCS = bindGrid(CCS.CCLM5$CCS,CCS.RACMO22E$CCS,CCS.RCA4$CCS,dimension = "member")
@@ -335,7 +343,7 @@ spatialPlot(climatology(idx.f),
             backdrop.theme = "countries")
 ```
 
-En la siguiente gráfica se puede observar la señal de cambio climático del índice ID en la península escandinava. Se observa cómo en el noreste (Mar de Barents) la señal de cambio climático disminuye a valores de -70 días (similar en el norte de la región), mientras que en la península la señal de cambio climático disminuye a aproximadamente -40 días en los modelos CCLM5 y RCA4, mientras que en el modelo RACMO22E el cambio no es tan fuerte (-20 días aproximadamente), aunque en general se reporta una disminución del índice ID en el período futuro.
+En la siguiente gráfica se puede observar la señal de cambio climático del índice ID en la península escandinava. Se observa cómo en el noreste (Mar de Barents) la señal de cambio climático disminuye a valores de -70 días (similar en el norte de la región), mientras que en la península la señal de cambio climático disminuye a aproximadamente -40 días en los modelos CCLM5 y RCA4, mientras que en el modelo RACMO22E el cambio no es tan fuerte (-20 días aproximadamente), aunque en general se reporta una disminución del índice ID en el período futuro para la península escandinava, al igual que se ha reportado en otras regiones del mundo, como Irán (Rahimzadeh et al., 2009) o china (Kong et al., 2019), e incluso para años no que no fueron tan lejanos, como 2017 (Hong y Ying, 2018) o 2011 (Liang et al., 2014).
 
 ```{r}
 spatialPlot(climatology(CCS),
@@ -344,4 +352,25 @@ spatialPlot(climatology(CCS),
             main = "ID CCS",
             backdrop.theme = "countries")
 ```
+
+## Conclusiones
+
+Climate4R es una herramienta de gra utilidad para identificar señales de cambio climático dado un indicador específico, como el índice ETCCDI ID. Fue detectada una señal de cambio climático negativa, indicando una disminución del índice ID, y por lo tanto, una disminución en el número de días con temperaturas máximas menores que 0. Esto indica un calentamiento en la zona de estudio, ya que la temperatura máxima no alcanzaría valores por debajo de cero en el período futuro.
+
+## Referencias
+
+* Clivar. 2009. ETCCDI/CRD Climate Change Indices. http://etccdi.pacificclimate.org/list_27_indices.shtml. Último acceso: 2020-04-28.
+
+* Hong, Y., Ying, S. 2018. Characteristics of extreme temperature and precipitation in China in 2017 based on ETCCDI indices. Advances in Climate Change Research 9: 218-226.
+
+* Iturbide, M., Bedia, J., Herrera, S., Baño-Medina, J., Fernández, J., Frías, M.D., Manzanas, R., San-Martín, S., Cimadevilla, E., Cofiño, A.S., Gutiérrez, J.M. 2019. The R-based climate4R open framework for reproducible climate data access and post-processing. Environmental Modelling & Software 111: 42-54.
+
+* Kong, X., Wang, A., Bi, X., Wang, D. 2019. Assessment of Temperature Extremes in China Using RegCM4 and WRF. Advances in Atmospheric Sciences 36 (4): 363-377.
+
+* Liang, K., Bai, P., Li, J., Liu, C. 2014. Variability of temperature extremes in the Yellow River basin during 1961-2011. Quaternary International 336: 52-64.
+
+* Rahimzadeh, F., Asgari, A., Fattahi, E. 2009. Variability of extreme temperature and precipitation in Iran during recent decades. International Journal of Climatology 29 (3): 329-343.
+
+
+ 
 
