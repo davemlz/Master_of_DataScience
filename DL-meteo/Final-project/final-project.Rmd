@@ -1,0 +1,494 @@
+---
+title: "Notebook del Proyecto Final"
+output: html_notebook
+---
+
+## Señal de Cambio Climático para Índices de Precipitación en la Zonificación Agroecológica de Colombia
+
+### Pauetes
+
+```{r}
+require(ggplot2)
+require(visualizeR)
+require(loadeR)
+require(transformeR)
+require(RColorBrewer)
+require(climate4R.climdex)
+```
+
+### Zona de Estudio
+
+#### Colombia
+
+```{r}
+xlim = c(-80, -66)
+ylim = c(-5,13)
+```
+
+#### Zonificación agroecológica
+
+```{r}
+Caribe = list(xlim = c(-76.9,-70.9),ylim = c(7.9,12.8))
+Pacifico = list(xlim = c(-78.9,-77),ylim = c(1.4,8.7))
+Andina = list(xlim = c(-76.7,-72),ylim = c(1.7,7.6))
+Llanos = list(xlim = c(-71.6,-66.5),ylim = c(0.9,7.2))
+Amazonas = list(xlim = c(-76.2,-68.6),ylim = c(-4.5,0.7))
+```
+
+```{r}
+MapCaribe = map.lines(lonLim = Caribe$xlim, latLim = Caribe$ylim, col = "gold",lwd = 2)
+MapPacifico = map.lines(lonLim = Pacifico$xlim, latLim = Pacifico$ylim, col = "cyan3",lwd = 2)
+MapAndina = map.lines(lonLim = Andina$xlim, latLim = Andina$ylim, col = "firebrick2",lwd = 2)
+MapLlanos = map.lines(lonLim = Llanos$xlim, latLim = Llanos$ylim, col = "gray32",lwd = 2)
+MapAmazonas = map.lines(lonLim = Amazonas$xlim, latLim = Amazonas$ylim, col = "chartreuse2",lwd = 2)
+
+colregions = list(MapCaribe,MapPacifico,MapAndina,MapLlanos,MapAmazonas)
+```
+
+### Funciones para agregar datos
+
+```{r}
+aggregateRegion = function(dataset,region,name){
+  
+  subset = subsetGrid(dataset, lonLim = region$xlim, latLim = region$ylim)
+  
+  data = aggregateGrid(subset,
+                       aggr.lon = list(FUN = "mean", na.rm = TRUE),
+                       aggr.lat = list(FUN = "mean",na.rm = TRUE))
+  
+  df = data.frame(Indice = c(data$Data[1,],data$Data[2,]),
+                  Escenario = c(rep("RCP 4.5",30),rep("RCP 8.5",30)),
+                  Region = rep(name,60),
+                  Fecha = 2021:2050)
+  
+  return(df)
+  
+}
+
+aggregateRegionCCS = function(dataset,region,name){
+  subset = subsetGrid(dataset, lonLim = region$xlim, latLim = region$ylim)
+  data = aggregateGrid(subset,aggr.lon = list(FUN = "mean", na.rm = TRUE),aggr.lat = list(FUN = "mean",na.rm = TRUE))
+  df = data.frame(Indice = c(data$Data[1],data$Data[2]),
+                Escenario = c("RCP 4.5","RCP 8.5"),
+                Region = rep(name,2))
+  return(df)
+}
+```
+
+### Período de estudio
+
+```{r}
+y.h = 1981:2010
+y.f = 2021:2050
+```
+
+### Login en UDG
+
+```{r}
+password = read.table("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/pass.txt",header = TRUE)
+loginUDG(username = toString(password$user), password = toString(password$password))
+```
+
+### Datasets del CMIP5
+
+```{r}
+path = "http://meteo.unican.es//tds5/dodsC/cmip5/EC-EARTH/EC-EARTH/"
+
+CMIP5.historical = paste0(path,"historical/day/ec-earth_ec-earth_historical_r12i1p1.ncml")
+CMIP5.rcp45 = paste0(path,"rcp45/day/ec-earth_ec-earth_rcp45_r12i1p1.ncml")
+CMIP5.rcp85 = paste0(path,"rcp85/day/ec-earth_ec-earth_rcp85_r12i1p1.ncml")
+```
+
+##### Variables del datasest
+
+```{r}
+di.historical = dataInventory(CMIP5.historical)
+names(di.historical)
+```
+
+#### Info de la variable PR
+
+```{r}
+di.historical$pr
+```
+
+#### Diccionario
+
+Aquí es especifica el valor de escala para la conversión de unidades.
+
+```{r}
+file.create("dic.dic")
+writeLines(c("identifier,short_name,time_step,lower_time_bound,upper_time_bound,cell_metod,offset,scale,deaccum,derived,interface","pr,pr,24h,0,24,max,0,86400,0,0,"), "dic.dic")
+```
+
+#### Cargar datos
+
+```{r}
+pr.h = loadGridData(CMIP5.historical,
+                    var = "pr",
+                    season = 1:12,
+                    years = y.h,
+                    lonLim = xlim,
+                    latLim = ylim,
+                    dictionary = "dic.dic")
+```
+
+```{r}
+pr.rcp45 = loadGridData(CMIP5.rcp45,
+                        var = "pr",
+                        season = 1:12,
+                        years = y.f,
+                        lonLim = xlim,
+                        latLim = ylim,
+                        dictionary = "dic.dic")
+```
+
+```{r}
+pr.rcp85 = loadGridData(CMIP5.rcp85,
+                        var = "pr",
+                        season = 1:12,
+                        years = y.f,
+                        lonLim = xlim,
+                        latLim = ylim,
+                        dictionary = "dic.dic")
+```
+
+### Índices ETCCDI
+
+#### Listado de índices
+
+```{r}
+climdexShow()
+```
+
+#### Cálculo de índices
+
+```{r}
+R10mm.h = climdexGrid("R10mm",pr = pr.h)
+R20mm.h = climdexGrid("R20mm",pr = pr.h)
+CDD.h = climdexGrid("CDD",pr = pr.h)
+CWD.h = climdexGrid("CWD",pr = pr.h)
+
+R10mm.rcp85 = climdexGrid("R10mm",pr = pr.rcp85)
+R20mm.rcp85 = climdexGrid("R20mm",pr = pr.rcp85)
+CDD.rcp85 = climdexGrid("CDD",pr = pr.rcp85)
+CWD.rcp85 = climdexGrid("CWD",pr = pr.rcp85)
+
+R10mm.rcp45 = climdexGrid("R10mm",pr = pr.rcp45)
+R20mm.rcp45 = climdexGrid("R20mm",pr = pr.rcp45)
+CDD.rcp45 = climdexGrid("CDD",pr = pr.rcp45)
+CWD.rcp45 = climdexGrid("CWD",pr = pr.rcp45)
+```
+
+### Gráficos espaciales y temporales de los índices
+
+```{r}
+require(RColorBrewer)
+require(gridExtra)
+
+colsindexD = rev(brewer.pal(n = 9, "RdYlBu"))
+colsindexW = brewer.pal(n = 9, "RdYlBu")
+colsdelta = brewer.pal(n = 9, "Reds")
+```
+
+#### R10mm
+
+```{r}
+R10mm = makeMultiGrid(climatology(R10mm.h),
+                      climatology(R10mm.rcp45),
+                      climatology(R10mm.rcp85),
+                      skip.temporal.check = TRUE)
+
+attr(R10mm$Variable,"longname") = c("R10mm Histórico","R10mm RCP 4.5","R10mm RCP 8.5")
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/R10mm.jpg",
+     width = 2000,height = 1000,res = 300)
+spatialPlot(R10mm,
+            backdrop.theme = "countries",
+            at = seq(0, 365, 10),
+            col.regions = colorRampPalette(colsindexW),
+            sp.layout = colregions)
+dev.off()
+```
+
+```{r}
+R10mmCaribe = aggregateRegion(makeMultiGrid(R10mm.rcp45,R10mm.rcp85),Caribe,"Caribe")
+R10mmPacifico = aggregateRegion(makeMultiGrid(R10mm.rcp45,R10mm.rcp85),Pacifico,"Pacifico")
+R10mmAndina = aggregateRegion(makeMultiGrid(R10mm.rcp45,R10mm.rcp85),Andina,"Andina")
+R10mmLlanos = aggregateRegion(makeMultiGrid(R10mm.rcp45,R10mm.rcp85),Llanos,"Llanos")
+R10mmAmazonas = aggregateRegion(makeMultiGrid(R10mm.rcp45,R10mm.rcp85),Amazonas,"Amazonas")
+R10mmRegions = rbind(R10mmCaribe,R10mmPacifico,R10mmAndina,R10mmLlanos,R10mmAmazonas)
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/R10mm_lineplot.jpg",
+     width = 3000,height = 2000,res = 500)
+ggplot(R10mmRegions,aes(x = Fecha,y = Indice,color = Region,linetype = Escenario,shape = Escenario)) +
+  geom_line(alpha = .3) + theme_bw() + geom_point(alpha = .3,size = 1.3) +
+  geom_smooth(method = "lm",se = FALSE,size = .7) + ylab("R10mm") +
+  scale_color_manual(values = c(Caribe = "gold",
+                                Pacifico = "cyan3",
+                                Andina = "firebrick2",
+                                Llanos = "gray32",
+                                Amazonas = "chartreuse2"))
+dev.off()
+```
+
+#### R20mm
+
+```{r}
+R20mm = makeMultiGrid(climatology(R20mm.h),
+                      climatology(R20mm.rcp45),
+                      climatology(R20mm.rcp85),
+                      skip.temporal.check = TRUE)
+
+attr(R20mm$Variable,"longname") = c("R20mm Histórico","R20mm RCP 4.5","R20mm RCP 8.5")
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/R20mm.jpg",
+     width = 2000,height = 1000,res = 300)
+spatialPlot(R20mm,
+            backdrop.theme = "countries",
+            at = seq(0, 365, 10),
+            col.regions = colorRampPalette(colsindexW),
+            sp.layout = colregions)
+dev.off()
+```
+
+```{r}
+R20mmCaribe = aggregateRegion(makeMultiGrid(R20mm.rcp45,R20mm.rcp85),Caribe,"Caribe")
+R20mmPacifico = aggregateRegion(makeMultiGrid(R20mm.rcp45,R20mm.rcp85),Pacifico,"Pacifico")
+R20mmAndina = aggregateRegion(makeMultiGrid(R20mm.rcp45,R20mm.rcp85),Andina,"Andina")
+R20mmLlanos = aggregateRegion(makeMultiGrid(R20mm.rcp45,R20mm.rcp85),Llanos,"Llanos")
+R20mmAmazonas = aggregateRegion(makeMultiGrid(R20mm.rcp45,R20mm.rcp85),Amazonas,"Amazonas")
+R20mmRegions = rbind(R20mmCaribe,R20mmPacifico,R20mmAndina,R20mmLlanos,R20mmAmazonas)
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/R20mm_lineplot.jpg",
+     width = 3000,height = 2000,res = 500)
+ggplot(R20mmRegions,aes(x = Fecha,y = Indice,color = Region,linetype = Escenario,shape = Escenario)) +
+  geom_line(alpha = .3) + theme_bw() + geom_point(alpha = .3,size = 1.3) +
+  geom_smooth(method = "lm",se = FALSE,size = .7) + ylab("R20mm") +
+  scale_color_manual(values = c(Caribe = "gold",
+                                Pacifico = "cyan3",
+                                Andina = "firebrick2",
+                                Llanos = "gray32",
+                                Amazonas = "chartreuse2"))
+dev.off()
+```
+
+#### CDD
+
+```{r}
+CDD = makeMultiGrid(climatology(CDD.h),
+                      climatology(CDD.rcp45),
+                      climatology(CDD.rcp85),
+                      skip.temporal.check = TRUE)
+
+attr(CDD$Variable,"longname") = c("CDD Histórico","CDD RCP 4.5","CDD RCP 8.5")
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/CDD.jpg",
+     width = 2000,height = 1000,res = 300)
+spatialPlot(CDD,
+            backdrop.theme = "countries",
+            at = seq(0, 365, 10),
+            col.regions = colorRampPalette(colsindexD),
+            sp.layout = colregions)
+dev.off()
+```
+
+```{r}
+CDDCaribe = aggregateRegion(makeMultiGrid(CDD.rcp45,CDD.rcp85),Caribe,"Caribe")
+CDDPacifico = aggregateRegion(makeMultiGrid(CDD.rcp45,CDD.rcp85),Pacifico,"Pacifico")
+CDDAndina = aggregateRegion(makeMultiGrid(CDD.rcp45,CDD.rcp85),Andina,"Andina")
+CDDLlanos = aggregateRegion(makeMultiGrid(CDD.rcp45,CDD.rcp85),Llanos,"Llanos")
+CDDAmazonas = aggregateRegion(makeMultiGrid(CDD.rcp45,CDD.rcp85),Amazonas,"Amazonas")
+CDDRegions = rbind(CDDCaribe,CDDPacifico,CDDAndina,CDDLlanos,CDDAmazonas)
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/CDD_lineplot.jpg",
+     width = 3000,height = 2000,res = 500)
+ggplot(CDDRegions,aes(x = Fecha,y = Indice,color = Region,linetype = Escenario,shape = Escenario)) +
+  geom_line(alpha = .3) + theme_bw() + geom_point(alpha = .3,size = 1.3) +
+  geom_smooth(method = "lm",se = FALSE,size = .7) + ylab("CDD") +
+  scale_color_manual(values = c(Caribe = "gold",
+                                Pacifico = "cyan3",
+                                Andina = "firebrick2",
+                                Llanos = "gray32",
+                                Amazonas = "chartreuse2"))
+dev.off()
+```
+
+#### CWD
+
+```{r}
+CWD = makeMultiGrid(climatology(CWD.h),
+                      climatology(CWD.rcp45),
+                      climatology(CWD.rcp85),
+                      skip.temporal.check = TRUE)
+
+attr(CWD$Variable,"longname") = c("CWD Histórico","CWD RCP 4.5","CWD RCP 8.5")
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/CWD.jpg",
+     width = 2000,height = 1000,res = 300)
+spatialPlot(CWD,
+            backdrop.theme = "countries",
+            at = seq(0, 365, 10),
+            col.regions = colorRampPalette(colsindexW),
+            sp.layout = colregions)
+dev.off()
+```
+
+```{r}
+CWDCaribe = aggregateRegion(makeMultiGrid(CWD.rcp45,CWD.rcp85),Caribe,"Caribe")
+CWDPacifico = aggregateRegion(makeMultiGrid(CWD.rcp45,CWD.rcp85),Pacifico,"Pacifico")
+CWDAndina = aggregateRegion(makeMultiGrid(CWD.rcp45,CWD.rcp85),Andina,"Andina")
+CWDLlanos = aggregateRegion(makeMultiGrid(CWD.rcp45,CWD.rcp85),Llanos,"Llanos")
+CWDAmazonas = aggregateRegion(makeMultiGrid(CWD.rcp45,CWD.rcp85),Amazonas,"Amazonas")
+CWDRegions = rbind(CWDCaribe,CWDPacifico,CWDAndina,CWDLlanos,CWDAmazonas)
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/CWD_lineplot.jpg",
+     width = 3000,height = 2000,res = 500)
+ggplot(CWDRegions,aes(x = Fecha,y = Indice,color = Region,linetype = Escenario,shape = Escenario)) +
+  geom_line(alpha = .3) + theme_bw() + geom_point(alpha = .3,size = 1.3) +
+  geom_smooth(method = "lm",se = FALSE,size = .7) + ylab("CWD") +
+  scale_color_manual(values = c(Caribe = "gold",
+                                Pacifico = "cyan3",
+                                Andina = "firebrick2",
+                                Llanos = "gray32",
+                                Amazonas = "chartreuse2"))
+dev.off()
+```
+
+### Gráficos de CCS
+
+#### R10mm
+
+```{r}
+CCS.R10mm.rcp45 = gridArithmetics(R10mm.rcp45,R10mm.h,operator = "-")
+CCS.R10mm.rcp85 = gridArithmetics(R10mm.rcp85,R10mm.h,operator = "-")
+
+CCS.R10mm = makeMultiGrid(climatology(CCS.R10mm.rcp45),
+                        climatology(CCS.R10mm.rcp85),
+                        skip.temporal.check = TRUE)
+
+attr(CCS.R10mm$Variable,"longname") = c("R10mm CCS RCP 4.5","R10mm CCS RCP 8.5")
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/R10mm_CCS.jpg",
+     width = 2000,height = 1000,res = 300)
+spatialPlot(CCS.R10mm,
+            backdrop.theme = "countries",
+            at = seq(-50,50,5),
+            col.regions = colorRampPalette(colsindexW),
+            sp.layout = colregions)
+dev.off()
+```
+
+```{r}
+R10mm.CCS.Caribe = aggregateRegionCCS(CCS.R10mm,Caribe,"Caribe")
+R10mm.CCS.Pacifico = aggregateRegionCCS(CCS.R10mm,Pacifico,"Pacifico")
+R10mm.CCS.Andina = aggregateRegionCCS(CCS.R10mm,Andina,"Andina")
+R10mm.CCS.Llanos = aggregateRegionCCS(CCS.R10mm,Llanos,"Llanos")
+R10mm.CCS.Amazonas = aggregateRegionCCS(CCS.R10mm,Amazonas,"Amazonas")
+R10mm.CCS.Regions = rbind(R10mm.CCS.Caribe,R10mm.CCS.Pacifico,R10mm.CCS.Andina,R10mm.CCS.Llanos,R10mm.CCS.Amazonas)
+write.table(R10mm.CCS.Regions,
+            "C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/R10mm_CCS.csv",
+            row.names = FALSE)
+```
+
+#### R20mm
+
+```{r}
+CCS.R20mm.rcp45 = gridArithmetics(R20mm.rcp45,R20mm.h,operator = "-")
+CCS.R20mm.rcp85 = gridArithmetics(R20mm.rcp85,R20mm.h,operator = "-")
+
+CCS.R20mm = makeMultiGrid(climatology(CCS.R20mm.rcp45),
+                        climatology(CCS.R20mm.rcp85),
+                        skip.temporal.check = TRUE)
+
+attr(CCS.R20mm$Variable,"longname") = c("R20mm CCS RCP 4.5","R20mm CCS RCP 8.5")
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/R20mm_CCS.jpg",
+     width = 2000,height = 1000,res = 300)
+spatialPlot(CCS.R20mm,
+            backdrop.theme = "countries",
+            at = seq(-50,50,5),
+            col.regions = colorRampPalette(colsindexW),
+            sp.layout = colregions)
+dev.off()
+```
+
+```{r}
+R20mm.CCS.Caribe = aggregateRegionCCS(CCS.R20mm,Caribe,"Caribe")
+R20mm.CCS.Pacifico = aggregateRegionCCS(CCS.R20mm,Pacifico,"Pacifico")
+R20mm.CCS.Andina = aggregateRegionCCS(CCS.R20mm,Andina,"Andina")
+R20mm.CCS.Llanos = aggregateRegionCCS(CCS.R20mm,Llanos,"Llanos")
+R20mm.CCS.Amazonas = aggregateRegionCCS(CCS.R20mm,Amazonas,"Amazonas")
+R20mm.CCS.Regions = rbind(R20mm.CCS.Caribe,R20mm.CCS.Pacifico,R20mm.CCS.Andina,R20mm.CCS.Llanos,R20mm.CCS.Amazonas)
+write.table(R20mm.CCS.Regions,
+            "C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/R20mm_CCS.csv",
+            row.names = FALSE)
+```
+
+#### CDD
+
+```{r}
+CCS.CDD.rcp45 = gridArithmetics(CDD.rcp45,CDD.h,operator = "-")
+CCS.CDD.rcp85 = gridArithmetics(CDD.rcp85,CDD.h,operator = "-")
+
+CCS.CDD = makeMultiGrid(climatology(CCS.CDD.rcp45),
+                        climatology(CCS.CDD.rcp85),
+                        skip.temporal.check = TRUE)
+
+attr(CCS.CDD$Variable,"longname") = c("CDD CCS RCP 4.5","CDD CCS RCP 8.5")
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/CDD_CCS.jpg",
+     width = 2000,height = 1000,res = 300)
+spatialPlot(CCS.CDD,
+            backdrop.theme = "countries",
+            at = seq(-50,50, 5),
+            col.regions = colorRampPalette(colsindexD),
+            sp.layout = colregions)
+dev.off()
+```
+
+```{r}
+CDD.CCS.Caribe = aggregateRegionCCS(CCS.CDD,Caribe,"Caribe")
+CDD.CCS.Pacifico = aggregateRegionCCS(CCS.CDD,Pacifico,"Pacifico")
+CDD.CCS.Andina = aggregateRegionCCS(CCS.CDD,Andina,"Andina")
+CDD.CCS.Llanos = aggregateRegionCCS(CCS.CDD,Llanos,"Llanos")
+CDD.CCS.Amazonas = aggregateRegionCCS(CCS.CDD,Amazonas,"Amazonas")
+CDD.CCS.Regions = rbind(CDD.CCS.Caribe,CDD.CCS.Pacifico,CDD.CCS.Andina,CDD.CCS.Llanos,CDD.CCS.Amazonas)
+write.table(CDD.CCS.Regions,
+            "C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/CDD_CCS.csv",
+            row.names = FALSE)
+```
+
+#### CWD
+
+```{r}
+CCS.CWD.rcp45 = gridArithmetics(CWD.rcp45,CWD.h,operator = "-")
+CCS.CWD.rcp85 = gridArithmetics(CWD.rcp85,CWD.h,operator = "-")
+
+CCS.CWD = makeMultiGrid(climatology(CCS.CWD.rcp45),
+                        climatology(CCS.CWD.rcp85),
+                        skip.temporal.check = TRUE)
+
+attr(CCS.CWD$Variable,"longname") = c("CWD CCS RCP 4.5","CWD CCS RCP 8.5")
+
+jpeg("C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/CWD_CCS.jpg",
+     width = 2000,height = 1000,res = 300)
+spatialPlot(CCS.CWD,
+            backdrop.theme = "countries",
+            at = seq(-50,50,5),
+            col.regions = colorRampPalette(colsindexW),
+            sp.layout = colregions)
+dev.off()
+```
+
+```{r}
+CWD.CCS.Caribe = aggregateRegionCCS(CCS.CWD,Caribe,"Caribe")
+CWD.CCS.Pacifico = aggregateRegionCCS(CCS.CWD,Pacifico,"Pacifico")
+CWD.CCS.Andina = aggregateRegionCCS(CCS.CWD,Andina,"Andina")
+CWD.CCS.Llanos = aggregateRegionCCS(CCS.CWD,Llanos,"Llanos")
+CWD.CCS.Amazonas = aggregateRegionCCS(CCS.CWD,Amazonas,"Amazonas")
+CWD.CCS.Regions = rbind(CWD.CCS.Caribe,CWD.CCS.Pacifico,CWD.CCS.Andina,CWD.CCS.Llanos,CWD.CCS.Amazonas)
+write.table(CWD.CCS.Regions,
+            "C:/Users/Dave Mont/Desktop/Master_of_DataScience/DL-meteo/Final-project/CWD_CCS.csv",
+            row.names = FALSE)
+```
